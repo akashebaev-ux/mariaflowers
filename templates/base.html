@@ -42,15 +42,50 @@
         {% block extra_js %}
         {% endblock %}
 
-        <title>Boutique Ado {% block extra_title %}{% endblock %}</title>
+        <title>MariaFlowers {% block extra_title %}{% endblock %}</title>
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="{% static 'images/favicon-32x32.png' %}"
+        >
+
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="192x192"
+            href="{% static 'images/favicon-192x192.png' %}"
+        >
+
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="512x512"
+            href="{% static 'images/favicon-512x512.png' %}"
+        >
+
     </head>
 
     <body>
   <header class="container-fluid fixed-top">
     <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
       <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
-        <a href="{% url 'home' %}" class="nav-link main-logo-link">
-          <h2 class="logo-font text-black my-0"><strong>Boutique</strong> Ado</h2>
+        <a
+          href="{% url 'home' %}"
+          class="main-logo-link d-inline-flex align-items-center"
+          aria-label="MariaFlowers home"
+        >
+          <img
+            src="{% static 'images/logo.webp' %}"
+            alt="MariaFlowers-logo"
+            class="brand-logo-icon mr-2"
+            width="48"
+            height="48"
+          >
+
+          <h2 class="logo-font brand-name my-0">
+              <strong>Maria</strong>Flowers
+          </h2>
         </a>
       </div>
       <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">

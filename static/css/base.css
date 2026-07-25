@@ -3,14 +3,16 @@ html {
 }
 
 body {
-    background: url('/media/homepage_background_cropped.jpg') no-repeat center center fixed;
+    background: url('/media/homepage_background_cropped.jpg')
+        no-repeat center center fixed;
     background-size: cover;
     height: calc(100vh - 164px);
     color: #555;
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
 }
 
-/* from Bulma */
+/* From Bulma */
+
 .icon {
     align-items: center;
     display: inline-flex;
@@ -23,8 +25,37 @@ body {
     text-transform: uppercase;
 }
 
+/* MariaFlowers branding */
+
 .main-logo-link {
+    display: inline-flex;
+    align-items: center;
     width: fit-content;
+    text-decoration: none;
+}
+
+.main-logo-link:hover,
+.main-logo-link:focus {
+    text-decoration: none;
+}
+
+.brand-logo-icon {
+    display: block;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.brand-name {
+    color: #6d0b83;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.main-logo-link:hover .brand-name,
+.main-logo-link:focus .brand-name {
+    color: #520863;
 }
 
 .shop-now-button {
@@ -40,7 +71,7 @@ body {
 
 .btn-outline-black {
     background: white;
-    color: black !important; /* use important to override link colors for <a> elements */
+    color: black !important;
     border: 1px solid black;
 }
 
@@ -74,13 +105,13 @@ body {
 }
 
 .overlay {
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: fixed;
-	background: white;
-	z-index: -1;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: white;
+    z-index: -1;
 }
 
 a.category-badge > span.badge:hover {
@@ -106,7 +137,7 @@ input[name='q']::placeholder {
     color: #aab7c4;
 }
 
-/* ------------------------------- bootstrap toasts */
+/* Bootstrap toasts */
 
 .message-container {
     position: fixed;
@@ -123,12 +154,15 @@ input[name='q']::placeholder {
     height: 2px;
 }
 
-/* from CSS-tricks.com: https://css-tricks.com/snippets/css/css-triangle/ */
+/* From CSS-Tricks:
+https://css-tricks.com/snippets/css/css-triangle/
+*/
+
 .arrow-up {
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 4px solid transparent;
-    border-right: 4px solid transparent; 
+    border-right: 4px solid transparent;
     border-bottom: 10px solid black;
     position: absolute;
     top: -10px;
@@ -136,6 +170,7 @@ input[name='q']::placeholder {
 }
 
 /* Convenience classes - colors copied from Bootstrap */
+
 .arrow-primary {
     border-bottom-color: #007bff !important;
 }
@@ -174,20 +209,11 @@ input[name='q']::placeholder {
     overflow-y: auto;
 }
 
-/* -------------------------------- Media Queries */
-
-/* Slightly larger container on xl screens */
-@media (min-width: 1200px) {
-  .container {
-    max-width: 80%;
-  }
-}
-
 /* Allauth form formatting */
 
 .allauth-form-inner-content p {
-    margin-top: 1.5rem; /* mt-4 */
-    color: #6c757d; /* text-secondary */
+    margin-top: 1.5rem;
+    color: #6c757d;
 }
 
 .allauth-form-inner-content input {
@@ -205,46 +231,44 @@ input[name='q']::placeholder {
 
 .allauth-form-inner-content button,
 .allauth-form-inner-content input[type='submit'] {
-	/* btn */
-	display: inline-block;
+    display: inline-block;
     font-weight: 400;
     color: #fff;
     text-align: center;
     vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     background-color: #000;
     border: 1px solid #000;
-    padding: .375rem .75rem;
+    padding: 0.375rem 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0;
-
-    /* standard bootstrap btn transitions */
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition:
+        color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
 }
 
 .allauth-form-inner-content button:hover,
-.allauth-form-inner-content input[type='submit']:hover {	
-	color: #fff;
+.allauth-form-inner-content input[type='submit']:hover {
+    color: #fff;
     background-color: #222;
     border-color: #222;
 }
 
 .allauth-form-inner-content a {
-	color: #17a2b8; /* text-info */
+    color: #17a2b8;
 }
 
-/* Product Form */
+/* Product form */
 
 .btn-file {
     position: relative;
     overflow: hidden;
 }
 
-.btn-file input[type="file"] {
+.btn-file input[type='file'] {
     position: absolute;
     top: 0;
     right: 0;
@@ -259,14 +283,26 @@ input[name='q']::placeholder {
     border-color: #dc3545;
 }
 
-.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+.custom-checkbox
+.custom-control-input:checked
+~ .custom-control-label::before {
     background-color: #dc3545;
     border-color: #dc3545;
     border-radius: 0;
 }
 
+/* Media queries */
 
-/* fixed top navbar only on medium and up */
+/* Slightly larger container on XL screens */
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 80%;
+    }
+}
+
+/* Fixed top navbar only on medium screens and larger */
+
 @media (min-width: 992px) {
     .fixed-top-desktop-only {
         position: fixed;
@@ -281,7 +317,8 @@ input[name='q']::placeholder {
     }
 }
 
-/* pad the top a bit when navbar is collapsed on mobile */
+/* Mobile and tablet styling */
+
 @media (max-width: 991px) {
     .header-container {
         padding-top: 116px;
@@ -295,6 +332,15 @@ input[name='q']::placeholder {
         font-size: 2rem;
     }
 
+    .brand-logo-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .brand-name {
+        font-size: 1.5rem;
+    }
+
     .nav-link {
         padding: 0.15rem;
     }
@@ -304,26 +350,27 @@ input[name='q']::placeholder {
     }
 
     .navbar-toggler {
-        padding: .6rem .6rem;
+        padding: 0.6rem;
         font-size: 1rem;
     }
 
     #delivery-banner h4 {
-        font-size: .9rem;
+        font-size: 0.9rem;
     }
 
     .btn.btn-outline-black.rounded-0,
     .btn.btn-black.rounded-0 {
-        padding: .375rem .375rem;
+        padding: 0.375rem;
     }
 
     .btn.btn-outline-black.rounded-0.btn-lg,
     .btn.btn-black.rounded-0.btn-lg {
-        padding: .375rem .375rem;
-        font-size: .75rem;
+        padding: 0.375rem;
+        font-size: 0.75rem;
     }
 
-    .increment-qty, .decrement-qty {
-        padding: .25rem .5rem !important;
+    .increment-qty,
+    .decrement-qty {
+        padding: 0.25rem 0.5rem !important;
     }
 }
