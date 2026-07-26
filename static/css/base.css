@@ -355,35 +355,39 @@ header {
 /* -------------------------------- Homepage hero */
 
 .maria-hero {
-    min-height: calc(100vh - 205px);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    min-height: calc(100vh - 170px);
     background-color: var(--maria-background);
-    background-image:
-        linear-gradient(
-            90deg,
-            rgba(255, 250, 253, 0.98) 0%,
-            rgba(255, 250, 253, 0.92) 35%,
-            rgba(255, 250, 253, 0.45) 58%,
-            rgba(255, 250, 253, 0.02) 78%
-        ),
-        url("/static/images/mariaflowers-hero.webp");
-    background-repeat:
-        no-repeat,
-        no-repeat;
-    background-position:
-        center,
-        100% 31%;
-    background-size:
-        100% 100%,
-        auto 144%;
 }
 
-.maria-hero .container {
+.maria-hero > .container-fluid {
+    width: 100%;
+    max-width: none;
     min-height: calc(100vh - 205px);
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.maria-hero .row {
+    min-height: calc(100vh - 205px);
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.maria-hero .row > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .maria-hero-content {
-    max-width: 620px;
-    padding: 9.5rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 680px;
+    min-height: calc(100vh - 205px);
+    padding: 4rem clamp(2rem, 6vw, 7rem);
 }
 
 .maria-hero-eyebrow {
@@ -400,14 +404,14 @@ header {
     margin-bottom: 1.25rem;
     color: var(--maria-primary-dark);
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 3.6rem;
+    font-size: clamp(3rem, 4.8vw, 3.6rem);
     font-weight: 600;
     line-height: 1.05;
     text-transform: none;
 }
 
 .maria-hero-text {
-    max-width: 540px;
+    max-width: 560px;
     margin-bottom: 2rem;
     color: var(--maria-text);
     font-family: "Lato", sans-serif;
@@ -418,19 +422,27 @@ header {
 .maria-hero-actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 0.8rem;
 }
 
 .maria-primary-button,
 .maria-secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: 190px;
     padding: 0.85rem 1.35rem;
     border-radius: 0;
     font-family: "Lato", sans-serif;
     font-weight: 700;
     letter-spacing: 0.03em;
+    text-align: center;
+    text-decoration: none;
     text-transform: uppercase;
+    transition:
+        color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out,
+        border-color 0.2s ease-in-out;
 }
 
 .maria-primary-button {
@@ -440,10 +452,12 @@ header {
 }
 
 .maria-primary-button:hover,
-.maria-primary-button:focus {
+.maria-primary-button:focus,
+.maria-primary-button:active {
     border-color: var(--maria-primary-dark);
     background-color: var(--maria-primary-dark);
     color: var(--maria-white);
+    text-decoration: none;
 }
 
 .maria-secondary-button {
@@ -453,9 +467,32 @@ header {
 }
 
 .maria-secondary-button:hover,
-.maria-secondary-button:focus {
+.maria-secondary-button:focus,
+.maria-secondary-button:active {
+    border-color: var(--maria-primary-dark);
     background-color: var(--maria-primary-light);
     color: var(--maria-primary-dark);
+    text-decoration: none;
+}
+
+.hero-image-column {
+    position: relative;
+    min-height: calc(100vh - 205px);
+    background-color: var(--maria-primary-light);
+}
+
+.hero-image-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.hero-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% 31%;
 }
 
 /* -------------------------------- Product cards */
@@ -727,29 +764,39 @@ a.category-badge > span.badge:hover {
     }
 }
 
-/* Hero position from 1073px through 1579px */
+/* Hero sizing on medium desktop */
 
 @media (min-width: 1073px) and (max-width: 1386px) {
-    .maria-hero {
-        background-position:
-            center,
-            99% 41%;
-        background-size:
-            100% 100%,
-            auto 100%;
+    .maria-hero-content {
+        padding: 3.5rem clamp(2rem, 5vw, 5rem);
+    }
+
+    .maria-hero-title {
+        font-size: 3.4rem;
+    }
+
+    .hero-image {
+        object-position: 52% 15%;
     }
 }
 
-/* Small desktop: 992px through 1072px */
+/* Hero sizing on small desktop */
 
 @media (min-width: 992px) and (max-width: 1072px) {
-    .maria-hero {
-        background-position:
-            center,
-            50% 31%;
-        background-size:
-            100% 100%,
-            auto 100%;
+    .maria-hero-content {
+        padding: 3rem 2.5rem;
+    }
+
+    .maria-hero-title {
+        font-size: 3rem;
+    }
+
+    .maria-hero-text {
+        font-size: 1rem;
+    }
+
+    .hero-image {
+        object-position: 55% 12%;
     }
 }
 
@@ -757,7 +804,7 @@ a.category-badge > span.badge:hover {
 
 @media (max-width: 991px) {
     .header-container {
-        padding-top: 116px;
+        padding-top: 93px;
     }
 
     .home-header-spacer {
@@ -837,27 +884,25 @@ a.category-badge > span.badge:hover {
         font-size: 0.85rem;
     }
 
-    .maria-hero {
-        min-height: 560px;
-        background-position:
-            center,
-            50% 31%;
-        background-size:
-            100% 100%,
-            auto 100%;
+    .maria-hero,
+    .maria-hero .row {
+        min-height: auto;
     }
 
-    body {
-        line-height: 2.5;
+    .hero-image-column {
+        order: -1;
+        min-height: 460px;
     }
 
-    .maria-hero .container {
-        min-height: 560px;
+    .hero-image {
+        object-position: 58% 12%;
     }
 
     .maria-hero-content {
-        max-width: 100%;
-        padding: 13rem 0.9rem 8rem;
+        max-width: 720px;
+        min-height: auto;
+        margin: 0 auto;
+        padding: 2.75rem 1.5rem 4rem;
         text-align: center;
     }
 
@@ -866,7 +911,13 @@ a.category-badge > span.badge:hover {
     }
 
     .maria-hero-text {
+        margin-right: auto;
+        margin-left: auto;
         font-size: 1.03rem;
+    }
+
+    .maria-hero-actions {
+        justify-content: center;
     }
 
     .btn.btn-outline-black.rounded-0,
@@ -886,75 +937,40 @@ a.category-badge > span.badge:hover {
     }
 }
 
+/* Smaller tablets */
 
-@media (max-width: 870px){
+@media (max-width: 870px) {
+    .hero-image-column {
+        min-height: 420px;
+    }
 
-.maria-hero {
-    min-height: 520px;
-
-    background-image:
-        linear-gradient(
-            to bottom,
-            rgba(255, 250, 253, 0.25) 0%,
-            rgba(255, 250, 253, 0.45) 20%,
-            rgba(255, 250, 253, 0.70) 45%,
-            rgba(255, 250, 253, 0.90) 75%,
-            rgba(255, 250, 253, 0.96) 100%
-        ),
-        url("/static/images/mariaflowers-hero.webp");
-
-    background-repeat:
-        no-repeat,
-        no-repeat;
-
-    background-position:
-        center,
-        65% 18%;
-
-    background-size:
-        100% 100%,
-        cover;
-}
-
-    .maria-hero .container {
-        min-height: 520px;
+    .hero-image {
+        object-position: 60% 10%;
     }
 
     .maria-hero-content {
-        max-width: 100%;
-        padding: 20rem 0.9rem 8rem;
-        text-align: center;
+        padding: 2rem 1.25rem 3.5rem;
     }
 
     .maria-hero-eyebrow {
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
         font-size: 0.8rem;
     }
 
     .maria-hero-title {
-        margin-bottom: 1.25rem;
-        font-size: 2.35rem;
-        line-height: 1.05;
+        margin-bottom: 1rem;
+        font-size: 2.6rem;
     }
 
     .maria-hero-text {
-        max-width: 340px;
-        margin: 0 auto 1.75rem;
+        max-width: 520px;
+        margin-bottom: 1.75rem;
         font-size: 0.98rem;
         line-height: 1.6;
     }
-
-    .maria-hero-actions {
-        justify-content: center;
-    }
-
-    .maria-primary-button,
-    .maria-secondary-button {
-        width: 100%;
-    }
 }
-/* Small phones */
 
+/* Small phones */
 
 @media (max-width: 576px) {
     .home-header-spacer {
@@ -977,67 +993,58 @@ a.category-badge > span.badge:hover {
         line-height: 1.35;
     }
 
-.maria-hero {
-    min-height: 520px;
+    .hero-image-column {
+        min-height: 350px;
+    }
 
-    background-image:
-        linear-gradient(
-            to bottom,
-            rgba(255, 250, 253, 0.25) 0%,
-            rgba(255, 250, 253, 0.45) 20%,
-            rgba(255, 250, 253, 0.70) 45%,
-            rgba(255, 250, 253, 0.90) 75%,
-            rgba(255, 250, 253, 0.96) 100%
-        ),
-        url("/static/images/mariaflowers-hero.webp");
-
-    background-repeat:
-        no-repeat,
-        no-repeat;
-
-    background-position:
-        center,
-        65% 18%;
-
-    background-size:
-        100% 100%,
-        cover;
-}
-
-    .maria-hero .container {
-        min-height: 520px;
+    .hero-image {
+        object-position: 62% 8%;
     }
 
     .maria-hero-content {
-        max-width: 100%;
-        padding: 20rem 0.9rem 8rem;
-        text-align: center;
-    }
-
-    .maria-hero-eyebrow {
-        margin-bottom: 1rem;
-        font-size: 0.8rem;
+        padding: 1.75rem 1rem 3rem;
     }
 
     .maria-hero-title {
-        margin-bottom: 1.25rem;
         font-size: 2.35rem;
         line-height: 1.05;
     }
 
     .maria-hero-text {
         max-width: 340px;
-        margin: 0 auto 1.75rem;
-        font-size: 0.98rem;
-        line-height: 1.6;
+        font-size: 0.95rem;
     }
 
     .maria-hero-actions {
-        justify-content: center;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
     }
 
     .maria-primary-button,
     .maria-secondary-button {
         width: 100%;
+        min-width: 0;
+    }
+}
+
+/* Very small phones */
+
+@media (max-width: 360px) {
+    .hero-image-column {
+        min-height: 310px;
+    }
+
+    .hero-image {
+        object-position: 64% 6%;
+    }
+
+    .maria-hero-title {
+        font-size: 2rem;
+    }
+
+    .maria-hero-content {
+        padding-right: 0.8rem;
+        padding-left: 0.8rem;
     }
 }
