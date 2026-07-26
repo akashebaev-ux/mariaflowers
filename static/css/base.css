@@ -1,36 +1,104 @@
+:root {
+    --maria-primary: #6d0b83;
+    --maria-primary-dark: #520863;
+    --maria-primary-light: #f3e8f6;
+    --maria-background: #fffafd;
+    --maria-surface: #ffffff;
+    --maria-text: #2f2531;
+    --maria-muted: #6c6570;
+    --maria-border: #eadced;
+    --maria-white: #ffffff;
+    --maria-black: #111111;
+}
+
 html {
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
-    background: url('/media/homepage_background_cropped.jpg')
-        no-repeat center center fixed;
-    background-size: cover;
-    height: calc(100vh - 164px);
-    color: #555;
-    font-family: 'Lato', sans-serif;
+    min-height: 100%;
+    margin: 0;
+    background-color: var(--maria-background);
+    color: var(--maria-text);
+    font-family: "Lato", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
-/* From Bulma */
+/* -------------------------------- Typography */
 
-.icon {
-    align-items: center;
-    display: inline-flex;
-    justify-content: center;
-    height: 1.5rem;
-    width: 1.5rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand-name {
+    font-family: "Cormorant Garamond", Georgia, serif;
 }
 
 .logo-font {
     text-transform: uppercase;
 }
 
-/* MariaFlowers branding */
+a {
+    color: var(--maria-primary);
+}
+
+a:hover,
+a:focus {
+    color: var(--maria-primary-dark);
+}
+
+.text-black {
+    color: var(--maria-black) !important;
+}
+
+.text-maria,
+.brand-text {
+    color: var(--maria-primary) !important;
+}
+
+.bg-black {
+    background-color: var(--maria-black) !important;
+}
+
+.bg-maria {
+    background-color: var(--maria-primary) !important;
+}
+
+.border-black {
+    border: 1px solid var(--maria-primary) !important;
+}
+
+/* -------------------------------- Shared icon */
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* -------------------------------- Header */
+
+header {
+    background-color: var(--maria-white);
+}
+
+#topnav {
+    min-height: 86px;
+    border-bottom: 1px solid var(--maria-border);
+}
+
+/* -------------------------------- MariaFlowers branding */
 
 .main-logo-link {
     display: inline-flex;
     align-items: center;
     width: fit-content;
+    padding: 0.25rem 0;
     text-decoration: none;
 }
 
@@ -41,90 +109,418 @@ body {
 
 .brand-logo-icon {
     display: block;
-    width: 48px;
-    height: 48px;
+    width: 54px;
+    height: 54px;
+    margin-right: 0.55rem;
     object-fit: contain;
     flex-shrink: 0;
 }
 
 .brand-name {
-    color: #6d0b83;
+    margin: 0;
+    color: var(--maria-primary);
+    font-size: 2.35rem;
+    font-weight: 600;
     line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: none;
     white-space: nowrap;
 }
 
 .main-logo-link:hover .brand-name,
 .main-logo-link:focus .brand-name {
-    color: #520863;
+    color: var(--maria-primary-dark);
+}
+
+/* -------------------------------- Search form */
+
+#topnav .input-group {
+    align-items: stretch;
+}
+
+#topnav input[name="q"],
+#topnav .search-button {
+    height: 46px;
+}
+
+#topnav input[name="q"] {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--maria-primary);
+    border-radius: 0;
+    background-color: var(--maria-white);
+    color: var(--maria-text);
+}
+
+#topnav input[name="q"]:focus {
+    border-color: var(--maria-primary);
+    box-shadow: 0 0 0 0.15rem rgba(109, 11, 131, 0.14);
+}
+
+#topnav input[name="q"]::placeholder {
+    color: #aab7c4;
+}
+
+#topnav .search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    padding: 0;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+.form-control:focus {
+    border-color: var(--maria-primary);
+    box-shadow: 0 0 0 0.15rem rgba(109, 11, 131, 0.14);
+}
+
+/* -------------------------------- Buttons */
+
+.btn-black,
+.shop-now-button {
+    border: 1px solid var(--maria-primary);
+    border-radius: 0;
+    background-color: var(--maria-primary);
+    color: var(--maria-white);
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.btn-black:hover,
+.btn-black:active,
+.btn-black:focus,
+.shop-now-button:hover,
+.shop-now-button:active,
+.shop-now-button:focus {
+    border-color: var(--maria-primary-dark);
+    background-color: var(--maria-primary-dark);
+    color: var(--maria-white);
 }
 
 .shop-now-button {
-    background: black;
-    color: white;
-    min-width: 260px;
-}
-
-.btn-black {
-    background: black;
-    color: white;
+    min-width: 220px;
+    padding: 0.85rem 1.5rem;
 }
 
 .btn-outline-black {
-    background: white;
-    color: black !important;
-    border: 1px solid black;
+    border: 1px solid var(--maria-primary);
+    border-radius: 0;
+    background-color: var(--maria-white);
+    color: var(--maria-primary) !important;
 }
 
 .btn-outline-black:hover,
 .btn-outline-black:active,
 .btn-outline-black:focus {
-    background: black;
-    color: white !important;
+    border-color: var(--maria-primary);
+    background-color: var(--maria-primary);
+    color: var(--maria-white) !important;
 }
 
-.shop-now-button:hover,
-.shop-now-button:active,
-.shop-now-button:focus,
-.btn-black:hover,
-.btn-black:active,
-.btn-black:focus {
-    background: #222;
-    color: white;
+/* -------------------------------- Account and bag */
+
+#user-options,
+.list-inline-item .nav-link {
+    color: var(--maria-text) !important;
 }
 
-.text-black {
-    color: #000 !important;
+#user-options:hover,
+#user-options:focus,
+.list-inline-item .nav-link:hover,
+.list-inline-item .nav-link:focus {
+    color: var(--maria-primary) !important;
+    text-decoration: none;
 }
 
-.border-black {
-    border: 1px solid black !important;
+.list-inline-item .fa-user,
+.list-inline-item .fa-shopping-bag {
+    transition: color 0.2s ease-in-out;
 }
 
-.bg-black {
-    background: #000 !important;
+.list-inline-item .nav-link:hover .fa-user,
+.list-inline-item .nav-link:hover .fa-shopping-bag {
+    color: var(--maria-primary);
 }
 
-.overlay {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background: white;
-    z-index: -1;
+/* -------------------------------- Main navigation */
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: var(--maria-white);
+}
+
+#main-nav {
+    justify-content: center;
+}
+
+#main-nav .navbar-nav {
+    align-items: center;
+    justify-content: center;
+}
+
+#main-nav .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+#main-nav .nav-link {
+    position: relative;
+    margin: 0 1.25rem;
+    padding: 0.85rem 0.2rem;
+    color: var(--maria-text) !important;
+    font-family: "Lato", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+    transition: color 0.2s ease-in-out;
+}
+
+#main-nav .nav-link:hover,
+#main-nav .nav-link:focus {
+    color: var(--maria-primary) !important;
+    text-decoration: none;
+}
+
+#main-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    right: 50%;
+    bottom: 0.4rem;
+    left: 50%;
+    height: 2px;
+    background-color: var(--maria-primary);
+    transition:
+        right 0.2s ease-in-out,
+        left 0.2s ease-in-out;
+}
+
+#main-nav .nav-link:hover::after,
+#main-nav .nav-link:focus::after {
+    right: 0.2rem;
+    left: 0.2rem;
+}
+
+/* -------------------------------- Dropdowns */
+
+#main-nav .dropdown-menu {
+    min-width: 220px;
+    margin-top: 0;
+    padding: 0.45rem 0;
+    border: 1px solid var(--maria-border) !important;
+    border-radius: 0;
+    background-color: var(--maria-white);
+    box-shadow: 0 0.65rem 1.2rem rgba(79, 7, 95, 0.12);
+}
+
+#main-nav .dropdown-item {
+    padding: 0.7rem 1.25rem;
+    color: var(--maria-text);
+    font-family: "Lato", sans-serif;
+    font-size: 0.94rem;
+    transition:
+        color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out;
+}
+
+#main-nav .dropdown-item:hover,
+#main-nav .dropdown-item:focus {
+    color: var(--maria-primary-dark);
+    background-color: var(--maria-primary-light);
+}
+
+/* -------------------------------- Delivery banner */
+
+#delivery-banner .bg-black {
+    background-color: var(--maria-primary) !important;
+}
+
+#delivery-banner h4 {
+    margin: 0;
+    padding: 0.5rem 0;
+    color: var(--maria-white);
+    font-family: "Lato", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+}
+
+/* -------------------------------- Homepage hero */
+
+.maria-hero {
+    min-height: calc(100vh - 205px);
+    background-color: var(--maria-background);
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(255, 250, 253, 0.98) 0%,
+            rgba(255, 250, 253, 0.92) 35%,
+            rgba(255, 250, 253, 0.45) 58%,
+            rgba(255, 250, 253, 0.02) 78%
+        ),
+        url("/static/images/mariaflowers-hero.webp");
+    background-repeat:
+        no-repeat,
+        no-repeat;
+    background-position:
+        center,
+        100% 31%;
+    background-size:
+        100% 100%,
+        auto 144%;
+}
+
+.maria-hero .container {
+    min-height: calc(100vh - 205px);
+}
+
+.maria-hero-content {
+    max-width: 620px;
+    padding: 9.5rem 0 2rem;
+}
+
+.maria-hero-eyebrow {
+    margin-bottom: 1rem;
+    color: var(--maria-primary);
+    font-family: "Lato", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.maria-hero-title {
+    margin-bottom: 1.25rem;
+    color: var(--maria-primary-dark);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 3.6rem;
+    font-weight: 600;
+    line-height: 1.05;
+    text-transform: none;
+}
+
+.maria-hero-text {
+    max-width: 540px;
+    margin-bottom: 2rem;
+    color: var(--maria-text);
+    font-family: "Lato", sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.maria-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.maria-primary-button,
+.maria-secondary-button {
+    min-width: 190px;
+    padding: 0.85rem 1.35rem;
+    border-radius: 0;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.maria-primary-button {
+    border: 2px solid var(--maria-primary);
+    background-color: var(--maria-primary);
+    color: var(--maria-white);
+}
+
+.maria-primary-button:hover,
+.maria-primary-button:focus {
+    border-color: var(--maria-primary-dark);
+    background-color: var(--maria-primary-dark);
+    color: var(--maria-white);
+}
+
+.maria-secondary-button {
+    border: 2px solid var(--maria-primary);
+    background-color: var(--maria-white);
+    color: var(--maria-primary);
+}
+
+.maria-secondary-button:hover,
+.maria-secondary-button:focus {
+    background-color: var(--maria-primary-light);
+    color: var(--maria-primary-dark);
+}
+
+/* -------------------------------- Product cards */
+
+.product-container {
+    background-color: var(--maria-background);
+}
+
+.card {
+    border: 1px solid var(--maria-border);
+    border-radius: 0;
+    background-color: var(--maria-white);
+    box-shadow: none;
+    transition:
+        transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.7rem 1.5rem rgba(79, 7, 95, 0.1);
+}
+
+.card-title,
+.product-title {
+    color: var(--maria-primary-dark);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 600;
+}
+
+.product-price {
+    color: var(--maria-primary);
+    font-weight: 700;
+}
+
+a.category-badge > span.badge {
+    border-radius: 0;
+    background-color: var(--maria-primary-light);
+    color: var(--maria-primary-dark);
 }
 
 a.category-badge > span.badge:hover {
-    background: #212529 !important;
-    color: #fff !important;
+    background-color: var(--maria-primary) !important;
+    color: var(--maria-white) !important;
+}
+
+/* -------------------------------- General layout */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-color: var(--maria-white);
 }
 
 .btt-button {
-    height: 42px;
-    width: 42px;
     position: fixed;
-    bottom: 10px;
     right: 10px;
+    bottom: 10px;
+    width: 42px;
+    height: 42px;
 }
 
 .btt-link,
@@ -133,15 +529,11 @@ a.category-badge > span.badge:hover {
     cursor: pointer;
 }
 
-input[name='q']::placeholder {
-    color: #aab7c4;
-}
-
-/* Bootstrap toasts */
+/* -------------------------------- Toasts */
 
 .message-container {
     position: fixed;
-    top: 72px;
+    top: 90px;
     right: 15px;
     z-index: 99999999999;
 }
@@ -154,22 +546,16 @@ input[name='q']::placeholder {
     height: 2px;
 }
 
-/* From CSS-Tricks:
-https://css-tricks.com/snippets/css/css-triangle/
-*/
-
 .arrow-up {
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-bottom: 10px solid black;
     position: absolute;
     top: -10px;
     right: 36px;
+    width: 0;
+    height: 0;
+    border-right: 4px solid transparent;
+    border-bottom: 10px solid var(--maria-black);
+    border-left: 4px solid transparent;
 }
-
-/* Convenience classes - colors copied from Bootstrap */
 
 .arrow-primary {
     border-bottom-color: #007bff !important;
@@ -209,19 +595,19 @@ https://css-tricks.com/snippets/css/css-triangle/
     overflow-y: auto;
 }
 
-/* Allauth form formatting */
+/* -------------------------------- Allauth forms */
 
 .allauth-form-inner-content p {
     margin-top: 1.5rem;
-    color: #6c757d;
+    color: var(--maria-muted);
 }
 
 .allauth-form-inner-content input {
-    border-color: #000;
+    border-color: var(--maria-border);
     border-radius: 0;
 }
 
-.allauth-form-inner-content label:not([for='id_remember']) {
+.allauth-form-inner-content label:not([for="id_remember"]) {
     display: none;
 }
 
@@ -230,19 +616,20 @@ https://css-tricks.com/snippets/css/css-triangle/
 }
 
 .allauth-form-inner-content button,
-.allauth-form-inner-content input[type='submit'] {
+.allauth-form-inner-content input[type="submit"] {
     display: inline-block;
-    font-weight: 400;
-    color: #fff;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--maria-primary);
+    border-radius: 0;
+    background-color: var(--maria-primary);
+    color: var(--maria-white);
+    font-family: "Lato", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
     text-align: center;
     vertical-align: middle;
     user-select: none;
-    background-color: #000;
-    border: 1px solid #000;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: 0;
     transition:
         color 0.15s ease-in-out,
         background-color 0.15s ease-in-out,
@@ -251,24 +638,29 @@ https://css-tricks.com/snippets/css/css-triangle/
 }
 
 .allauth-form-inner-content button:hover,
-.allauth-form-inner-content input[type='submit']:hover {
-    color: #fff;
-    background-color: #222;
-    border-color: #222;
+.allauth-form-inner-content input[type="submit"]:hover {
+    border-color: var(--maria-primary-dark);
+    background-color: var(--maria-primary-dark);
+    color: var(--maria-white);
 }
 
 .allauth-form-inner-content a {
-    color: #17a2b8;
+    color: var(--maria-primary);
 }
 
-/* Product form */
+.allauth-form-inner-content a:hover,
+.allauth-form-inner-content a:focus {
+    color: var(--maria-primary-dark);
+}
+
+/* -------------------------------- Product form */
 
 .btn-file {
     position: relative;
     overflow: hidden;
 }
 
-.btn-file input[type='file'] {
+.btn-file input[type="file"] {
     position: absolute;
     top: 0;
     right: 0;
@@ -279,31 +671,41 @@ https://css-tricks.com/snippets/css/css-triangle/
 }
 
 .custom-checkbox .custom-control-label::before {
+    border-color: var(--maria-primary);
     border-radius: 0;
-    border-color: #dc3545;
 }
 
 .custom-checkbox
 .custom-control-input:checked
 ~ .custom-control-label::before {
-    background-color: #dc3545;
-    border-color: #dc3545;
+    border-color: var(--maria-primary);
     border-radius: 0;
+    background-color: var(--maria-primary);
 }
 
-/* Media queries */
+/* -------------------------------- Homepage header spacer */
 
-/* Slightly larger container on XL screens */
-
-@media (min-width: 1200px) {
-    .container {
-        max-width: 80%;
-    }
+.home-header-spacer {
+    display: none;
 }
 
-/* Fixed top navbar only on medium screens and larger */
+
+/* ============================================================
+   Responsive media queries
+   Ordered from larger screens to smaller screens
+============================================================ */
+
+/* Desktop: fixed header and hover dropdowns */
 
 @media (min-width: 992px) {
+    #main-nav .dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+
+    #main-nav .dropdown-menu {
+        top: 100%;
+    }
+
     .fixed-top-desktop-only {
         position: fixed;
         top: 0;
@@ -317,28 +719,104 @@ https://css-tricks.com/snippets/css/css-triangle/
     }
 }
 
-/* Mobile and tablet styling */
+/* Large desktop container */
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 82%;
+    }
+}
+
+/* Hero position from 1073px through 1579px */
+
+@media (min-width: 1073px) and (max-width: 1386px) {
+    .maria-hero {
+        background-position:
+            center,
+            99% 41%;
+        background-size:
+            100% 100%,
+            auto 100%;
+    }
+}
+
+/* Small desktop: 992px through 1072px */
+
+@media (min-width: 992px) and (max-width: 1072px) {
+    .maria-hero {
+        background-position:
+            center,
+            50% 31%;
+        background-size:
+            100% 100%,
+            auto 100%;
+    }
+}
+
+/* Tablet and mobile */
 
 @media (max-width: 991px) {
     .header-container {
         padding-top: 116px;
     }
 
-    body {
-        height: calc(100vh - 116px);
+    .home-header-spacer {
+        display: block;
+        height: 14px;
+        background-color: var(--maria-background);
+    }
+
+    .brand-logo-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .brand-name {
+        font-size: 1.75rem;
+    }
+
+    #main-nav {
+        width: 100%;
+        padding: 0.75rem 0;
+        background-color: var(--maria-white);
+    }
+
+    #main-nav .navbar-nav {
+        width: 100% !important;
+        align-items: stretch;
+    }
+
+    #main-nav .nav-item {
+        display: block;
+        width: 100%;
+    }
+
+    #main-nav .nav-link {
+        width: 100%;
+        margin: 0;
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid var(--maria-border);
+        text-align: left;
+    }
+
+    #main-nav .nav-link::after {
+        display: none;
+    }
+
+    #main-nav .dropdown-menu {
+        width: 100%;
+        margin: 0;
+        padding: 0 0 0.4rem 1rem;
+        border: 0 !important;
+        box-shadow: none;
+    }
+
+    #main-nav .dropdown-item {
+        padding: 0.65rem 1rem;
     }
 
     .display-4.logo-font.text-black {
         font-size: 2rem;
-    }
-
-    .brand-logo-icon {
-        width: 38px;
-        height: 38px;
-    }
-
-    .brand-name {
-        font-size: 1.5rem;
     }
 
     .nav-link {
@@ -351,11 +829,44 @@ https://css-tricks.com/snippets/css/css-triangle/
 
     .navbar-toggler {
         padding: 0.6rem;
+        border-color: var(--maria-border);
         font-size: 1rem;
     }
 
     #delivery-banner h4 {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+    }
+
+    .maria-hero {
+        min-height: 560px;
+        background-position:
+            center,
+            50% 31%;
+        background-size:
+            100% 100%,
+            auto 100%;
+    }
+
+    body {
+        line-height: 2.5;
+    }
+
+    .maria-hero .container {
+        min-height: 560px;
+    }
+
+    .maria-hero-content {
+        max-width: 100%;
+        padding: 13rem 0.9rem 8rem;
+        text-align: center;
+    }
+
+    .maria-hero-title {
+        font-size: 3rem;
+    }
+
+    .maria-hero-text {
+        font-size: 1.03rem;
     }
 
     .btn.btn-outline-black.rounded-0,
@@ -372,5 +883,161 @@ https://css-tricks.com/snippets/css/css-triangle/
     .increment-qty,
     .decrement-qty {
         padding: 0.25rem 0.5rem !important;
+    }
+}
+
+
+@media (max-width: 870px){
+
+.maria-hero {
+    min-height: 520px;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(255, 250, 253, 0.25) 0%,
+            rgba(255, 250, 253, 0.45) 20%,
+            rgba(255, 250, 253, 0.70) 45%,
+            rgba(255, 250, 253, 0.90) 75%,
+            rgba(255, 250, 253, 0.96) 100%
+        ),
+        url("/static/images/mariaflowers-hero.webp");
+
+    background-repeat:
+        no-repeat,
+        no-repeat;
+
+    background-position:
+        center,
+        65% 18%;
+
+    background-size:
+        100% 100%,
+        cover;
+}
+
+    .maria-hero .container {
+        min-height: 520px;
+    }
+
+    .maria-hero-content {
+        max-width: 100%;
+        padding: 20rem 0.9rem 8rem;
+        text-align: center;
+    }
+
+    .maria-hero-eyebrow {
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+    }
+
+    .maria-hero-title {
+        margin-bottom: 1.25rem;
+        font-size: 2.35rem;
+        line-height: 1.05;
+    }
+
+    .maria-hero-text {
+        max-width: 340px;
+        margin: 0 auto 1.75rem;
+        font-size: 0.98rem;
+        line-height: 1.6;
+    }
+
+    .maria-hero-actions {
+        justify-content: center;
+    }
+
+    .maria-primary-button,
+    .maria-secondary-button {
+        width: 100%;
+    }
+}
+/* Small phones */
+
+
+@media (max-width: 576px) {
+    .home-header-spacer {
+        height: 10px;
+    }
+
+    .brand-logo-icon {
+        width: 36px;
+        height: 36px;
+        margin-right: 0.4rem;
+    }
+
+    .brand-name {
+        font-size: 1.45rem;
+    }
+
+    #delivery-banner h4 {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.73rem;
+        line-height: 1.35;
+    }
+
+.maria-hero {
+    min-height: 520px;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(255, 250, 253, 0.25) 0%,
+            rgba(255, 250, 253, 0.45) 20%,
+            rgba(255, 250, 253, 0.70) 45%,
+            rgba(255, 250, 253, 0.90) 75%,
+            rgba(255, 250, 253, 0.96) 100%
+        ),
+        url("/static/images/mariaflowers-hero.webp");
+
+    background-repeat:
+        no-repeat,
+        no-repeat;
+
+    background-position:
+        center,
+        65% 18%;
+
+    background-size:
+        100% 100%,
+        cover;
+}
+
+    .maria-hero .container {
+        min-height: 520px;
+    }
+
+    .maria-hero-content {
+        max-width: 100%;
+        padding: 20rem 0.9rem 8rem;
+        text-align: center;
+    }
+
+    .maria-hero-eyebrow {
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+    }
+
+    .maria-hero-title {
+        margin-bottom: 1.25rem;
+        font-size: 2.35rem;
+        line-height: 1.05;
+    }
+
+    .maria-hero-text {
+        max-width: 340px;
+        margin: 0 auto 1.75rem;
+        font-size: 0.98rem;
+        line-height: 1.6;
+    }
+
+    .maria-hero-actions {
+        justify-content: center;
+    }
+
+    .maria-primary-button,
+    .maria-secondary-button {
+        width: 100%;
     }
 }

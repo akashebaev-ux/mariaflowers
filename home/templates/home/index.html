@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block extra_title %}
+    | Fresh Flowers Delivered
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -11,18 +15,43 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container h-100">
-        <div class="row h-100">
-            <div class="col-7 col-md-6 my-auto">
-                <h1 class="display-4 logo-font text-black">
-                    The new collections are here
-                </h1>
-                <div class="my-5">
-                    <h4>
-                        <a href="{% url 'products' %}" class="shop-now-button btn btn-lg rounded-0 text-uppercase py-3">Shop Now</a>
-                    </h4>
+    <section class="maria-hero">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 col-md-7 col-lg-6">
+                    <div class="maria-hero-content">
+                        <p class="maria-hero-eyebrow">
+                            Fresh flowers for every moment
+                        </p>
+
+                        <h1 class="maria-hero-title">
+                            Beautiful bouquets,
+                            delivered with care
+                        </h1>
+
+                        <p class="maria-hero-text">
+                            Discover elegant flower arrangements for birthdays,
+                            anniversaries, celebrations and meaningful moments.
+                        </p>
+
+                        <div class="maria-hero-actions">
+                            <a
+                                href="{% url 'products' %}"
+                                class="btn maria-primary-button"
+                            >
+                                Shop Flowers
+                            </a>
+
+                            <a
+                                href="{% url 'products' %}?category=deals"
+                                class="btn maria-secondary-button"
+                            >
+                                Special Offers
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
