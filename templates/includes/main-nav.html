@@ -1,6 +1,7 @@
 <div class="collapse navbar-collapse" id="main-nav">
     <ul class="navbar-nav w-auto mx-auto">
 
+        <!-- Home -->
         <li class="nav-item d-block d-md-none">
             <a
                 class="logo-font font-weight-bold nav-link text-black mr-5"
@@ -11,11 +12,13 @@
             </a>
         </li>
 
+        <!-- All Products -->
         <li class="nav-item dropdown">
             <a
-                class="logo-font font-weight-bold nav-link text-black mr-5"
+                class="logo-font font-weight-bold nav-link dropdown-toggle text-black mr-5"
                 href="#"
                 id="all-products-link"
+                role="button"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
@@ -48,6 +51,8 @@
                     By Category
                 </a>
 
+                <div class="dropdown-divider"></div>
+
                 <a
                     href="{% url 'products' %}"
                     class="dropdown-item"
@@ -57,11 +62,13 @@
             </div>
         </li>
 
+        <!-- Flowers -->
         <li class="nav-item dropdown">
             <a
-                class="logo-font font-weight-bold nav-link text-black mr-5"
+                class="logo-font font-weight-bold nav-link dropdown-toggle text-black mr-5"
                 href="#"
                 id="flowers-link"
+                role="button"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
@@ -74,28 +81,44 @@
                 aria-labelledby="flowers-link"
             >
                 <a
-                    href="{% url 'products' %}?category=roses"
+                    href="{% url 'products' %}?category=Roses"
                     class="dropdown-item"
                 >
                     Roses
                 </a>
 
                 <a
-                    href="{% url 'products' %}?category=tulips"
+                    href="{% url 'products' %}?category=Lilies"
                     class="dropdown-item"
                 >
-                    Tulips
+                    Lilies
                 </a>
 
                 <a
-                    href="{% url 'products' %}?category=mixed_bouquets"
+                    href="{% url 'products' %}?category=Peonies"
+                    class="dropdown-item"
+                >
+                    Peonies
+                </a>
+
+                <a
+                    href="{% url 'products' %}?category=Mixed"
                     class="dropdown-item"
                 >
                     Mixed Bouquets
                 </a>
 
                 <a
-                    href="{% url 'products' %}?category=roses,tulips,mixed_bouquets"
+                    href="{% url 'products' %}?category=other-flowers"
+                    class="dropdown-item"
+                >
+                    Other Flowers
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <a
+                    href="{% url 'products' %}?category=Roses,Lilies,Peonies,Mixed,other-flowers"
                     class="dropdown-item"
                 >
                     All Flowers
@@ -103,96 +126,26 @@
             </div>
         </li>
 
-        <li class="nav-item dropdown">
+        <!-- Gifts -->
+        <li class="nav-item">
             <a
                 class="logo-font font-weight-bold nav-link text-black mr-5"
-                href="#"
+                href="{% url 'products' %}?category=Gifts"
                 id="gifts-link"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
             >
                 Gifts
             </a>
-
-            <div
-                class="dropdown-menu border-0"
-                aria-labelledby="gifts-link"
-            >
-                <a
-                    href="{% url 'products' %}?category=chocolates"
-                    class="dropdown-item"
-                >
-                    Chocolates
-                </a>
-
-                <a
-                    href="{% url 'products' %}?category=greeting_cards"
-                    class="dropdown-item"
-                >
-                    Greeting Cards
-                </a>
-
-                <a
-                    href="{% url 'products' %}?category=gift_sets"
-                    class="dropdown-item"
-                >
-                    Gift Sets
-                </a>
-
-                <a
-                    href="{% url 'products' %}?category=chocolates,greeting_cards,gift_sets"
-                    class="dropdown-item"
-                >
-                    All Gifts
-                </a>
-            </div>
         </li>
 
-        <li class="nav-item dropdown">
+        <!-- Special Offers -->
+        <li class="nav-item">
             <a
                 class="logo-font font-weight-bold nav-link text-black"
-                href="#"
+                href="{% url 'products' %}?category=deals"
                 id="specials-link"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
             >
                 Special Offers
             </a>
-
-            <div
-                class="dropdown-menu border-0"
-                aria-labelledby="specials-link"
-            >
-                <a
-                    href="{% url 'products' %}?category=new_arrivals"
-                    class="dropdown-item"
-                >
-                    New Arrivals
-                </a>
-
-                <a
-                    href="{% url 'products' %}?category=deals"
-                    class="dropdown-item"
-                >
-                    Deals
-                </a>
-
-                <a
-                    href="{% url 'products' %}?category=clearance"
-                    class="dropdown-item"
-                >
-                    Clearance
-                </a>
-
-                <a
-                    href="{% url 'products' %}?category=new_arrivals,deals,clearance"
-                    class="dropdown-item"
-                >
-                    All Specials
-                </a>
-            </div>
         </li>
 
     </ul>
