@@ -38,10 +38,12 @@
 
         <div class="col-12 col-md-6 col-lg-4">
             <div class="product-details-container mb-5 mt-md-5">
-                <p class="mb-0">{{ product.name }}</p>
+                <p class="mb-0">
+                    {{ product.name }}
+                </p>
 
                 <p class="lead mb-0 text-left font-weight-bold">
-                    Base price: ${{ product.price }}
+                    Base price: ${{ product.price|floatformat:2 }}
                 </p>
 
                 {% if product.category %}
@@ -62,7 +64,9 @@
                         {{ product.rating }} / 5
                     </small>
                 {% else %}
-                    <small class="text-muted">No Rating</small>
+                    <small class="text-muted">
+                        No Rating
+                    </small>
                 {% endif %}
 
                 {% if request.user.is_superuser %}
@@ -80,7 +84,9 @@
                     </small>
                 {% endif %}
 
-                <p class="mt-3">{{ product.description }}</p>
+                <p class="mt-3">
+                    {{ product.description }}
+                </p>
 
                 <form
                     class="form"
@@ -118,13 +124,26 @@
                                     {{ product.included_flower_count }}
                                 </p>
 
+                                <p class="mb-1">
+                                    <strong>
+                                        Price for one additional flower:
+                                    </strong>
+                                    ${{ product.extra_flower_price|floatformat:2 }}
+                                </p>
+
                                 <p class="mb-3">
-                                    <strong>Price per additional flower:</strong>
-                                    ${{ product.extra_flower_price }}
+                                    <strong>
+                                        Additional flowers price:
+                                    </strong>
+                                    <span id="additional-flowers-total">
+                                        $0.00
+                                    </span>
                                 </p>
 
                                 <p class="mb-2">
-                                    <strong>Optional additional flowers:</strong>
+                                    <strong>
+                                        Optional additional flowers:
+                                    </strong>
                                 </p>
 
                                 <div class="form-group w-50">
@@ -229,7 +248,7 @@
 
                                 <h4 class="font-weight-bold">
                                     <span id="custom-product-total">
-                                        ${{ product.price }}
+                                        ${{ product.price|floatformat:2 }}
                                     </span>
                                 </h4>
                             </div>
@@ -291,204 +310,6 @@
 {% block postloadjs %}
 {{ block.super }}
 
-{% include 'products/includes/quantity_input_script.html' %}
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const extraFlowersInput = document.getElementById(
-            "id_extra_flowers"
-        );
-
-        const quantityInput = document.getElementById(
-            "id_qty_{{ product.id }}"
-        );
-
-        const basePriceInput = document.getElementById(
-            "base-product-price"
-        );
-
-        const extraFlowerPriceInput = document.getElementById(
-            "extra-flower-price"
-        );
-
-        const includedFlowerCountInput = document.getElementById(
-            "included-flower-count"
-        );
-
-        const totalPriceDisplay = document.getElementById(
-            "custom-product-total"
-        );
-
-        const totalFlowerCountDisplay = document.getElementById(
-            "total-flower-count"
-        );
-
-        const incrementExtraButton = document.getElementById(
-            "increment-extra-flowers"
-        );
-
-        const decrementExtraButton = document.getElementById(
-            "decrement-extra-flowers"
-        );
-
-        if (
-            !extraFlowersInput ||
-            !quantityInput ||
-            !basePriceInput ||
-            !extraFlowerPriceInput ||
-            !includedFlowerCountInput ||
-            !totalPriceDisplay ||
-            !totalFlowerCountDisplay
-        ) {
-            return;
-        }
-
-        const basePrice = Number.parseFloat(
-            basePriceInput.value
-        ) || 0;
-
-        const extraFlowerPrice = Number.parseFloat(
-            extraFlowerPriceInput.value
-        ) || 0;
-
-        const includedFlowerCount = Number.parseInt(
-            includedFlowerCountInput.value,
-            10
-        ) || 0;
-
-        function getInteger(value, fallback = 0) {
-            const parsedValue = Number.parseInt(value, 10);
-
-            if (Number.isNaN(parsedValue)) {
-                return fallback;
-            }
-
-            return parsedValue;
-        }
-
-        function updateCustomisation() {
-            const maximumExtraFlowers = getInteger(
-                extraFlowersInput.max,
-                300
-            );
-
-            let extraFlowers = getInteger(
-                extraFlowersInput.value,
-                0
-            );
-
-            let quantity = getInteger(
-                quantityInput.value,
-                1
-            );
-
-            extraFlowers = Math.max(
-                0,
-                Math.min(extraFlowers, maximumExtraFlowers)
-            );
-
-            quantity = Math.max(
-                1,
-                Math.min(quantity, 99)
-            );
-
-            extraFlowersInput.value = extraFlowers;
-            quantityInput.value = quantity;
-
-            const customisedUnitPrice =
-                basePrice + (
-                    extraFlowers * extraFlowerPrice
-                );
-
-            const overallPrice =
-                customisedUnitPrice * quantity;
-
-            const flowersPerBouquet =
-                includedFlowerCount + extraFlowers;
-
-            totalPriceDisplay.textContent =
-                `$${overallPrice.toFixed(2)}`;
-
-            totalFlowerCountDisplay.textContent =
-                flowersPerBouquet;
-        }
-
-        incrementExtraButton?.addEventListener(
-            "click",
-            function () {
-                const maximumExtraFlowers = getInteger(
-                    extraFlowersInput.max,
-                    300
-                );
-
-                const currentValue = getInteger(
-                    extraFlowersInput.value,
-                    0
-                );
-
-                extraFlowersInput.value = Math.min(
-                    currentValue + 1,
-                    maximumExtraFlowers
-                );
-
-                updateCustomisation();
-            }
-        );
-
-        decrementExtraButton?.addEventListener(
-            "click",
-            function () {
-                const currentValue = getInteger(
-                    extraFlowersInput.value,
-                    0
-                );
-
-                extraFlowersInput.value = Math.max(
-                    currentValue - 1,
-                    0
-                );
-
-                updateCustomisation();
-            }
-        );
-
-        extraFlowersInput.addEventListener(
-            "input",
-            updateCustomisation
-        );
-
-        extraFlowersInput.addEventListener(
-            "change",
-            updateCustomisation
-        );
-
-        quantityInput.addEventListener(
-            "input",
-            updateCustomisation
-        );
-
-        quantityInput.addEventListener(
-            "change",
-            updateCustomisation
-        );
-
-        document
-            .querySelectorAll(
-                ".increment-qty, .decrement-qty"
-            )
-            .forEach(function (button) {
-                button.addEventListener(
-                    "click",
-                    function () {
-                        window.setTimeout(
-                            updateCustomisation,
-                            0
-                        );
-                    }
-                );
-            });
-
-        updateCustomisation();
-    });
-</script>
+{% include "products/includes/quantity_input_script.html" %}
+<script src="{% static 'products/js/product_customisation.js' %}"></script>
 {% endblock %}
