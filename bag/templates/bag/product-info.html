@@ -1,3 +1,38 @@
-<p class="my-0"><strong>{{ item.product.name }}</strong></p>
-<p class="my-0"><strong>Size: </strong>{% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
-<p class="my-0 small text-muted">SKU: {{ item.product.sku|upper }}</p>
+<p class="my-0">
+    <strong>{{ item.product.name }}</strong>
+</p>
+
+<p class="my-0">
+    <strong>Size:</strong>
+    {% if item.product.has_sizes %}
+        {{ item.size|upper }}
+    {% else %}
+        N/A
+    {% endif %}
+</p>
+
+<p class="my-0 small text-muted">
+    SKU: {{ item.product.sku|upper }}
+</p>
+
+<p class="my-0 small text-muted">
+    Included flowers:
+    {{ item.product.included_flower_count }}
+</p>
+
+<p class="my-0 small text-muted">
+    Additional flowers:
+    {{ item.extra_flowers }}
+</p>
+
+<p class="my-0 small text-muted">
+    Total flowers per bouquet:
+    {{ item.total_flowers }}
+</p>
+
+{% if item.extra_flowers > 0 %}
+    <p class="my-0 small text-muted">
+        Additional flower price:
+        ${{ item.product.extra_flower_price|floatformat:2 }} each
+    </p>
+{% endif %}
