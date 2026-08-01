@@ -62,19 +62,57 @@ class Order(models.Model):
 
 
 class OrderLineItem(models.Model):
-    order = models.ForeignKey(Order, null=False, blank=False, on_delete=models.CASCADE, related_name='lineitems')  # noqa
-    product = models.ForeignKey(Product, null=False, blank=False, on_delete=models.CASCADE)  # noqa
-    product_size = models.CharField(max_length=2, null=True, blank=True)  # XS, S, M, L, XL  # noqa
-    quantity = models.IntegerField(null=False, blank=False, default=0)
-    lineitem_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)  # noqa
+    order = models.ForeignKey(
+        Order,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="lineitems",
+    )
+    product = models.ForeignKey(
+        Product,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    extra_flowers = models.PositiveIntegerField(default=0)
+    quantity = models.IntegerField(
+        null=False,
+        blank=False,
+        default=0,
+    )
+    lineitem_total = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=False,
+        blank=False,
+        editable=False,
+    )
 
     def save(self, *args, **kwargs):
         """
-        Override the original save method to set the lineitem total
-        and update the order total.
+        Calculate the product total, including extra flowers.
         """
-        self.lineitem_total = self.product.price * self.quantity
+        extra_flower_price = (
+            self.product.extra_flower_price or 0
+        )
+
+        base_total = self.product.price * self.quantity
+
+        extra_flowers_total = (
+            extra_flower_price
+            * self.extra_flowers
+            * self.quantity
+        )
+
+        self.lineitem_total = (
+            base_total + extra_flowers_total
+        )
+
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'SKU {self.product.sku} on order {self.order.order_number}'
+        return (
+            f"SKU {self.product.sku} on order "
+            f"{self.order.order_number}"
+        )
