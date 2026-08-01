@@ -62,17 +62,17 @@ class StripeWH_Handler:
 
     def handle_payment_intent_succeeded(self, event):
         """Handle a successful Stripe PaymentIntent webhook."""
+
+        # Get the Stripe PaymentIntent.
         intent = event.data.object
         pid = intent.id
 
-        logger.error("===== METADATA DEBUG =====")
-        logger.error(type(intent.metadata))
-        logger.error(repr(intent.metadata))
-        logger.error("==========================")
+        # Convert Stripe metadata to a normal Python dictionary.
+        metadata = dict(intent.metadata)
 
-        bag = intent.metadata.get("bag", "{}")
-        save_info = intent.metadata.get("save_info", "")
-        username = intent.metadata.get(
+        bag = metadata.get("bag", "{}")
+        save_info = metadata.get("save_info", "")
+        username = metadata.get(
             "username",
             "AnonymousUser",
         )
@@ -83,10 +83,10 @@ class StripeWH_Handler:
             shipping_details = intent.shipping
 
         except (IndexError, AttributeError) as error:
-            logger.error("=" * 60)
-            logger.error("WEBHOOK PAYMENT DATA ERROR")
-            logger.exception(error)
-            logger.error("=" * 60)
+            logger.exception(
+                "Missing payment or shipping details: %s",
+                error,
+            )
 
             return HttpResponse(
                 content=(
@@ -97,10 +97,10 @@ class StripeWH_Handler:
             )
 
         if not shipping_details:
-            logger.error("=" * 60)
-            logger.error("WEBHOOK SHIPPING ERROR")
-            logger.error("Shipping details are missing")
-            logger.error("=" * 60)
+            logger.error(
+                "Shipping details are missing for PaymentIntent %s",
+                pid,
+            )
 
             return HttpResponse(
                 content=(
@@ -111,14 +111,17 @@ class StripeWH_Handler:
             )
 
         grand_total = round(charge.amount / 100, 2)
+
         address = shipping_details.address.to_dict()
 
+        # Convert blank Stripe address values into None.
         for field, value in address.items():
             if value == "":
                 address[field] = None
 
         profile = None
 
+        # Attach the authenticated user's profile where available.
         if username != "AnonymousUser":
             try:
                 user = User.objects.get(username=username)
@@ -165,16 +168,27 @@ class StripeWH_Handler:
             except User.DoesNotExist:
                 profile = None
 
+            except Exception as error:
+                logger.exception(
+                    "Could not update user profile for %s: %s",
+                    username,
+                    error,
+                )
+
         order_exists = False
         order = None
         attempt = 1
 
+        # The checkout view normally creates the order.
+        # Wait briefly in case the webhook arrives first.
         while attempt <= 5:
             try:
                 order = Order.objects.get(
                     full_name__iexact=shipping_details.name,
                     email__iexact=billing_details.email,
-                    phone_number__iexact=shipping_details.phone,
+                    phone_number__iexact=(
+                        shipping_details.phone
+                    ),
                     country__iexact=address.get("country"),
                     postcode__iexact=address.get(
                         "postal_code"
@@ -202,10 +216,11 @@ class StripeWH_Handler:
                 time.sleep(1)
 
             except Exception as error:
-                logger.error("=" * 60)
-                logger.error("WEBHOOK ORDER LOOKUP ERROR")
-                logger.exception(error)
-                logger.error("=" * 60)
+                logger.exception(
+                    "Order lookup failed for PaymentIntent %s: %s",
+                    pid,
+                    error,
+                )
 
                 return HttpResponse(
                     content=(
@@ -215,20 +230,21 @@ class StripeWH_Handler:
                     status=500,
                 )
 
+        # If checkout already created the order, send its email.
         if order_exists:
             try:
                 self._send_confirmation_email(order)
 
             except Exception as error:
-                logger.error("=" * 60)
-                logger.error("WEBHOOK EMAIL ERROR")
-                logger.exception(error)
-                logger.error("=" * 60)
+                logger.exception(
+                    "Email failed for existing order %s: %s",
+                    order.order_number,
+                    error,
+                )
 
                 return HttpResponse(
                     content=(
-                        f'Webhook received: '
-                        f'{event["type"]} | '
+                        f'Webhook received: {event["type"]} | '
                         f"EMAIL ERROR: {error}"
                     ),
                     status=500,
@@ -236,14 +252,14 @@ class StripeWH_Handler:
 
             return HttpResponse(
                 content=(
-                    f'Webhook received: '
-                    f'{event["type"]} | '
-                    "SUCCESS: Verified order already "
-                    "in database and sent email"
+                    f'Webhook received: {event["type"]} | '
+                    "SUCCESS: Verified existing order and "
+                    "sent confirmation email"
                 ),
                 status=200,
             )
 
+        # If checkout did not create the order, create it here.
         try:
             order = Order.objects.create(
                 full_name=shipping_details.name,
@@ -266,47 +282,87 @@ class StripeWH_Handler:
             for item_id, item_data in bag_data.items():
                 product = Product.objects.get(id=item_id)
 
+                # Original simple bag format:
+                # {"10": 2}
                 if isinstance(item_data, int):
-                    quantity = item_data
-                    extra_flowers = 0
+                    OrderLineItem.objects.create(
+                        order=order,
+                        product=product,
+                        quantity=item_data,
+                        extra_flowers=0,
+                    )
 
+                # Dictionary-based bag formats.
                 elif isinstance(item_data, dict):
-                    quantity = int(
-                        item_data.get("quantity", 1)
-                    )
-                    extra_flowers = int(
-                        item_data.get(
-                            "extra_flowers",
-                            0,
+
+                    # Current Maria Flowers format:
+                    # {
+                    #     "10": {
+                    #         "items_by_customisation": {
+                    #             "5": 1
+                    #         }
+                    #     }
+                    # }
+                    if "items_by_customisation" in item_data:
+                        customisations = item_data[
+                            "items_by_customisation"
+                        ]
+
+                        for extra_flowers, quantity in (
+                            customisations.items()
+                        ):
+                            OrderLineItem.objects.create(
+                                order=order,
+                                product=product,
+                                quantity=int(quantity),
+                                extra_flowers=int(
+                                    extra_flowers
+                                ),
+                            )
+
+                    # Alternative supported format:
+                    # {
+                    #     "10": {
+                    #         "quantity": 1,
+                    #         "extra_flowers": 5
+                    #     }
+                    else:
+                        quantity = int(
+                            item_data.get("quantity", 1)
                         )
-                    )
+                        extra_flowers = int(
+                            item_data.get(
+                                "extra_flowers",
+                                0,
+                            )
+                        )
+
+                        OrderLineItem.objects.create(
+                            order=order,
+                            product=product,
+                            quantity=quantity,
+                            extra_flowers=extra_flowers,
+                        )
 
                 else:
                     raise ValueError(
                         "Invalid shopping bag item format."
                     )
 
-                OrderLineItem.objects.create(
-                    order=order,
-                    product=product,
-                    quantity=quantity,
-                    extra_flowers=extra_flowers,
-                )
-
         except Exception as error:
-            logger.error("=" * 60)
-            logger.error("WEBHOOK ORDER ERROR")
-            logger.exception(error)
-            logger.error("=" * 60)
+            logger.exception(
+                "Could not create order for PaymentIntent %s: %s",
+                pid,
+                error,
+            )
 
             if order:
                 order.delete()
 
             return HttpResponse(
                 content=(
-                    f'Webhook received: '
-                    f'{event["type"]} | '
-                    f"ERROR: {error}"
+                    f'Webhook received: {event["type"]} | '
+                    f"ORDER ERROR: {error}"
                 ),
                 status=500,
             )
@@ -315,15 +371,15 @@ class StripeWH_Handler:
             self._send_confirmation_email(order)
 
         except Exception as error:
-            logger.error("=" * 60)
-            logger.error("WEBHOOK EMAIL ERROR")
-            logger.exception(error)
-            logger.error("=" * 60)
+            logger.exception(
+                "Email failed for new order %s: %s",
+                order.order_number,
+                error,
+            )
 
             return HttpResponse(
                 content=(
-                    f'Webhook received: '
-                    f'{event["type"]} | '
+                    f'Webhook received: {event["type"]} | '
                     f"EMAIL ERROR: {error}"
                 ),
                 status=500,
@@ -331,9 +387,9 @@ class StripeWH_Handler:
 
         return HttpResponse(
             content=(
-                f'Webhook received: '
-                f'{event["type"]} | '
-                "SUCCESS: Created order and sent email"
+                f'Webhook received: {event["type"]} | '
+                "SUCCESS: Created order and sent "
+                "confirmation email"
             ),
             status=200,
         )
