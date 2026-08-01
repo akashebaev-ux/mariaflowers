@@ -1,1 +1,1 @@
-Boutique Ado Confirmation for Order Number {{ order.order_number }}
+Maria Flowers – Order Confirmation #{{ order.order_number }}

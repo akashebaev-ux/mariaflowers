@@ -1,6 +1,8 @@
-Hello {{ order.full_name }}!
+Hello {{ order.full_name }},
 
-This is a confirmation of your order at Boutique Ado. Your order information is below:
+Thank you for choosing Maria Flowers!
+
+This email confirms that we have received your order. Your order details are below:
 
 Order Number: {{ order.order_number }}
 Order Date: {{ order.date }}
@@ -9,14 +11,22 @@ Order Total: ${{ order.order_total }}
 Delivery: ${{ order.delivery_cost }}
 Grand Total: ${{ order.grand_total }}
 
-Your order will be shipped to {{ order.street_address1 }} in {{ order.town_or_city }}, {{ order.country }}.
+Delivery Address:
+{{ order.street_address1 }}
+{{ order.town_or_city }}, {{ order.country }}
 
-We've got your phone number on file as {{ order.phone_number }}.
+Phone Number:
+{{ order.phone_number }}
 
-If you have any questions, feel free to contact us at {{ contact_email }}.
+Our team is now preparing your fresh flowers with care. We will contact you if we need any additional information regarding your delivery.
 
-Thank you for your order!
+If you have any questions about your order, please contact us at {{ contact_email }}.
 
-Sincerely,
+Thank you for trusting Maria Flowers.
 
-Boutique Ado
+Fresh flowers for every moment.
+
+Kind regards,
+
+Maria Flowers
+Fresh flowers for every moment
