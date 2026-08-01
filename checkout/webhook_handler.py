@@ -65,6 +65,11 @@ class StripeWH_Handler:
         intent = event.data.object
         pid = intent.id
 
+        logger.error("===== METADATA DEBUG =====")
+        logger.error(type(intent.metadata))
+        logger.error(repr(intent.metadata))
+        logger.error("==========================")
+
         bag = intent.metadata.get("bag", "{}")
         save_info = intent.metadata.get("save_info", "")
         username = intent.metadata.get(
