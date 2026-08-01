@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 
 from django.conf import settings
@@ -11,6 +12,9 @@ from products.models import Product
 from profiles.models import UserProfile
 
 from .models import Order, OrderLineItem
+
+
+logger = logging.getLogger(__name__)
 
 
 class StripeWH_Handler:
@@ -72,11 +76,12 @@ class StripeWH_Handler:
             charge = intent.charges.data[0]
             billing_details = charge.billing_details
             shipping_details = intent.shipping
+
         except (IndexError, AttributeError) as error:
-            print("=" * 60)
-            print("WEBHOOK PAYMENT DATA ERROR")
-            print(repr(error))
-            print("=" * 60)
+            logger.error("=" * 60)
+            logger.error("WEBHOOK PAYMENT DATA ERROR")
+            logger.exception(error)
+            logger.error("=" * 60)
 
             return HttpResponse(
                 content=(
@@ -87,10 +92,10 @@ class StripeWH_Handler:
             )
 
         if not shipping_details:
-            print("=" * 60)
-            print("WEBHOOK SHIPPING ERROR")
-            print("Shipping details are missing")
-            print("=" * 60)
+            logger.error("=" * 60)
+            logger.error("WEBHOOK SHIPPING ERROR")
+            logger.error("Shipping details are missing")
+            logger.error("=" * 60)
 
             return HttpResponse(
                 content=(
@@ -191,15 +196,29 @@ class StripeWH_Handler:
                 attempt += 1
                 time.sleep(1)
 
+            except Exception as error:
+                logger.error("=" * 60)
+                logger.error("WEBHOOK ORDER LOOKUP ERROR")
+                logger.exception(error)
+                logger.error("=" * 60)
+
+                return HttpResponse(
+                    content=(
+                        f'Webhook received: {event["type"]} | '
+                        f"ORDER LOOKUP ERROR: {error}"
+                    ),
+                    status=500,
+                )
+
         if order_exists:
             try:
                 self._send_confirmation_email(order)
 
             except Exception as error:
-                print("=" * 60)
-                print("WEBHOOK EMAIL ERROR")
-                print(repr(error))
-                print("=" * 60)
+                logger.error("=" * 60)
+                logger.error("WEBHOOK EMAIL ERROR")
+                logger.exception(error)
+                logger.error("=" * 60)
 
                 return HttpResponse(
                     content=(
@@ -270,10 +289,10 @@ class StripeWH_Handler:
                 )
 
         except Exception as error:
-            print("=" * 60)
-            print("WEBHOOK ORDER ERROR")
-            print(repr(error))
-            print("=" * 60)
+            logger.error("=" * 60)
+            logger.error("WEBHOOK ORDER ERROR")
+            logger.exception(error)
+            logger.error("=" * 60)
 
             if order:
                 order.delete()
@@ -291,10 +310,10 @@ class StripeWH_Handler:
             self._send_confirmation_email(order)
 
         except Exception as error:
-            print("=" * 60)
-            print("WEBHOOK EMAIL ERROR")
-            print(repr(error))
-            print("=" * 60)
+            logger.error("=" * 60)
+            logger.error("WEBHOOK EMAIL ERROR")
+            logger.exception(error)
+            logger.error("=" * 60)
 
             return HttpResponse(
                 content=(
