@@ -57,9 +57,7 @@ class StripeWH_Handler:
         )
 
     def handle_payment_intent_succeeded(self, event):
-        """
-        Handle a successful Stripe PaymentIntent webhook.
-        """
+        """Handle a successful Stripe PaymentIntent webhook."""
         intent = event.data.object
         pid = intent.id
 
@@ -74,7 +72,12 @@ class StripeWH_Handler:
             charge = intent.charges.data[0]
             billing_details = charge.billing_details
             shipping_details = intent.shipping
-        except (IndexError, AttributeError):
+        except (IndexError, AttributeError) as error:
+            print("=" * 60)
+            print("WEBHOOK PAYMENT DATA ERROR")
+            print(repr(error))
+            print("=" * 60)
+
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
@@ -84,6 +87,11 @@ class StripeWH_Handler:
             )
 
         if not shipping_details:
+            print("=" * 60)
+            print("WEBHOOK SHIPPING ERROR")
+            print("Shipping details are missing")
+            print("=" * 60)
+
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
@@ -93,7 +101,6 @@ class StripeWH_Handler:
             )
 
         grand_total = round(charge.amount / 100, 2)
-
         address = shipping_details.address.to_dict()
 
         for field, value in address.items():
@@ -155,13 +162,9 @@ class StripeWH_Handler:
         while attempt <= 5:
             try:
                 order = Order.objects.get(
-                    full_name__iexact=(
-                        shipping_details.name
-                    ),
+                    full_name__iexact=shipping_details.name,
                     email__iexact=billing_details.email,
-                    phone_number__iexact=(
-                        shipping_details.phone
-                    ),
+                    phone_number__iexact=shipping_details.phone,
                     country__iexact=address.get("country"),
                     postcode__iexact=address.get(
                         "postal_code"
@@ -191,7 +194,13 @@ class StripeWH_Handler:
         if order_exists:
             try:
                 self._send_confirmation_email(order)
+
             except Exception as error:
+                print("=" * 60)
+                print("WEBHOOK EMAIL ERROR")
+                print(repr(error))
+                print("=" * 60)
+
                 return HttpResponse(
                     content=(
                         f'Webhook received: '
@@ -231,13 +240,12 @@ class StripeWH_Handler:
             bag_data = json.loads(bag)
 
             for item_id, item_data in bag_data.items():
-                product = Product.objects.get(
-                    id=item_id
-                )
+                product = Product.objects.get(id=item_id)
 
                 if isinstance(item_data, int):
                     quantity = item_data
                     extra_flowers = 0
+
                 elif isinstance(item_data, dict):
                     quantity = int(
                         item_data.get("quantity", 1)
@@ -248,6 +256,7 @@ class StripeWH_Handler:
                             0,
                         )
                     )
+
                 else:
                     raise ValueError(
                         "Invalid shopping bag item format."
@@ -261,6 +270,11 @@ class StripeWH_Handler:
                 )
 
         except Exception as error:
+            print("=" * 60)
+            print("WEBHOOK ORDER ERROR")
+            print(repr(error))
+            print("=" * 60)
+
             if order:
                 order.delete()
 
@@ -275,7 +289,13 @@ class StripeWH_Handler:
 
         try:
             self._send_confirmation_email(order)
+
         except Exception as error:
+            print("=" * 60)
+            print("WEBHOOK EMAIL ERROR")
+            print(repr(error))
+            print("=" * 60)
+
             return HttpResponse(
                 content=(
                     f'Webhook received: '
