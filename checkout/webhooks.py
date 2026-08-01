@@ -30,6 +30,7 @@ def webhook(request):
         logger.error(
             "Stripe webhook received without a signature header."
         )
+
         return HttpResponse(
             content="Missing Stripe signature.",
             status=400,
@@ -39,6 +40,7 @@ def webhook(request):
         logger.error(
             "STRIPE_WH_SECRET is missing from settings."
         )
+
         return HttpResponse(
             content="Stripe webhook secret is missing.",
             status=500,
@@ -51,36 +53,33 @@ def webhook(request):
             webhook_secret,
         )
 
-    except ValueError as error:
+    except ValueError:
         logger.exception(
-            "Invalid Stripe webhook payload: %s",
-            error,
+            "Invalid Stripe webhook payload."
         )
+
         return HttpResponse(
-            content=f"Invalid payload: {error}",
+            content="Invalid payload.",
             status=400,
         )
 
-    except stripe.error.SignatureVerificationError as error:
+    except stripe.error.SignatureVerificationError:
         logger.exception(
-            "Invalid Stripe webhook signature: %s",
-            error,
+            "Invalid Stripe webhook signature."
         )
+
         return HttpResponse(
-            content=f"Invalid signature: {error}",
+            content="Invalid signature.",
             status=400,
         )
 
-    except Exception as error:
+    except Exception:
         logger.exception(
-            "Unexpected Stripe webhook verification error: %s",
-            error,
+            "Unexpected Stripe webhook verification error."
         )
+
         return HttpResponse(
-            content=(
-                "Unexpected webhook verification error: "
-                f"{type(error).__name__}: {error}"
-            ),
+            content="Webhook verification failed.",
             status=400,
         )
 
@@ -105,16 +104,13 @@ def webhook(request):
     try:
         return event_handler(event)
 
-    except Exception as error:
+    except Exception:
         logger.exception(
             "Unhandled Stripe webhook error for event %s",
             event_type,
         )
 
         return HttpResponse(
-            content=(
-                f"Unhandled webhook error for {event_type}: "
-                f"{type(error).__name__}: {error}"
-            ),
+            content="Internal webhook error.",
             status=500,
         )
