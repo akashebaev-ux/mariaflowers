@@ -26,16 +26,18 @@ class StripeWH_Handler:
     def _send_confirmation_email(self, order):
         """Send the customer an order confirmation email."""
         subject = render_to_string(
-            "checkout/confirmation_emails/"
-            "confirmation_email_subject.txt",
-            {
-                "order": order,
-            },
+            (
+                "checkout/confirmation_emails/"
+                "confirmation_email_subject.txt"
+            ),
+            {"order": order},
         ).strip()
 
         body = render_to_string(
-            "checkout/confirmation_emails/"
-            "confirmation_email_body.txt",
+            (
+                "checkout/confirmation_emails/"
+                "confirmation_email_body.txt"
+            ),
             {
                 "order": order,
                 "contact_email": settings.DEFAULT_FROM_EMAIL,
@@ -54,8 +56,7 @@ class StripeWH_Handler:
         """Handle a generic or unexpected webhook event."""
         return HttpResponse(
             content=(
-                f'Unhandled webhook received: '
-                f'{event["type"]}'
+                f'Unhandled webhook received: {event["type"]}'
             ),
             status=200,
         )
@@ -63,18 +64,27 @@ class StripeWH_Handler:
     def handle_payment_intent_succeeded(self, event):
         """Handle a successful Stripe PaymentIntent webhook."""
 
-        # Get the Stripe PaymentIntent.
+        # Get the PaymentIntent from the Stripe event.
         intent = event.data.object
         pid = intent.id
 
-        # Convert Stripe metadata to a normal Python dictionary.
-        metadata = dict(intent.metadata)
+        # StripeObject does not support .get() or dict().
+        metadata = intent.metadata
 
-        bag = metadata.get("bag", "{}")
-        save_info = metadata.get("save_info", "")
-        username = metadata.get(
-            "username",
-            "AnonymousUser",
+        bag = (
+            metadata["bag"]
+            if "bag" in metadata
+            else "{}"
+        )
+        save_info = (
+            metadata["save_info"]
+            if "save_info" in metadata
+            else ""
+        )
+        username = (
+            metadata["username"]
+            if "username" in metadata
+            else "AnonymousUser"
         )
 
         try:
@@ -84,7 +94,7 @@ class StripeWH_Handler:
 
         except (IndexError, AttributeError) as error:
             logger.exception(
-                "Missing payment or shipping details: %s",
+                "Missing Stripe charge or shipping details: %s",
                 error,
             )
 
@@ -114,14 +124,12 @@ class StripeWH_Handler:
 
         address = shipping_details.address.to_dict()
 
-        # Convert blank Stripe address values into None.
         for field, value in address.items():
             if value == "":
                 address[field] = None
 
         profile = None
 
-        # Attach the authenticated user's profile where available.
         if username != "AnonymousUser":
             try:
                 user = User.objects.get(username=username)
@@ -170,7 +178,7 @@ class StripeWH_Handler:
 
             except Exception as error:
                 logger.exception(
-                    "Could not update user profile for %s: %s",
+                    "Could not update profile for user %s: %s",
                     username,
                     error,
                 )
@@ -179,8 +187,6 @@ class StripeWH_Handler:
         order = None
         attempt = 1
 
-        # The checkout view normally creates the order.
-        # Wait briefly in case the webhook arrives first.
         while attempt <= 5:
             try:
                 order = Order.objects.get(
@@ -230,7 +236,6 @@ class StripeWH_Handler:
                     status=500,
                 )
 
-        # If checkout already created the order, send its email.
         if order_exists:
             try:
                 self._send_confirmation_email(order)
@@ -259,7 +264,6 @@ class StripeWH_Handler:
                 status=200,
             )
 
-        # If checkout did not create the order, create it here.
         try:
             order = Order.objects.create(
                 full_name=shipping_details.name,
@@ -280,9 +284,11 @@ class StripeWH_Handler:
             bag_data = json.loads(bag)
 
             for item_id, item_data in bag_data.items():
-                product = Product.objects.get(id=item_id)
+                product = Product.objects.get(
+                    id=item_id
+                )
 
-                # Original simple bag format:
+                # Old/simple format:
                 # {"10": 2}
                 if isinstance(item_data, int):
                     OrderLineItem.objects.create(
@@ -292,7 +298,6 @@ class StripeWH_Handler:
                         extra_flowers=0,
                     )
 
-                # Dictionary-based bag formats.
                 elif isinstance(item_data, dict):
 
                     # Current Maria Flowers format:
@@ -320,12 +325,13 @@ class StripeWH_Handler:
                                 ),
                             )
 
-                    # Alternative supported format:
+                    # Alternative format:
                     # {
                     #     "10": {
                     #         "quantity": 1,
                     #         "extra_flowers": 5
                     #     }
+                    # }
                     else:
                         quantity = int(
                             item_data.get("quantity", 1)
@@ -401,8 +407,7 @@ class StripeWH_Handler:
         """Handle a failed Stripe PaymentIntent."""
         return HttpResponse(
             content=(
-                f'Webhook received: '
-                f'{event["type"]}'
+                f'Webhook received: {event["type"]}'
             ),
             status=200,
         )
