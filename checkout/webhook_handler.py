@@ -16,6 +16,8 @@ from .models import Order, OrderLineItem
 
 logger = logging.getLogger(__name__)
 
+MAX_GREETING_MESSAGE_LENGTH = 250
+
 
 class StripeWH_Handler:
     """Handle Stripe webhooks."""
@@ -25,6 +27,7 @@ class StripeWH_Handler:
 
     def _send_confirmation_email(self, order):
         """Send the customer an order confirmation email."""
+
         subject = render_to_string(
             (
                 "checkout/confirmation_emails/"
@@ -52,8 +55,222 @@ class StripeWH_Handler:
             fail_silently=False,
         )
 
+    def _clean_greeting_message(
+        self,
+        product,
+        greeting_message,
+    ):
+        """Validate and clean a greeting-card message."""
+
+        greeting_message = str(
+            greeting_message or ""
+        ).strip()
+
+        if not product.allows_greeting_message:
+            return ""
+
+        return greeting_message[
+            :MAX_GREETING_MESSAGE_LENGTH
+        ]
+
+    def _create_order_line_item(
+        self,
+        order,
+        product,
+        quantity,
+        extra_flowers=0,
+        greeting_message="",
+    ):
+        """Create one order line item from shopping-bag data."""
+
+        quantity = int(quantity)
+        extra_flowers = int(extra_flowers)
+
+        if quantity < 1:
+            raise ValueError(
+                "Order line quantity must be at least 1."
+            )
+
+        extra_flowers = max(
+            0,
+            min(
+                extra_flowers,
+                product.max_extra_flowers,
+            ),
+        )
+
+        greeting_message = self._clean_greeting_message(
+            product,
+            greeting_message,
+        )
+
+        OrderLineItem.objects.create(
+            order=order,
+            product=product,
+            quantity=quantity,
+            extra_flowers=extra_flowers,
+            greeting_message=greeting_message,
+        )
+
+    def _create_order_line_items(
+        self,
+        order,
+        bag_data,
+    ):
+        """
+        Create all order line items from saved bag data.
+
+        Supports old integer bag items, customised products,
+        sized products, and greeting-card messages.
+        """
+
+        for item_id, item_data in bag_data.items():
+            product = Product.objects.get(id=item_id)
+
+            # Old/simple format:
+            # {
+            #     "10": 2
+            # }
+            if isinstance(item_data, int):
+                self._create_order_line_item(
+                    order=order,
+                    product=product,
+                    quantity=item_data,
+                )
+                continue
+
+            if not isinstance(item_data, dict):
+                raise ValueError(
+                    "Invalid shopping bag item format."
+                )
+
+            # Current customisation format:
+            # {
+            #     "10": {
+            #         "items_by_customisation": {
+            #             "0": {
+            #                 "quantity": 1,
+            #                 "greeting_message": "Happy birthday!"
+            #             }
+            #         }
+            #     }
+            # }
+            if "items_by_customisation" in item_data:
+                customisations = item_data[
+                    "items_by_customisation"
+                ]
+
+                for extra_flowers, line_data in (
+                    customisations.items()
+                ):
+                    if isinstance(line_data, dict):
+                        quantity = line_data.get(
+                            "quantity",
+                            1,
+                        )
+                        greeting_message = line_data.get(
+                            "greeting_message",
+                            "",
+                        )
+                    else:
+                        quantity = line_data
+                        greeting_message = ""
+
+                    self._create_order_line_item(
+                        order=order,
+                        product=product,
+                        quantity=quantity,
+                        extra_flowers=extra_flowers,
+                        greeting_message=greeting_message,
+                    )
+
+                continue
+
+            # Sized product format:
+            # {
+            #     "10": {
+            #         "items_by_size": {
+            #             "m": {
+            #                 "0": {
+            #                     "quantity": 1,
+            #                     "greeting_message": ""
+            #                 }
+            #             }
+            #         }
+            #     }
+            # }
+            if "items_by_size" in item_data:
+                items_by_size = item_data[
+                    "items_by_size"
+                ]
+
+                for size, customisations in (
+                    items_by_size.items()
+                ):
+                    for extra_flowers, line_data in (
+                        customisations.items()
+                    ):
+                        if isinstance(line_data, dict):
+                            quantity = line_data.get(
+                                "quantity",
+                                1,
+                            )
+                            greeting_message = (
+                                line_data.get(
+                                    "greeting_message",
+                                    "",
+                                )
+                            )
+                        else:
+                            quantity = line_data
+                            greeting_message = ""
+
+                        self._create_order_line_item(
+                            order=order,
+                            product=product,
+                            quantity=quantity,
+                            extra_flowers=extra_flowers,
+                            greeting_message=(
+                                greeting_message
+                            ),
+                        )
+
+                continue
+
+            # Alternative dictionary format:
+            # {
+            #     "10": {
+            #         "quantity": 1,
+            #         "extra_flowers": 5,
+            #         "greeting_message": "Happy birthday!"
+            #     }
+            # }
+            quantity = item_data.get(
+                "quantity",
+                1,
+            )
+
+            extra_flowers = item_data.get(
+                "extra_flowers",
+                0,
+            )
+
+            greeting_message = item_data.get(
+                "greeting_message",
+                "",
+            )
+
+            self._create_order_line_item(
+                order=order,
+                product=product,
+                quantity=quantity,
+                extra_flowers=extra_flowers,
+                greeting_message=greeting_message,
+            )
+
     def handle_event(self, event):
         """Handle a generic or unexpected webhook event."""
+
         return HttpResponse(
             content=(
                 f'Unhandled webhook received: {event["type"]}'
@@ -64,11 +281,9 @@ class StripeWH_Handler:
     def handle_payment_intent_succeeded(self, event):
         """Handle a successful Stripe PaymentIntent webhook."""
 
-        # Get the PaymentIntent from the Stripe event.
         intent = event.data.object
         pid = intent.id
 
-        # StripeObject does not support .get() or dict().
         metadata = intent.metadata
 
         bag = (
@@ -76,11 +291,13 @@ class StripeWH_Handler:
             if "bag" in metadata
             else "{}"
         )
+
         save_info = (
             metadata["save_info"]
             if "save_info" in metadata
             else ""
         )
+
         username = (
             metadata["username"]
             if "username" in metadata
@@ -120,7 +337,10 @@ class StripeWH_Handler:
                 status=500,
             )
 
-        grand_total = round(charge.amount / 100, 2)
+        grand_total = round(
+            charge.amount / 100,
+            2,
+        )
 
         address = shipping_details.address.to_dict()
 
@@ -132,7 +352,9 @@ class StripeWH_Handler:
 
         if username != "AnonymousUser":
             try:
-                user = User.objects.get(username=username)
+                user = User.objects.get(
+                    username=username
+                )
 
                 profile, created = (
                     UserProfile.objects.get_or_create(
@@ -283,77 +505,10 @@ class StripeWH_Handler:
 
             bag_data = json.loads(bag)
 
-            for item_id, item_data in bag_data.items():
-                product = Product.objects.get(
-                    id=item_id
-                )
-
-                # Old/simple format:
-                # {"10": 2}
-                if isinstance(item_data, int):
-                    OrderLineItem.objects.create(
-                        order=order,
-                        product=product,
-                        quantity=item_data,
-                        extra_flowers=0,
-                    )
-
-                elif isinstance(item_data, dict):
-
-                    # Current Maria Flowers format:
-                    # {
-                    #     "10": {
-                    #         "items_by_customisation": {
-                    #             "5": 1
-                    #         }
-                    #     }
-                    # }
-                    if "items_by_customisation" in item_data:
-                        customisations = item_data[
-                            "items_by_customisation"
-                        ]
-
-                        for extra_flowers, quantity in (
-                            customisations.items()
-                        ):
-                            OrderLineItem.objects.create(
-                                order=order,
-                                product=product,
-                                quantity=int(quantity),
-                                extra_flowers=int(
-                                    extra_flowers
-                                ),
-                            )
-
-                    # Alternative format:
-                    # {
-                    #     "10": {
-                    #         "quantity": 1,
-                    #         "extra_flowers": 5
-                    #     }
-                    # }
-                    else:
-                        quantity = int(
-                            item_data.get("quantity", 1)
-                        )
-                        extra_flowers = int(
-                            item_data.get(
-                                "extra_flowers",
-                                0,
-                            )
-                        )
-
-                        OrderLineItem.objects.create(
-                            order=order,
-                            product=product,
-                            quantity=quantity,
-                            extra_flowers=extra_flowers,
-                        )
-
-                else:
-                    raise ValueError(
-                        "Invalid shopping bag item format."
-                    )
+            self._create_order_line_items(
+                order=order,
+                bag_data=bag_data,
+            )
 
         except Exception as error:
             logger.exception(
@@ -405,6 +560,7 @@ class StripeWH_Handler:
         event,
     ):
         """Handle a failed Stripe PaymentIntent."""
+
         return HttpResponse(
             content=(
                 f'Webhook received: {event["type"]}'
