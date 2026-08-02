@@ -65,3 +65,19 @@ select option[value=""] {
     margin: 0;
     height: 100%;
 }
+
+.confirmation-greeting-message {
+    padding: 12px 14px;
+    background-color: #faf0fc;
+    border-left: 3px solid #7b0a91;
+    overflow-wrap: anywhere;
+}
+
+.confirmation-greeting-message p:last-child {
+    white-space: normal;
+}
+
+.order-line-item + .order-line-item {
+    padding-top: 12px;
+    border-top: 1px solid #e5e5e5;
+}
