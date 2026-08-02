@@ -19,3 +19,16 @@
 #id_default_country option:first-child {
     color: #aab7c4;
 }
+
+.profile-greeting-message {
+    max-width: 280px;
+    padding: 8px 10px;
+    background-color: #faf0fc;
+    border-left: 3px solid #7b0a91;
+    overflow-wrap: anywhere;
+}
+
+.profile-greeting-message span {
+    display: block;
+    margin-top: 2px;
+}
