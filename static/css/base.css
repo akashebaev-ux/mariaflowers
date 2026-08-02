@@ -565,6 +565,31 @@ a.category-badge > span.badge:hover {
     color: var(--maria-white) !important;
 }
 
+
+/* -------------------------------- Product detail page, Greeting Card */
+.greeting-card-message {
+    max-width: 100%;
+}
+
+.greeting-card-message textarea {
+    min-height: 130px;
+    resize: vertical;
+    border: 1px solid #7b0a91;
+    border-radius: 4px;
+}
+
+.greeting-card-message textarea:focus {
+    border-color: #7b0a91;
+    box-shadow: 0 0 0 0.2rem rgba(123, 10, 145, 0.15);
+}
+
+.greeting-card-notice {
+    padding: 14px 16px;
+    color: #6a087d;
+    background-color: #faf0fc;
+    border-radius: 4px;
+}
+
 /* -------------------------------- General layout */
 
 .overlay {
