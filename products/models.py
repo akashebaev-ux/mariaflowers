@@ -42,6 +42,14 @@ class Product(models.Model):
         blank=True,
     )
 
+    allows_greeting_message = models.BooleanField(
+        default=False,
+        help_text=(
+            "Allow customers to add a personalised message "
+            "to this product"
+        ),
+    )
+
     price = models.DecimalField(
         max_digits=8,
         decimal_places=2,
