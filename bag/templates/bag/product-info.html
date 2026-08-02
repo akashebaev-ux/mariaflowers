@@ -4,6 +4,7 @@
 
 <p class="my-0">
     <strong>Size:</strong>
+
     {% if item.product.has_sizes %}
         {{ item.size|upper }}
     {% else %}
@@ -15,24 +16,39 @@
     SKU: {{ item.product.sku|upper }}
 </p>
 
-<p class="my-0 small text-muted">
-    Included flowers:
-    {{ item.product.included_flower_count }}
-</p>
-
-<p class="my-0 small text-muted">
-    Additional flowers:
-    {{ item.extra_flowers }}
-</p>
-
-<p class="my-0 small text-muted">
-    Total flowers per bouquet:
-    {{ item.total_flowers }}
-</p>
-
-{% if item.extra_flowers > 0 %}
+{% if not item.product.allows_greeting_message %}
     <p class="my-0 small text-muted">
-        Additional flower price:
-        ${{ item.product.extra_flower_price|floatformat:2 }} each
+        Included flowers:
+        {{ item.product.included_flower_count }}
     </p>
+
+    <p class="my-0 small text-muted">
+        Additional flowers:
+        {{ item.extra_flowers }}
+    </p>
+
+    <p class="my-0 small text-muted">
+        Total flowers per bouquet:
+        {{ item.total_flowers }}
+    </p>
+
+    {% if item.extra_flowers > 0 %}
+        <p class="my-0 small text-muted">
+            Additional flower price:
+            ${{ item.product.extra_flower_price|floatformat:2 }} each
+        </p>
+    {% endif %}
+{% endif %}
+
+{% if item.greeting_message %}
+    <div class="greeting-message-preview mt-3">
+        <p class="mb-1 small font-weight-bold">
+            <i class="fas fa-envelope-open-text mr-1"></i>
+            Greeting card message
+        </p>
+
+        <p class="mb-0 small text-muted">
+            {{ item.greeting_message|linebreaksbr }}
+        </p>
+    </div>
 {% endif %}

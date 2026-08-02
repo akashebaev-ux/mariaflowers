@@ -590,6 +590,19 @@ a.category-badge > span.badge:hover {
     border-radius: 4px;
 }
 
+.greeting-message-preview {
+    max-width: 420px;
+    padding: 12px 14px;
+    background-color: #faf0fc;
+    border-left: 3px solid #7b0a91;
+    overflow-wrap: anywhere;
+}
+
+.greeting-message-preview p:last-child {
+    white-space: normal;
+}
+
+
 /* -------------------------------- General layout */
 
 .overlay {
