@@ -602,6 +602,16 @@ a.category-badge > span.badge:hover {
     white-space: normal;
 }
 
+.checkout-greeting-message {
+    padding: 10px 12px;
+    background-color: #faf0fc;
+    border-left: 3px solid #7b0a91;
+    overflow-wrap: anywhere;
+}
+
+.checkout-greeting-message p:last-child {
+    white-space: normal;
+}
 
 /* -------------------------------- General layout */
 
