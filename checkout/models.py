@@ -81,6 +81,11 @@ class OrderLineItem(models.Model):
         blank=False,
         default=0,
     )
+    greeting_message = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text="Optional personalised greeting-card message",
+    )
     lineitem_total = models.DecimalField(
         max_digits=10,
         decimal_places=2,
