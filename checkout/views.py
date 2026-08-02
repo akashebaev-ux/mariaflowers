@@ -24,8 +24,13 @@ from .models import Order, OrderLineItem
 
 @require_POST
 def cache_checkout_data(request):
+    """Store bag and checkout details in Stripe metadata."""
+
     try:
-        client_secret = request.POST.get("client_secret", "")
+        client_secret = request.POST.get(
+            "client_secret",
+            "",
+        )
         pid = client_secret.split("_secret")[0]
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -59,7 +64,155 @@ def cache_checkout_data(request):
         )
 
 
+def _create_order_line_item(
+    order,
+    product,
+    quantity,
+    extra_flowers=0,
+    greeting_message="",
+):
+    """Create and save one order line item."""
+
+    quantity = int(quantity)
+    extra_flowers = int(extra_flowers)
+
+    greeting_message = str(
+        greeting_message or ""
+    ).strip()
+
+    if len(greeting_message) > 250:
+        greeting_message = greeting_message[:250]
+
+    if not product.allows_greeting_message:
+        greeting_message = ""
+
+    order_line_item = OrderLineItem(
+        order=order,
+        product=product,
+        quantity=quantity,
+        extra_flowers=extra_flowers,
+        greeting_message=greeting_message,
+    )
+
+    order_line_item.save()
+
+
+def _create_order_line_items(order, bag):
+    """
+    Create all order line items from the shopping bag.
+
+    Supports:
+    - old integer bag entries
+    - items grouped by customisation
+    - items grouped by size
+    - greeting-card messages
+    """
+
+    for item_id, item_data in bag.items():
+        product = Product.objects.get(id=item_id)
+
+        if isinstance(item_data, int):
+            _create_order_line_item(
+                order=order,
+                product=product,
+                quantity=item_data,
+            )
+            continue
+
+        if "items_by_customisation" in item_data:
+            customisations = item_data[
+                "items_by_customisation"
+            ]
+
+            for extra_flowers, line_data in (
+                customisations.items()
+            ):
+                if isinstance(line_data, dict):
+                    quantity = line_data.get(
+                        "quantity",
+                        1,
+                    )
+                    greeting_message = line_data.get(
+                        "greeting_message",
+                        "",
+                    )
+                else:
+                    quantity = line_data
+                    greeting_message = ""
+
+                _create_order_line_item(
+                    order=order,
+                    product=product,
+                    quantity=quantity,
+                    extra_flowers=extra_flowers,
+                    greeting_message=greeting_message,
+                )
+
+            continue
+
+        if "items_by_size" in item_data:
+            items_by_size = item_data[
+                "items_by_size"
+            ]
+
+            for size, customisations in (
+                items_by_size.items()
+            ):
+                for extra_flowers, line_data in (
+                    customisations.items()
+                ):
+                    if isinstance(line_data, dict):
+                        quantity = line_data.get(
+                            "quantity",
+                            1,
+                        )
+                        greeting_message = (
+                            line_data.get(
+                                "greeting_message",
+                                "",
+                            )
+                        )
+                    else:
+                        quantity = line_data
+                        greeting_message = ""
+
+                    _create_order_line_item(
+                        order=order,
+                        product=product,
+                        quantity=quantity,
+                        extra_flowers=extra_flowers,
+                        greeting_message=(
+                            greeting_message
+                        ),
+                    )
+
+            continue
+
+        quantity = item_data.get(
+            "quantity",
+            1,
+        )
+        extra_flowers = item_data.get(
+            "extra_flowers",
+            0,
+        )
+        greeting_message = item_data.get(
+            "greeting_message",
+            "",
+        )
+
+        _create_order_line_item(
+            order=order,
+            product=product,
+            quantity=quantity,
+            extra_flowers=extra_flowers,
+            greeting_message=greeting_message,
+        )
+
+
 def checkout(request):
+    """Create and process an order."""
+
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -74,14 +227,26 @@ def checkout(request):
             return redirect(reverse("products"))
 
         form_data = {
-            "full_name": request.POST.get("full_name", ""),
-            "email": request.POST.get("email", ""),
+            "full_name": request.POST.get(
+                "full_name",
+                "",
+            ),
+            "email": request.POST.get(
+                "email",
+                "",
+            ),
             "phone_number": request.POST.get(
                 "phone_number",
                 "",
             ),
-            "country": request.POST.get("country", ""),
-            "postcode": request.POST.get("postcode", ""),
+            "country": request.POST.get(
+                "country",
+                "",
+            ),
+            "postcode": request.POST.get(
+                "postcode",
+                "",
+            ),
             "town_or_city": request.POST.get(
                 "town_or_city",
                 "",
@@ -94,7 +259,10 @@ def checkout(request):
                 "street_address2",
                 "",
             ),
-            "county": request.POST.get("county", ""),
+            "county": request.POST.get(
+                "county",
+                "",
+            ),
         }
 
         order_form = OrderForm(form_data)
@@ -113,32 +281,10 @@ def checkout(request):
             order.save()
 
             try:
-                for item_id, item_data in bag.items():
-                    product = Product.objects.get(
-                        id=item_id
-                    )
-
-                    if isinstance(item_data, int):
-                        quantity = item_data
-                        extra_flowers = 0
-                    else:
-                        quantity = int(
-                            item_data.get("quantity", 1)
-                        )
-                        extra_flowers = int(
-                            item_data.get(
-                                "extra_flowers",
-                                0,
-                            )
-                        )
-
-                    order_line_item = OrderLineItem(
-                        order=order,
-                        product=product,
-                        quantity=quantity,
-                        extra_flowers=extra_flowers,
-                    )
-                    order_line_item.save()
+                _create_order_line_items(
+                    order=order,
+                    bag=bag,
+                )
 
             except Product.DoesNotExist:
                 messages.error(
@@ -286,9 +432,8 @@ def checkout(request):
 
 
 def checkout_success(request, order_number):
-    """
-    Handle successful checkouts.
-    """
+    """Handle successful checkouts."""
+
     save_info = request.session.get("save_info")
 
     order = get_object_or_404(
