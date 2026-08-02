@@ -11,7 +11,13 @@ class ProductAdmin(admin.ModelAdmin):
         'category',
         'price',
         'rating',
+        "allows_greeting_message",
         'image',
+    )
+
+    list_filter = (
+        "category",
+        "allows_greeting_message",
     )
 
     ordering = ('sku',)

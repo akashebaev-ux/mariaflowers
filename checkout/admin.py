@@ -4,6 +4,12 @@ from .models import Order, OrderLineItem
 
 class OrderLineItemAdminInline(admin.TabularInline):
     model = OrderLineItem
+    fields = (
+        "product",
+        "quantity",
+        "greeting_message",
+        "lineitem_total",
+    )
     readonly_fields = ('lineitem_total',)
 
 
