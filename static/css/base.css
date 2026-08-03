@@ -767,6 +767,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
     height: 100%;
     background-color: var(--maria-white);
+
+    /* Prevent overlay from blocking clicks */
+    pointer-events: none;
 }
 
 .btt-button {
@@ -783,6 +786,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
+
 /* -------------------------------- Toasts */
 
 .message-container {
@@ -790,10 +794,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 90px;
     right: 15px;
     z-index: 99999999999;
+
+    /* Prevent overlay from blocking clicks */
+    pointer-events: none;
 }
 
 .custom-toast {
     overflow: visible;
+    
+    /* Prevent overlay from blocking clicks */
+    pointer-events: none;
 }
 
 .toast-capper {
