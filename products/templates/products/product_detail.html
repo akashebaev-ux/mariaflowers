@@ -131,96 +131,92 @@
                                 <!-- Delivery date and time -->
                                 <div class="col-12 mt-4">
                                     <div class="delivery-selection mb-4">
-                                        <div class="row">
-                                            <div class="col-12 col-sm-6 mb-3">
-                                                <label
-                                                    for="delivery-date"
-                                                    class="font-weight-bold"
-                                                >
-                                                    Delivery date
-                                                </label>
 
-                                                <input
-                                                    type="date"
-                                                    id="delivery-date"
-                                                    name="delivery_date"
-                                                    class="form-control rounded-0"
-                                                    min="{{ today|date:'Y-m-d' }}"
-                                                    required
-                                                >
-                                            </div>
+                                        <div class="delivery-field mb-3">
+                                            <label
+                                                for="delivery-date"
+                                                class="font-weight-bold"
+                                            >
+                                                Delivery date
+                                            </label>
 
-                                            <div class="col-12 col-sm-6 mb-3">
-                                                <label
-                                                    for="delivery-time"
-                                                    class="font-weight-bold"
-                                                >
-                                                    Delivery time
-                                                </label>
+                                            <input
+                                                type="date"
+                                                id="delivery-date"
+                                                name="delivery_date"
+                                                class="form-control"
+                                                min="{{ today|date:'Y-m-d' }}"
+                                                aria-describedby="delivery-date-help"
+                                                required
+                                            >
+                                        </div>
 
-                                                <select
-                                                    id="delivery-time"
-                                                    name="delivery_time"
-                                                    class="form-control rounded-0"
-                                                    required
-                                                >
-                                                    <option
-                                                        value=""
-                                                        selected
-                                                        disabled
-                                                    >
-                                                        Select a time
-                                                    </option>
+                                        <div class="delivery-field mb-3">
+                                            <label
+                                                for="delivery-time"
+                                                class="font-weight-bold"
+                                            >
+                                                Delivery time
+                                            </label>
 
-                                                    <option value="09:00-11:00">
-                                                        09:00–11:00
-                                                    </option>
+                                            <select
+                                                id="delivery-time"
+                                                name="delivery_time"
+                                                class="form-control"
+                                                required
+                                            >
+                                                <option value="" selected disabled>
+                                                    Select a time
+                                                </option>
 
-                                                    <option value="11:00-13:00">
-                                                        11:00–13:00
-                                                    </option>
+                                                <option value="09:00-11:00">
+                                                    09:00–11:00
+                                                </option>
 
-                                                    <option value="13:00-15:00">
-                                                        13:00–15:00
-                                                    </option>
+                                                <option value="11:00-13:00">
+                                                    11:00–13:00
+                                                </option>
 
-                                                    <option value="15:00-17:00">
-                                                        15:00–17:00
-                                                    </option>
+                                                <option value="13:00-15:00">
+                                                    13:00–15:00
+                                                </option>
 
-                                                    <option value="17:00-19:00">
-                                                        17:00–19:00
-                                                    </option>
+                                                <option value="15:00-17:00">
+                                                    15:00–17:00
+                                                </option>
 
-                                                    <option value="19:00-21:00">
-                                                        19:00–21:00
-                                                    </option>
-                                                </select>
-                                            </div>
+                                                <option value="17:00-19:00">
+                                                    17:00–19:00
+                                                </option>
+
+                                                <option value="19:00-21:00">
+                                                    19:00–21:00
+                                                </option>
+                                            </select>
                                         </div>
 
                                         <p
-                                            class="delivery-earliest-date
-                                                   small text-muted mb-3"
+                                            id="delivery-date-help"
+                                            class="delivery-earliest-date mb-3"
                                         >
                                             Earliest available date:
                                             {{ today|date:"d F Y" }}
                                         </p>
 
-                                        <div class="delivery-note">
+                                        <div class="delivery-note" role="note">
                                             <i
-                                                class="fas fa-info-circle
-                                                       mr-2"
+                                                class="fas fa-info-circle"
+                                                aria-hidden="true"
                                             ></i>
 
-                                            <span>
+                                            <p>
                                                 <strong>Please note:</strong>
-                                                Bouquet preparation and
-                                                delivery may take 30–60
-                                                minutes, depending on traffic
-                                                conditions and order volume.
-                                            </span>
+                                                Bouquet preparation and delivery may take
+                                                30–60 minutes, depending on traffic conditions
+                                                and order volume.
+                                            </p>
                                         </div>
+
                                     </div>
                                 </div>
 
