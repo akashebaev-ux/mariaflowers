@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.functions import Lower
+from django.utils import timezone
 
 from .models import Product, Category
 from .forms import ProductForm
@@ -67,6 +68,7 @@ def product_detail(request, product_id):
 
     context = {
         'product': product,
+        "today": timezone.localdate(),
     }
 
     return render(request, 'products/product_detail.html', context)
