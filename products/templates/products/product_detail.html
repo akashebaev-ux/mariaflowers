@@ -127,7 +127,105 @@
 
                             <!-- Bouquet customisation -->
                             {% if not product.allows_greeting_message %}
+
+                                <!-- Delivery date and time -->
                                 <div class="col-12 mt-4">
+                                    <div class="delivery-selection mb-4">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6 mb-3">
+                                                <label
+                                                    for="delivery-date"
+                                                    class="font-weight-bold"
+                                                >
+                                                    Delivery date
+                                                </label>
+
+                                                <input
+                                                    type="date"
+                                                    id="delivery-date"
+                                                    name="delivery_date"
+                                                    class="form-control rounded-0"
+                                                    min="{{ today|date:'Y-m-d' }}"
+                                                    required
+                                                >
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 mb-3">
+                                                <label
+                                                    for="delivery-time"
+                                                    class="font-weight-bold"
+                                                >
+                                                    Delivery time
+                                                </label>
+
+                                                <select
+                                                    id="delivery-time"
+                                                    name="delivery_time"
+                                                    class="form-control rounded-0"
+                                                    required
+                                                >
+                                                    <option
+                                                        value=""
+                                                        selected
+                                                        disabled
+                                                    >
+                                                        Select a time
+                                                    </option>
+
+                                                    <option value="09:00-11:00">
+                                                        09:00–11:00
+                                                    </option>
+
+                                                    <option value="11:00-13:00">
+                                                        11:00–13:00
+                                                    </option>
+
+                                                    <option value="13:00-15:00">
+                                                        13:00–15:00
+                                                    </option>
+
+                                                    <option value="15:00-17:00">
+                                                        15:00–17:00
+                                                    </option>
+
+                                                    <option value="17:00-19:00">
+                                                        17:00–19:00
+                                                    </option>
+
+                                                    <option value="19:00-21:00">
+                                                        19:00–21:00
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <p
+                                            class="delivery-earliest-date
+                                                   small text-muted mb-3"
+                                        >
+                                            Earliest available date:
+                                            {{ today|date:"d F Y" }}
+                                        </p>
+
+                                        <div class="delivery-note">
+                                            <i
+                                                class="fas fa-info-circle
+                                                       mr-2"
+                                            ></i>
+
+                                            <span>
+                                                <strong>Please note:</strong>
+                                                Bouquet preparation and
+                                                delivery may take 30–60
+                                                minutes, depending on traffic
+                                                conditions and order volume.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Flower information -->
+                                <div class="col-12">
                                     <p class="mb-1">
                                         <strong>Flowers included:</strong>
                                         {{ product.included_flower_count }}
@@ -161,12 +259,16 @@
                                             <div class="input-group-prepend">
                                                 <button
                                                     type="button"
-                                                    class="btn btn-black rounded-0"
+                                                    class="btn btn-black
+                                                           rounded-0"
                                                     id="decrement-extra-flowers"
                                                     aria-label="Remove one additional flower"
                                                 >
                                                     <span class="icon">
-                                                        <i class="fas fa-minus"></i>
+                                                        <i
+                                                            class="fas
+                                                                   fa-minus"
+                                                        ></i>
                                                     </span>
                                                 </button>
                                             </div>
@@ -184,12 +286,16 @@
                                             <div class="input-group-append">
                                                 <button
                                                     type="button"
-                                                    class="btn btn-black rounded-0"
+                                                    class="btn btn-black
+                                                           rounded-0"
                                                     id="increment-extra-flowers"
                                                     aria-label="Add one additional flower"
                                                 >
                                                     <span class="icon">
-                                                        <i class="fas fa-plus"></i>
+                                                        <i
+                                                            class="fas
+                                                                   fa-plus"
+                                                        ></i>
                                                     </span>
                                                 </button>
                                             </div>
@@ -209,7 +315,8 @@
                                 <div class="col-12 mt-4">
                                     <div class="greeting-card-message">
                                         <div
-                                            class="d-flex justify-content-between
+                                            class="d-flex
+                                                   justify-content-between
                                                    align-items-center mb-2"
                                         >
                                             <label
@@ -247,7 +354,9 @@
                                             class="greeting-card-notice
                                                    mt-3 p-3"
                                         >
-                                            <i class="fas fa-gift mr-2"></i>
+                                            <i
+                                                class="fas fa-gift mr-2"
+                                            ></i>
 
                                             Your message will be printed
                                             inside the card and included
@@ -282,7 +391,9 @@
                                                 aria-label="Decrease quantity"
                                             >
                                                 <span class="icon">
-                                                    <i class="fas fa-minus"></i>
+                                                    <i
+                                                        class="fas fa-minus"
+                                                    ></i>
                                                 </span>
                                             </button>
                                         </div>
@@ -308,7 +419,9 @@
                                                 aria-label="Increase quantity"
                                             >
                                                 <span class="icon">
-                                                    <i class="fas fa-plus"></i>
+                                                    <i
+                                                        class="fas fa-plus"
+                                                    ></i>
                                                 </span>
                                             </button>
                                         </div>
@@ -341,7 +454,9 @@
                                            rounded-0 mt-5"
                                 >
                                     <span class="icon">
-                                        <i class="fas fa-chevron-left"></i>
+                                        <i
+                                            class="fas fa-chevron-left"
+                                        ></i>
                                     </span>
 
                                     <span class="text-uppercase">
