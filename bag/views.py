@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib import messages
 from django.shortcuts import (
     HttpResponse,
@@ -6,11 +8,21 @@ from django.shortcuts import (
     render,
     reverse,
 )
+from django.utils import timezone
 
 from products.models import Product
 
 
 MAX_GREETING_MESSAGE_LENGTH = 250
+
+VALID_DELIVERY_TIMES = {
+    "09:00-11:00",
+    "11:00-13:00",
+    "13:00-15:00",
+    "15:00-17:00",
+    "17:00-19:00",
+    "19:00-21:00",
+}
 
 
 def view_bag(request):
@@ -42,31 +54,123 @@ def _create_line_data(quantity, greeting_message=""):
     }
 
 
+def _validate_delivery_details(request, product):
+    """
+    Validate the delivery date and time submitted from a product page.
+
+    Bouquet products require delivery details. Greeting cards currently
+    keep any delivery details that may already exist in the session.
+    """
+
+    if product.allows_greeting_message:
+        return True
+
+    delivery_date_value = request.POST.get(
+        "delivery_date",
+        "",
+    ).strip()
+
+    delivery_time = request.POST.get(
+        "delivery_time",
+        "",
+    ).strip()
+
+    try:
+        delivery_date = datetime.date.fromisoformat(
+            delivery_date_value
+        )
+    except (TypeError, ValueError):
+        messages.error(
+            request,
+            "Please select a valid delivery date.",
+        )
+        return False
+
+    if delivery_date < timezone.localdate():
+        messages.error(
+            request,
+            "Past delivery dates cannot be selected.",
+        )
+        return False
+
+    if delivery_time not in VALID_DELIVERY_TIMES:
+        messages.error(
+            request,
+            "Please select an available delivery time.",
+        )
+        return False
+
+    request.session["delivery_details"] = {
+        "delivery_date": delivery_date.isoformat(),
+        "delivery_time": delivery_time,
+    }
+
+    request.session.modified = True
+
+    return True
+
+
 def add_to_bag(request, item_id):
     """Add a product and its customisation to the shopping bag."""
 
-    product = get_object_or_404(Product, pk=item_id)
+    product = get_object_or_404(
+        Product,
+        pk=item_id,
+    )
+
+    redirect_url = request.POST.get(
+        "redirect_url",
+        reverse(
+            "product_detail",
+            args=[item_id],
+        ),
+    )
+
+    if not _validate_delivery_details(
+        request,
+        product,
+    ):
+        return redirect(
+            "product_detail",
+            product_id=item_id,
+        )
 
     try:
-        quantity = int(request.POST.get("quantity", 1))
+        quantity = int(
+            request.POST.get(
+                "quantity",
+                1,
+            )
+        )
+
         extra_flowers = int(
-            request.POST.get("extra_flowers", 0)
+            request.POST.get(
+                "extra_flowers",
+                0,
+            )
         )
     except (TypeError, ValueError):
         messages.error(
             request,
             "Invalid quantity selected.",
         )
+
         return redirect(
             "product_detail",
             product_id=item_id,
         )
 
-    quantity = max(1, quantity)
+    quantity = max(
+        1,
+        quantity,
+    )
 
     extra_flowers = max(
         0,
-        min(extra_flowers, product.max_extra_flowers),
+        min(
+            extra_flowers,
+            product.max_extra_flowers,
+        ),
     )
 
     greeting_message = request.POST.get(
@@ -82,6 +186,7 @@ def add_to_bag(request, item_id):
                 f"{MAX_GREETING_MESSAGE_LENGTH} characters."
             ),
         )
+
         return redirect(
             "product_detail",
             product_id=item_id,
@@ -90,16 +195,14 @@ def add_to_bag(request, item_id):
     if not product.allows_greeting_message:
         greeting_message = ""
 
-    redirect_url = request.POST.get(
-        "redirect_url",
-        reverse(
-            "product_detail",
-            args=[item_id],
-        ),
+    size = request.POST.get(
+        "product_size"
     )
 
-    size = request.POST.get("product_size")
-    bag = request.session.get("bag", {})
+    bag = request.session.get(
+        "bag",
+        {},
+    )
 
     item_key = str(item_id)
     customisation_key = str(extra_flowers)
@@ -121,7 +224,9 @@ def add_to_bag(request, item_id):
         size_items = items_by_size[size]
 
         if customisation_key in size_items:
-            existing_line = size_items[customisation_key]
+            existing_line = size_items[
+                customisation_key
+            ]
 
             existing_quantity = _get_line_quantity(
                 existing_line
@@ -243,26 +348,43 @@ def add_to_bag(request, item_id):
 def adjust_bag(request, item_id):
     """Adjust the quantity of a customised bag item."""
 
-    product = get_object_or_404(Product, pk=item_id)
+    product = get_object_or_404(
+        Product,
+        pk=item_id,
+    )
 
     try:
         quantity = int(
-            request.POST.get("quantity", 1)
+            request.POST.get(
+                "quantity",
+                1,
+            )
         )
+
         extra_flowers = int(
-            request.POST.get("extra_flowers", 0)
+            request.POST.get(
+                "extra_flowers",
+                0,
+            )
         )
     except (TypeError, ValueError):
         messages.error(
             request,
             "Invalid quantity selected.",
         )
+
         return redirect(
             reverse("view_bag")
         )
 
-    size = request.POST.get("product_size")
-    bag = request.session.get("bag", {})
+    size = request.POST.get(
+        "product_size"
+    )
+
+    bag = request.session.get(
+        "bag",
+        {},
+    )
 
     item_key = str(item_id)
     customisation_key = str(extra_flowers)
@@ -272,6 +394,7 @@ def adjust_bag(request, item_id):
             request,
             "This item is not in your bag.",
         )
+
         return redirect(
             reverse("view_bag")
         )
@@ -279,8 +402,14 @@ def adjust_bag(request, item_id):
     if size:
         size_items = (
             bag[item_key]
-            .get("items_by_size", {})
-            .get(size, {})
+            .get(
+                "items_by_size",
+                {},
+            )
+            .get(
+                size,
+                {},
+            )
         )
 
         if customisation_key not in size_items:
@@ -288,6 +417,7 @@ def adjust_bag(request, item_id):
                 request,
                 "This customised item is not in your bag.",
             )
+
             return redirect(
                 reverse("view_bag")
             )
@@ -361,6 +491,7 @@ def adjust_bag(request, item_id):
                 request,
                 "This customised item is not in your bag.",
             )
+
             return redirect(
                 reverse("view_bag")
             )
@@ -412,6 +543,12 @@ def adjust_bag(request, item_id):
     request.session["bag"] = bag
     request.session.modified = True
 
+    if not bag:
+        request.session.pop(
+            "delivery_details",
+            None,
+        )
+
     return redirect(
         reverse("view_bag")
     )
@@ -427,13 +564,22 @@ def remove_from_bag(request, item_id):
 
     try:
         extra_flowers = int(
-            request.POST.get("extra_flowers", 0)
+            request.POST.get(
+                "extra_flowers",
+                0,
+            )
         )
     except (TypeError, ValueError):
         extra_flowers = 0
 
-    size = request.POST.get("product_size")
-    bag = request.session.get("bag", {})
+    size = request.POST.get(
+        "product_size"
+    )
+
+    bag = request.session.get(
+        "bag",
+        {},
+    )
 
     item_key = str(item_id)
     customisation_key = str(extra_flowers)
@@ -442,8 +588,14 @@ def remove_from_bag(request, item_id):
         if size:
             size_items = (
                 bag[item_key]
-                .get("items_by_size", {})
-                .get(size, {})
+                .get(
+                    "items_by_size",
+                    {},
+                )
+                .get(
+                    size,
+                    {},
+                )
             )
 
             size_items.pop(
@@ -499,6 +651,12 @@ def remove_from_bag(request, item_id):
 
         request.session["bag"] = bag
         request.session.modified = True
+
+        if not bag:
+            request.session.pop(
+                "delivery_details",
+                None,
+            )
 
         return HttpResponse(status=200)
 
