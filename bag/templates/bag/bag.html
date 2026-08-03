@@ -25,6 +25,7 @@
             <div class="col">
                 {% if bag_items %}
 
+                    <!-- Mobile layout -->
                     <div class="d-block d-md-none">
                         <div class="row">
                             <div class="col">
@@ -34,6 +35,32 @@
 
                         <div class="row">
                             <div class="col">
+
+                                {% if delivery_details %}
+                                    <div class="delivery-summary mb-4">
+                                        <h5 class="mb-3">
+                                            Delivery details
+                                        </h5>
+
+                                        <p class="mb-1">
+                                            <strong>Date:</strong>
+                                            {{ delivery_details.delivery_date }}
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <strong>Time:</strong>
+                                            {{ delivery_details.delivery_time }}
+                                        </p>
+
+                                        <p class="small text-muted mb-0">
+                                            Bouquet preparation and delivery
+                                            may take 30–60 minutes, depending
+                                            on traffic conditions and order
+                                            volume.
+                                        </p>
+                                    </div>
+                                {% endif %}
+
                                 {% include "bag/checkout-buttons.html" %}
 
                                 <p class="text-muted mb-5">
@@ -89,6 +116,7 @@
                         </div>
                     </div>
 
+                    <!-- Desktop layout -->
                     <div class="table-responsive rounded d-none d-md-block">
                         <table class="table table-sm table-borderless">
                             <thead class="text-black">
@@ -101,45 +129,83 @@
                                 </tr>
                             </thead>
 
-                            {% for item in bag_items %}
+                            <tbody>
+                                {% for item in bag_items %}
+                                    <tr>
+                                        <td class="p-3 w-25">
+                                            {% include "bag/product-image.html" %}
+                                        </td>
+
+                                        <td class="py-3">
+                                            {% include "bag/product-info.html" %}
+                                        </td>
+
+                                        <td class="py-3">
+                                            <p class="my-0">
+                                                ${{ item.customised_unit_price|floatformat:2 }}
+                                            </p>
+                                        </td>
+
+                                        <td class="py-3 w-25">
+                                            {% include "bag/quantity-form.html" %}
+                                        </td>
+
+                                        <td class="py-3">
+                                            <p class="my-0">
+                                                ${{ item.subtotal|floatformat:2 }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                {% if delivery_details %}
+                                    <tr>
+                                        <td colspan="5">
+                                            <div
+                                                class="delivery-summary
+                                                       mb-4 text-left"
+                                            >
+                                                <h5 class="mb-3">
+                                                    Delivery details
+                                                </h5>
+
+                                                <p class="mb-1">
+                                                    <strong>Date:</strong>
+                                                    {{ delivery_details.delivery_date }}
+                                                </p>
+
+                                                <p class="mb-1">
+                                                    <strong>Time:</strong>
+                                                    {{ delivery_details.delivery_time }}
+                                                </p>
+
+                                                <p
+                                                    class="small text-muted
+                                                           mb-0"
+                                                >
+                                                    Bouquet preparation and
+                                                    delivery may take 30–60
+                                                    minutes, depending on
+                                                    traffic conditions and
+                                                    order volume.
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+
                                 <tr>
-                                    <td class="p-3 w-25">
-                                        {% include "bag/product-image.html" %}
-                                    </td>
-
-                                    <td class="py-3">
-                                        {% include "bag/product-info.html" %}
-                                    </td>
-
-                                    <td class="py-3">
-                                        <p class="my-0">
-                                            ${{ item.customised_unit_price|floatformat:2 }}
-                                        </p>
-                                    </td>
-
-                                    <td class="py-3 w-25">
-                                        {% include "bag/quantity-form.html" %}
-                                    </td>
-
-                                    <td class="py-3">
-                                        <p class="my-0">
-                                            ${{ item.subtotal|floatformat:2 }}
-                                        </p>
+                                    <td colspan="5" class="pt-5 text-right">
+                                        {% include "bag/bag-total.html" %}
                                     </td>
                                 </tr>
-                            {% endfor %}
 
-                            <tr>
-                                <td colspan="5" class="pt-5 text-right">
-                                    {% include "bag/bag-total.html" %}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="5" class="text-right">
-                                    {% include "bag/checkout-buttons.html" %}
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="5" class="text-right">
+                                        {% include "bag/checkout-buttons.html" %}
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
 

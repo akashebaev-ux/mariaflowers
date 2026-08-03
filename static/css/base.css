@@ -666,6 +666,21 @@ a.category-badge > span.badge:hover {
     }
 }
 
+.delivery-summary {
+    padding: 1rem;
+    border-left: 4px solid #76008a;
+    background-color: #f8f0fa;
+}
+
+.delivery-summary h5 {
+    color: #3d2842;
+}
+
+.delivery-summary p {
+    line-height: 1.5;
+}
+
+
 /* -------------------------------- General layout */
 
 .overlay {
