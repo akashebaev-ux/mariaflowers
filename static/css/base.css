@@ -796,6 +796,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 99999999999;
 
     /* Prevent overlay from blocking clicks */
+    pointer-events: auto;
+}
+
+.message-container:empty {
     pointer-events: none;
 }
 
@@ -803,7 +807,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     overflow: visible;
     
     /* Prevent overlay from blocking clicks */
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .toast-capper {
