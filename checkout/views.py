@@ -270,6 +270,26 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
+            delivery_details = request.session.get(
+                "delivery_details",
+                {},
+            )
+
+            if not delivery_details:
+                messages.error(
+                    request,
+                    "Please select a delivery date and time.",
+                )
+                return redirect(reverse("view_bag"))
+
+            order.delivery_date = delivery_details.get(
+                "delivery_date"
+            )
+
+            order.delivery_time = delivery_details.get(
+                "delivery_time"
+            )
+
             client_secret = request.POST.get(
                 "client_secret",
                 "",
@@ -489,9 +509,11 @@ def checkout_success(request, order_number):
             f"{order.email}."
         ),
     )
-
     if "bag" in request.session:
         del request.session["bag"]
+
+    if "delivery_details" in request.session:
+        del request.session["delivery_details"]
 
     template = "checkout/checkout_success.html"
 
