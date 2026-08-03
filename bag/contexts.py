@@ -194,6 +194,11 @@ def bag_contents(request):
 
     grand_total = total + delivery
 
+    delivery_details = request.session.get(
+        "delivery_details",
+        {},
+    )
+
     context = {
         "bag_items": bag_items,
         "total": total,
@@ -202,6 +207,7 @@ def bag_contents(request):
         "free_delivery_delta": free_delivery_delta,
         "free_delivery_threshold": free_delivery_threshold,
         "grand_total": grand_total,
+        "delivery_details": delivery_details,
     }
 
     return context
