@@ -127,6 +127,17 @@ def send_paid_order_whatsapp(order):
         )
         return None
 
+    previous_sent_message = order.whatsapp_messages.filter(
+        status=WhatsAppMessage.STATUS_SENT,
+    ).exists()
+
+    if previous_sent_message:
+        logger.info(
+            "WhatsApp message already sent for order %s",
+            order.order_number,
+        )
+        return None
+
     recipient = clean_phone_number(
         settings.WHATSAPP_ORDER_RECIPIENT
     )
