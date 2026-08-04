@@ -78,7 +78,6 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
-
     delivery_date = models.DateField(
         null=True,
         blank=True,
@@ -89,8 +88,9 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
-
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(
+        auto_now_add=True,
+    )
     delivery_cost = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -119,6 +119,13 @@ class Order(models.Model):
         null=False,
         blank=False,
         default="",
+    )
+    is_paid = models.BooleanField(
+        default=False,
+    )
+    paid_at = models.DateTimeField(
+        null=True,
+        blank=True,
     )
 
     def _generate_order_number(self):
@@ -157,8 +164,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Override the original save method to set the order number
-        if it has not been set already.
+        Set an order number if one has not been created.
         """
         if not self.order_number:
             self.order_number = (
@@ -239,4 +245,60 @@ class OrderLineItem(models.Model):
         return (
             f"SKU {self.product.sku} on order "
             f"{self.order.order_number}"
+        )
+
+
+class WhatsAppMessage(models.Model):
+    """
+    Store WhatsApp notification attempts for an order.
+    """
+
+    STATUS_PENDING = "pending"
+    STATUS_SENT = "sent"
+    STATUS_FAILED = "failed"
+
+    STATUS_CHOICES = [
+        (STATUS_PENDING, "Pending"),
+        (STATUS_SENT, "Sent"),
+        (STATUS_FAILED, "Failed"),
+    ]
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="whatsapp_messages",
+    )
+    recipient = models.CharField(
+        max_length=30,
+    )
+    message_body = models.TextField()
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+    )
+    provider_message_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    error_message = models.TextField(
+        blank=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return (
+            f"WhatsApp message for "
+            f"{self.order.order_number}: "
+            f"{self.status}"
         )
