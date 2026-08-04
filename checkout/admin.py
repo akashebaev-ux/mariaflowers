@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Order, OrderLineItem
+
+from .models import Order, OrderLineItem, WhatsAppMessage
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
@@ -19,6 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = (
         'order_number',
         'date',
+        'paid_at',
         'delivery_date',
         'delivery_time',
         'delivery_cost',
@@ -32,6 +34,8 @@ class OrderAdmin(admin.ModelAdmin):
         'order_number',
         'user_profile',
         'date',
+        'is_paid',
+        'paid_at',
         'delivery_date',
         'delivery_time',
         'full_name',
@@ -56,6 +60,8 @@ class OrderAdmin(admin.ModelAdmin):
         'delivery_date',
         'delivery_time',
         'full_name',
+        'is_paid',
+        'paid_at',
         'order_total',
         'delivery_cost',
         'grand_total',
@@ -64,4 +70,29 @@ class OrderAdmin(admin.ModelAdmin):
     ordering = ('-date',)
 
 
+class WhatsAppMessageAdmin(admin.ModelAdmin):
+    list_display = (
+        'order',
+        'recipient',
+        'status',
+        'created_at',
+        'sent_at',
+    )
+
+    readonly_fields = (
+        'order',
+        'recipient',
+        'message_body',
+        'status',
+        'provider_message_id',
+        'error_message',
+        'created_at',
+        'sent_at',
+    )
+
+
 admin.site.register(Order, OrderAdmin)
+admin.site.register(
+    WhatsAppMessage,
+    WhatsAppMessageAdmin,
+)
