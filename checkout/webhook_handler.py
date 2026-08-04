@@ -5,13 +5,16 @@ import time
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.db import transaction
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.utils import timezone
 
 from products.models import Product
 from profiles.models import UserProfile
 
 from .models import Order, OrderLineItem
+from .whatsapp import send_paid_order_whatsapp
 
 
 logger = logging.getLogger(__name__)
@@ -459,6 +462,22 @@ class StripeWH_Handler:
                 )
 
         if order_exists:
+            if not order.is_paid:
+                order.is_paid = True
+                order.paid_at = timezone.now()
+                order.save(
+                    update_fields=[
+                        "is_paid",
+                        "paid_at",
+                    ]
+                )
+
+            transaction.on_commit(
+                lambda order=order: (
+                    send_paid_order_whatsapp(order)
+                )
+            )
+
             try:
                 self._send_confirmation_email(order)
 
@@ -480,7 +499,8 @@ class StripeWH_Handler:
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
-                    "SUCCESS: Verified existing order and "
+                    "SUCCESS: Verified existing order, "
+                    "sent WhatsApp notification and "
                     "sent confirmation email"
                 ),
                 status=200,
@@ -508,6 +528,21 @@ class StripeWH_Handler:
             self._create_order_line_items(
                 order=order,
                 bag_data=bag_data,
+            )
+
+            order.is_paid = True
+            order.paid_at = timezone.now()
+            order.save(
+                update_fields=[
+                    "is_paid",
+                    "paid_at",
+                ]
+            )
+
+            transaction.on_commit(
+                lambda order=order: (
+                    send_paid_order_whatsapp(order)
+                )
             )
 
         except Exception as error:
@@ -549,8 +584,8 @@ class StripeWH_Handler:
         return HttpResponse(
             content=(
                 f'Webhook received: {event["type"]} | '
-                "SUCCESS: Created order and sent "
-                "confirmation email"
+                "SUCCESS: Created order, sent WhatsApp "
+                "notification and sent confirmation email"
             ),
             status=200,
         )
