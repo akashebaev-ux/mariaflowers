@@ -633,7 +633,7 @@ a.category-badge > span.badge:hover {
 .review-rating label {
     width: 105px;
     min-height: 72px;
-    padding: 12px 8px;
+    padding: 12px 0px;
     border: 1px solid var(--maria-border);
     text-align: center;
     cursor: pointer;
