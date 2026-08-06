@@ -614,6 +614,35 @@ a.category-badge > span.badge:hover {
 }
 
 
+/* -------------------------------- Customer Reviews */
+
+.review-rating {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.review-rating input {
+    display: none;
+}
+
+.review-rating label {
+    width: 90px;
+    padding: 15px;
+    border: 1px solid var(--maria-border);
+    text-align: center;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.review-rating input:checked + label {
+    background: var(--maria-primary);
+    color: var(--maria-white);
+    border-color: var(--maria-primary);
+}
+
+
+
 /* -------------------------------- Delivery selection, time-date */
 
 .delivery-selection {
