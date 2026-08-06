@@ -4,6 +4,8 @@ import stripe
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError, transaction
 from django.http import HttpResponse
 from django.shortcuts import (
     get_object_or_404,
@@ -11,15 +13,27 @@ from django.shortcuts import (
     render,
     reverse,
 )
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import (
+    require_http_methods,
+    require_POST,
+)
 
 from bag.contexts import bag_contents
 from products.models import Product
 from profiles.forms import UserProfileForm
 from profiles.models import UserProfile
 
-from .forms import OrderForm
-from .models import Order, OrderLineItem
+from .forms import (
+    OrderForm,
+    ReviewForm,
+    ReviewImageForm,
+)
+from .models import (
+    Order,
+    OrderLineItem,
+    Review,
+    ReviewReaction,
+)
 
 
 @require_POST
@@ -525,4 +539,146 @@ def checkout_success(request, order_number):
         request,
         template,
         context,
+    )
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def submit_review(request, order_number):
+    """Allow a customer to review one completed order."""
+
+    order = get_object_or_404(
+        Order,
+        order_number=order_number,
+        user_profile__user=request.user,
+    )
+
+    if not order.is_completed:
+        messages.error(
+            request,
+            "You can review this order after it has been completed.",
+        )
+        return redirect(
+            reverse(
+                "order_history",
+                args=[order.order_number],
+            )
+        )
+
+    if hasattr(order, "review"):
+        messages.info(
+            request,
+            "You have already reviewed this order.",
+        )
+        return redirect(
+            reverse(
+                "order_history",
+                args=[order.order_number],
+            )
+        )
+
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST)
+        image_form = ReviewImageForm(
+            request.POST,
+            request.FILES,
+        )
+
+        if review_form.is_valid() and image_form.is_valid():
+            try:
+                with transaction.atomic():
+                    review = review_form.save(commit=False)
+                    review.order = order
+                    review.save()
+
+                    review_image = image_form.save(commit=False)
+
+                    if review_image.image:
+                        review_image.review = review
+                        review_image.save()
+
+            except IntegrityError:
+                messages.error(
+                    request,
+                    "A review has already been submitted "
+                    "for this order.",
+                )
+                return redirect(
+                    reverse(
+                        "order_history",
+                        args=[order.order_number],
+                    )
+                )
+
+            messages.success(
+                request,
+                "Thank you! Your review has been submitted.",
+            )
+            return redirect(
+                reverse(
+                    "order_history",
+                    args=[order.order_number],
+                )
+            )
+
+    else:
+        review_form = ReviewForm()
+        image_form = ReviewImageForm()
+
+    template = "checkout/submit_review.html"
+
+    context = {
+        "order": order,
+        "review_form": review_form,
+        "image_form": image_form,
+    }
+
+    return render(
+        request,
+        template,
+        context,
+    )
+
+
+@login_required
+@require_POST
+def toggle_review_reaction(request, review_id):
+    """Add or remove the current customer's helpful reaction."""
+
+    review = get_object_or_404(
+        Review,
+        pk=review_id,
+    )
+
+    profile = get_object_or_404(
+        UserProfile,
+        user=request.user,
+    )
+
+    reaction = ReviewReaction.objects.filter(
+        review=review,
+        user_profile=profile,
+    ).first()
+
+    if reaction:
+        reaction.delete()
+        messages.info(
+            request,
+            "Helpful reaction removed.",
+        )
+    else:
+        ReviewReaction.objects.create(
+            review=review,
+            user_profile=profile,
+        )
+        messages.success(
+            request,
+            "You marked this review as helpful.",
+        )
+
+    return redirect(
+        reverse(
+            "order_history",
+            args=[review.order.order_number],
+        )
     )
