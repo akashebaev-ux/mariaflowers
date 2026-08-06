@@ -69,7 +69,7 @@
                                 <th>Date</th>
                                 <th>Items</th>
                                 <th>Order Total</th>
-                                <th>Status / Review</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -92,7 +92,7 @@
                                     <td>
                                         <ul class="list-unstyled mb-0">
                                             {% for item in order.lineitems.all %}
-                                                <li class="small mb-2">
+                                                <li class="small mb-3">
                                                     <div>
                                                         {% if item.product_size %}
                                                             Size
@@ -125,6 +125,44 @@
                                                             </span>
                                                         </div>
                                                     {% endif %}
+
+                                                    {% if item.can_be_reviewed %}
+                                                        <div class="mt-2">
+                                                            <a
+                                                                href="{% url 'submit_review' item.id %}"
+                                                                class="btn btn-black
+                                                                       rounded-0 btn-sm"
+                                                            >
+                                                                Review product
+                                                            </a>
+                                                        </div>
+
+                                                    {% elif item.review %}
+                                                        <div class="small mt-2">
+                                                            <div class="review-stars mb-1">
+                                                                {% for number in "12345" %}
+                                                                    {% if forloop.counter <= item.review.rating %}
+                                                                        <i class="fas fa-star"></i>
+                                                                    {% else %}
+                                                                        <i class="far fa-star"></i>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+
+                                                            <span>
+                                                                Reviewed
+                                                            </span>
+                                                        </div>
+
+                                                    {% elif order.is_completed %}
+                                                        <span class="small text-muted">
+                                                            Review unavailable
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="small text-muted">
+                                                            Available after completion
+                                                        </span>
+                                                    {% endif %}
                                                 </li>
                                             {% endfor %}
                                         </ul>
@@ -135,41 +173,7 @@
                                     </td>
 
                                     <td class="review-status">
-                                        <div class="mb-2">
-                                            {{ order.get_status_display }}
-                                        </div>
-
-                                        {% if order.can_be_reviewed %}
-                                            <a
-                                                href="{% url 'submit_review' order.order_number %}"
-                                                class="btn btn-black
-                                                       rounded-0 btn-sm"
-                                            >
-                                                Review order
-                                            </a>
-
-                                        {% elif order.review %}
-                                            <div class="small">
-                                                <div class="review-stars mb-1">
-                                                    {% for number in "12345" %}
-                                                        {% if forloop.counter <= order.review.rating %}
-                                                            <i class="fas fa-star"></i>
-                                                        {% else %}
-                                                            <i class="far fa-star"></i>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </div>
-
-                                                <span>
-                                                    Reviewed
-                                                </span>
-                                            </div>
-
-                                        {% else %}
-                                            <span class="small text-muted">
-                                                Available after completion
-                                            </span>
-                                        {% endif %}
+                                        {{ order.get_status_display }}
                                     </td>
                                 </tr>
 
