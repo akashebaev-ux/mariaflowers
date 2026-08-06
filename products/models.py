@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Avg
 
 
 class Category(models.Model):
@@ -90,6 +91,20 @@ class Product(models.Model):
         default=300,
         help_text="Maximum number of additional flowers",
     )
+
+    @property
+    def average_rating(self):
+        """
+        Return the average customer review rating
+        for this product.
+        """
+        result = self.orderlineitem_set.filter(
+            review__isnull=False,
+        ).aggregate(
+            average=Avg("review__rating")
+        )
+
+        return result["average"]
 
     @property
     def maximum_flower_count(self):
