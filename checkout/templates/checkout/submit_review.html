@@ -14,79 +14,87 @@
 {% endblock %}
 
 {% block content %}
-<section class="maria-review-page">
-    <div class="container">
+    <div class="overlay"></div>
+
+    <div class="container pb-5">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
+                <hr>
 
                 <a
                     href="{% url 'order_history' order.order_number %}"
-                    class="maria-back-link"
+                    class="d-inline-block mb-3"
                 >
-                    <i class="fas fa-arrow-left"></i>
+                    <i class="fas fa-arrow-left mr-1"></i>
                     Back to order
                 </a>
 
-                <div class="maria-review-heading">
-                    <p class="maria-review-eyebrow">
-                        Maria Flowers
-                    </p>
+                <h2 class="logo-font mb-3">
+                    Review Your Order
+                </h2>
 
-                    <h1>Review your order</h1>
+                <p class="text-muted">
+                    Share your experience and help Maria Flowers
+                    provide even better flowers and delivery.
+                </p>
 
-                    <p>
-                        Share your experience and help us provide
-                        even better flowers and delivery.
-                    </p>
+                <hr>
+
+                <div class="card p-4 mb-4">
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-3 mb-md-0">
+                            <p class="text-muted mb-1">
+                                Order Number
+                            </p>
+
+                            <strong>
+                                {{ order.order_number }}
+                            </strong>
+                        </div>
+
+                        <div class="col-12 col-md-4 mb-3 mb-md-0">
+                            <p class="text-muted mb-1">
+                                Order Date
+                            </p>
+
+                            <strong>
+                                {{ order.date|date:"j F Y" }}
+                            </strong>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <p class="text-muted mb-1">
+                                Status
+                            </p>
+
+                            <strong class="text-success">
+                                {{ order.get_status_display }}
+                            </strong>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="maria-review-order-summary">
-                    <div>
-                        <span>Order number</span>
-
-                        <strong>
-                            {{ order.order_number }}
-                        </strong>
-                    </div>
-
-                    <div>
-                        <span>Order date</span>
-
-                        <strong>
-                            {{ order.date|date:"j F Y" }}
-                        </strong>
-                    </div>
-
-                    <div>
-                        <span>Status</span>
-
-                        <strong class="maria-completed-status">
-                            Completed
-                        </strong>
-                    </div>
-                </div>
-
-                <div class="maria-review-card">
+                <div class="card p-4">
                     <form
                         method="POST"
                         enctype="multipart/form-data"
                     >
                         {% csrf_token %}
 
-                        <fieldset class="maria-rating-fieldset">
-                            <legend>
+                        <fieldset class="mb-4">
+                            <legend class="h5 mb-3">
                                 How would you rate your order?
                             </legend>
 
-                            <div class="maria-rating-options">
+                            <div class="review-rating">
                                 {% for radio in review_form.rating %}
-                                    <div class="maria-rating-option">
+                                    <div>
                                         {{ radio.tag }}
 
                                         <label
                                             for="{{ radio.id_for_label }}"
                                         >
-                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star d-block mb-2"></i>
 
                                             <span>
                                                 {{ radio.choice_label }}
@@ -97,85 +105,95 @@
                             </div>
 
                             {% for error in review_form.rating.errors %}
-                                <p class="maria-form-error">
+                                <p class="text-danger small mt-2 mb-0">
                                     {{ error }}
                                 </p>
                             {% endfor %}
                         </fieldset>
 
-                        <div class="maria-review-field">
+                        <div class="form-group mb-4">
                             <label
                                 for="{{ review_form.comment.id_for_label }}"
+                                class="font-weight-bold"
                             >
                                 {{ review_form.comment.label }}
                             </label>
 
                             {{ review_form.comment }}
 
-                            <div class="maria-review-character-row">
-                                <span>
+                            <div
+                                class="d-flex justify-content-between
+                                       mt-2"
+                            >
+                                <small class="text-muted">
                                     Maximum 1000 characters
-                                </span>
+                                </small>
 
-                                <span id="review-character-count">
+                                <small
+                                    class="text-muted"
+                                    id="review-character-count"
+                                >
                                     0 / 1000
-                                </span>
+                                </small>
                             </div>
 
                             {% for error in review_form.comment.errors %}
-                                <p class="maria-form-error">
+                                <p class="text-danger small mt-2 mb-0">
                                     {{ error }}
                                 </p>
                             {% endfor %}
                         </div>
 
-                        <div class="maria-review-field">
+                        <div class="form-group mb-4">
                             <label
                                 for="{{ image_form.image.id_for_label }}"
+                                class="font-weight-bold"
                             >
                                 {{ image_form.image.label }}
                             </label>
 
-                            <div class="maria-image-upload-box">
-                                <i class="far fa-image"></i>
+                            {{ image_form.image }}
 
-                                {{ image_form.image }}
-
-                                <p>
-                                    Upload a JPG, PNG or WebP photo.
-                                </p>
-                            </div>
+                            <small class="form-text text-muted">
+                                Upload a JPG, PNG or WebP image.
+                            </small>
 
                             {% for error in image_form.image.errors %}
-                                <p class="maria-form-error">
+                                <p class="text-danger small mt-2 mb-0">
                                     {{ error }}
                                 </p>
                             {% endfor %}
                         </div>
 
-                        <div class="maria-review-actions">
+                        {% for error in review_form.non_field_errors %}
+                            <p class="text-danger small mb-3">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+
+                        <div class="d-flex flex-wrap">
                             <button
                                 type="submit"
-                                class="maria-review-submit"
+                                class="btn btn-black rounded-0
+                                       text-uppercase mr-2 mb-2"
                             >
-                                <i class="fas fa-spa"></i>
-                                Submit review
+                                <i class="fas fa-spa mr-1"></i>
+                                Submit Review
                             </button>
 
                             <a
                                 href="{% url 'order_history' order.order_number %}"
-                                class="maria-review-cancel"
+                                class="btn btn-outline-black rounded-0
+                                       text-uppercase mb-2"
                             >
                                 Cancel
                             </a>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
-</section>
 {% endblock %}
 
 {% block postloadjs %}
@@ -186,7 +204,6 @@
             const textarea = document.getElementById(
                 "{{ review_form.comment.id_for_label }}"
             );
-
             const counter = document.getElementById(
                 "review-character-count"
             );
