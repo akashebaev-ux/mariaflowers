@@ -23,7 +23,7 @@ urlpatterns = [
 
     # Customer Reviews
     path(
-        'review/<str:order_number>/',
+        'review/item/<int:line_item_id>/',
         views.submit_review,
         name='submit_review',
     ),
