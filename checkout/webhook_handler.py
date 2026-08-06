@@ -13,7 +13,11 @@ from django.utils import timezone
 from products.models import Product
 from profiles.models import UserProfile
 
-from .models import Order, OrderLineItem
+from .models import (
+    ORDER_STATUS_PREPARING,
+    Order,
+    OrderLineItem,
+)
 from .whatsapp import send_paid_order_whatsapp
 
 
@@ -465,10 +469,12 @@ class StripeWH_Handler:
             if not order.is_paid:
                 order.is_paid = True
                 order.paid_at = timezone.now()
+                order.status = ORDER_STATUS_PREPARING
                 order.save(
                     update_fields=[
                         "is_paid",
                         "paid_at",
+                        "status",
                     ]
                 )
 
@@ -532,10 +538,12 @@ class StripeWH_Handler:
 
             order.is_paid = True
             order.paid_at = timezone.now()
+            order.status = ORDER_STATUS_PREPARING
             order.save(
                 update_fields=[
                     "is_paid",
                     "paid_at",
+                    "status",
                 ]
             )
 
