@@ -32,3 +32,36 @@
     display: block;
     margin-top: 2px;
 }
+
+/* -------------------------------- Review Section */
+
+.review-status {
+    min-width: 170px;
+}
+
+.review-stars {
+    color: var(--maria-primary);
+    font-size: 0.9rem;
+}
+
+.review-stars i {
+    margin-right: 2px;
+}
+
+.review-status .btn {
+    white-space: nowrap;
+}
+
+.review-status .text-muted {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 991px) {
+    .review-status {
+        min-width: 140px;
+    }
+
+    .review-status .btn {
+        width: 100%;
+    }
+}

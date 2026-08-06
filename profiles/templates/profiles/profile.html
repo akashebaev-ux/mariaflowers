@@ -134,7 +134,7 @@
                                         ${{ order.grand_total|floatformat:2 }}
                                     </td>
 
-                                    <td>
+                                    <td class="review-status">
                                         <div class="mb-2">
                                             {{ order.get_status_display }}
                                         </div>
@@ -150,7 +150,7 @@
 
                                         {% elif order.review %}
                                             <div class="small">
-                                                <div class="text-maria mb-1">
+                                                <div class="review-stars mb-1">
                                                     {% for number in "12345" %}
                                                         {% if forloop.counter <= order.review.rating %}
                                                             <i class="fas fa-star"></i>
