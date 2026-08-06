@@ -93,7 +93,7 @@ class ReviewAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-        'order',
+        'order_line_item',
         'rating',
         'created_at',
     )
@@ -104,9 +104,10 @@ class ReviewAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        'order__order_number',
-        'order__full_name',
-        'order__email',
+        'order_line_item__order__order_number',
+        'order_line_item__order__full_name',
+        'order_line_item__order__email',
+        'order_line_item__product__name',
         'comment',
     )
 
@@ -124,7 +125,7 @@ class ReviewReactionAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        'review__order__order_number',
+        'review__order_line_item__order__order_number',
         'user_profile__user__username',
         'user_profile__user__email',
     )

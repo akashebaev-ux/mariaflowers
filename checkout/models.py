@@ -176,17 +176,6 @@ class Order(models.Model):
         """
         return self.status == ORDER_STATUS_COMPLETED
 
-    @property
-    def can_be_reviewed(self):
-        """
-        Return True when the order is completed and
-        does not already have a review.
-        """
-        return (
-            self.is_completed
-            and not hasattr(self, "review")
-        )
-
     def _generate_order_number(self):
         """
         Generate a random, unique order number using UUID.
@@ -273,6 +262,17 @@ class OrderLineItem(models.Model):
         editable=False,
     )
 
+    @property
+    def can_be_reviewed(self):
+        """
+        Return True when the order is completed and
+        this purchased item has not already been reviewed.
+        """
+        return (
+            self.order.is_completed
+            and not hasattr(self, "review")
+        )
+
     def save(self, *args, **kwargs):
         """
         Calculate the product total, including extra flowers.
@@ -309,10 +309,10 @@ class OrderLineItem(models.Model):
 
 class Review(models.Model):
     """
-    Store one customer review for a completed order.
+    Store one customer review for a purchased product.
     """
 
-    order = models.OneToOneField(
+    order_line_item = models.OneToOneField(
         OrderLineItem,
         on_delete=models.CASCADE,
         related_name="review",
@@ -339,7 +339,8 @@ class Review(models.Model):
 
     def clean(self):
         """
-        Prevent reviews for orders that are not completed.
+        Prevent reviews for products from orders
+        that are not completed.
         """
         super().clean()
 
@@ -366,7 +367,8 @@ class Review(models.Model):
 
     def __str__(self):
         return (
-            f"Review for {self.order_line_item.product.name} "
+            f"Review for "
+            f"{self.order_line_item.product.name} "
             f"- {self.rating}/5"
         )
 
