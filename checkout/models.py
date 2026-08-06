@@ -1,6 +1,11 @@
 import uuid
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import (
+    MaxValueValidator,
+    MinValueValidator,
+)
 from django.db import models
 from django.db.models import Sum
 
@@ -11,12 +16,43 @@ from profiles.models import UserProfile
 
 
 DELIVERY_TIME_CHOICES = [
-    ("09:00-11:00", "09:00–11:00"),
-    ("11:00-13:00", "11:00–13:00"),
-    ("13:00-15:00", "13:00–15:00"),
-    ("15:00-17:00", "15:00–17:00"),
-    ("17:00-19:00", "17:00–19:00"),
-    ("19:00-21:00", "19:00–21:00"),
+    ("09:00-11:00", "09:00-11:00"),
+    ("11:00-13:00", "11:00-13:00"),
+    ("13:00-15:00", "13:00-15:00"),
+    ("15:00-17:00", "15:00-17:00"),
+    ("17:00-19:00", "17:00-19:00"),
+    ("19:00-21:00", "19:00-21:00"),
+]
+
+
+ORDER_STATUS_PENDING = "pending"
+ORDER_STATUS_PREPARING = "preparing"
+ORDER_STATUS_OUT_FOR_DELIVERY = "out_for_delivery"
+ORDER_STATUS_COMPLETED = "completed"
+ORDER_STATUS_CANCELLED = "cancelled"
+
+
+ORDER_STATUS_CHOICES = [
+    (
+        ORDER_STATUS_PENDING,
+        "Pending",
+    ),
+    (
+        ORDER_STATUS_PREPARING,
+        "Preparing",
+    ),
+    (
+        ORDER_STATUS_OUT_FOR_DELIVERY,
+        "Out for delivery",
+    ),
+    (
+        ORDER_STATUS_COMPLETED,
+        "Completed",
+    ),
+    (
+        ORDER_STATUS_CANCELLED,
+        "Cancelled",
+    ),
 ]
 
 
@@ -127,6 +163,29 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
+    status = models.CharField(
+        max_length=30,
+        choices=ORDER_STATUS_CHOICES,
+        default=ORDER_STATUS_PENDING,
+    )
+
+    @property
+    def is_completed(self):
+        """
+        Return True when the order has been completed.
+        """
+        return self.status == ORDER_STATUS_COMPLETED
+
+    @property
+    def can_be_reviewed(self):
+        """
+        Return True when the order is completed and
+        does not already have a review.
+        """
+        return (
+            self.is_completed
+            and not hasattr(self, "review")
+        )
 
     def _generate_order_number(self):
         """
@@ -248,6 +307,134 @@ class OrderLineItem(models.Model):
         )
 
 
+class Review(models.Model):
+    """
+    Store one customer review for a completed order.
+    """
+
+    order = models.OneToOneField(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="review",
+    )
+    rating = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(5),
+        ],
+    )
+    comment = models.TextField(
+        max_length=1000,
+        blank=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def clean(self):
+        """
+        Prevent reviews for orders that are not completed.
+        """
+        super().clean()
+
+        if (
+            self.order_id
+            and self.order.status
+            != ORDER_STATUS_COMPLETED
+        ):
+            raise ValidationError(
+                {
+                    "order": (
+                        "Only completed orders can be reviewed."
+                    )
+                }
+            )
+
+    def save(self, *args, **kwargs):
+        """
+        Validate the review before saving it.
+        """
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return (
+            f"Review for {self.order.order_number} "
+            f"- {self.rating}/5"
+        )
+
+
+class ReviewImage(models.Model):
+    """
+    Store a customer-uploaded image for a review.
+    """
+
+    review = models.ForeignKey(
+        Review,
+        on_delete=models.CASCADE,
+        related_name="images",
+    )
+    image = models.ImageField(
+        upload_to="review_images/",
+    )
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["uploaded_at"]
+
+    def __str__(self):
+        return (
+            f"Image for review "
+            f"{self.review.pk}"
+        )
+
+
+class ReviewReaction(models.Model):
+    """
+    Record that a customer found a review helpful.
+    """
+
+    review = models.ForeignKey(
+        Review,
+        on_delete=models.CASCADE,
+        related_name="reactions",
+    )
+    user_profile = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name="review_reactions",
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    "review",
+                    "user_profile",
+                ],
+                name="unique_review_reaction",
+            ),
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.user_profile} found "
+            f"review {self.review.pk} helpful"
+        )
+
+
 class WhatsAppMessage(models.Model):
     """
     Store WhatsApp notification attempts for an order.
@@ -258,9 +445,18 @@ class WhatsAppMessage(models.Model):
     STATUS_FAILED = "failed"
 
     STATUS_CHOICES = [
-        (STATUS_PENDING, "Pending"),
-        (STATUS_SENT, "Sent"),
-        (STATUS_FAILED, "Failed"),
+        (
+            STATUS_PENDING,
+            "Pending",
+        ),
+        (
+            STATUS_SENT,
+            "Sent",
+        ),
+        (
+            STATUS_FAILED,
+            "Failed",
+        ),
     ]
 
     order = models.ForeignKey(
