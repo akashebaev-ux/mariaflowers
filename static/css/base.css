@@ -616,6 +616,10 @@ a.category-badge > span.badge:hover {
 
 /* -------------------------------- Customer Reviews */
 
+.review-card {
+    height: auto;
+}
+
 .review-rating {
     display: flex;
     flex-wrap: wrap;
@@ -627,8 +631,9 @@ a.category-badge > span.badge:hover {
 }
 
 .review-rating label {
-    width: 90px;
-    padding: 15px;
+    width: 105px;
+    min-height: 72px;
+    padding: 12px 8px;
     border: 1px solid var(--maria-border);
     text-align: center;
     cursor: pointer;
@@ -1286,7 +1291,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         width: 100%;
         min-width: 0;
     }
+
+    .review-rating {
+        gap: 8px;
+    }
+
+    .review-rating label {
+        width: 88px;
+        min-height: 70px;
+        font-size: 0.85rem;
+    }
 }
+
 
 /* Very small phones */
 
