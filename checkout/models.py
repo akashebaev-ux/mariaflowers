@@ -313,7 +313,7 @@ class Review(models.Model):
     """
 
     order = models.OneToOneField(
-        Order,
+        OrderLineItem,
         on_delete=models.CASCADE,
         related_name="review",
     )
@@ -344,14 +344,15 @@ class Review(models.Model):
         super().clean()
 
         if (
-            self.order_id
-            and self.order.status
+            self.order_line_item_id
+            and self.order_line_item.order.status
             != ORDER_STATUS_COMPLETED
         ):
             raise ValidationError(
                 {
-                    "order": (
-                        "Only completed orders can be reviewed."
+                    "order_line_item": (
+                        "Only products from completed orders "
+                        "can be reviewed."
                     )
                 }
             )
@@ -365,7 +366,7 @@ class Review(models.Model):
 
     def __str__(self):
         return (
-            f"Review for {self.order.order_number} "
+            f"Review for {self.order_line_item.product.name} "
             f"- {self.rating}/5"
         )
 
