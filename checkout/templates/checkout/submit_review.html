@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}
+    | Review Your Order
+{% endblock %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<section class="maria-review-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+
+                <a
+                    href="{% url 'order_history' order.order_number %}"
+                    class="maria-back-link"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    Back to order
+                </a>
+
+                <div class="maria-review-heading">
+                    <p class="maria-review-eyebrow">
+                        Maria Flowers
+                    </p>
+
+                    <h1>Review your order</h1>
+
+                    <p>
+                        Share your experience and help us provide
+                        even better flowers and delivery.
+                    </p>
+                </div>
+
+                <div class="maria-review-order-summary">
+                    <div>
+                        <span>Order number</span>
+
+                        <strong>
+                            {{ order.order_number }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Order date</span>
+
+                        <strong>
+                            {{ order.date|date:"j F Y" }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Status</span>
+
+                        <strong class="maria-completed-status">
+                            Completed
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="maria-review-card">
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+                        {% csrf_token %}
+
+                        <fieldset class="maria-rating-fieldset">
+                            <legend>
+                                How would you rate your order?
+                            </legend>
+
+                            <div class="maria-rating-options">
+                                {% for radio in review_form.rating %}
+                                    <div class="maria-rating-option">
+                                        {{ radio.tag }}
+
+                                        <label
+                                            for="{{ radio.id_for_label }}"
+                                        >
+                                            <i class="fas fa-star"></i>
+
+                                            <span>
+                                                {{ radio.choice_label }}
+                                            </span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            {% for error in review_form.rating.errors %}
+                                <p class="maria-form-error">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                        </fieldset>
+
+                        <div class="maria-review-field">
+                            <label
+                                for="{{ review_form.comment.id_for_label }}"
+                            >
+                                {{ review_form.comment.label }}
+                            </label>
+
+                            {{ review_form.comment }}
+
+                            <div class="maria-review-character-row">
+                                <span>
+                                    Maximum 1000 characters
+                                </span>
+
+                                <span id="review-character-count">
+                                    0 / 1000
+                                </span>
+                            </div>
+
+                            {% for error in review_form.comment.errors %}
+                                <p class="maria-form-error">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="maria-review-field">
+                            <label
+                                for="{{ image_form.image.id_for_label }}"
+                            >
+                                {{ image_form.image.label }}
+                            </label>
+
+                            <div class="maria-image-upload-box">
+                                <i class="far fa-image"></i>
+
+                                {{ image_form.image }}
+
+                                <p>
+                                    Upload a JPG, PNG or WebP photo.
+                                </p>
+                            </div>
+
+                            {% for error in image_form.image.errors %}
+                                <p class="maria-form-error">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="maria-review-actions">
+                            <button
+                                type="submit"
+                                class="maria-review-submit"
+                            >
+                                <i class="fas fa-spa"></i>
+                                Submit review
+                            </button>
+
+                            <a
+                                href="{% url 'order_history' order.order_number %}"
+                                class="maria-review-cancel"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const textarea = document.getElementById(
+                "{{ review_form.comment.id_for_label }}"
+            );
+
+            const counter = document.getElementById(
+                "review-character-count"
+            );
+
+            if (!textarea || !counter) {
+                return;
+            }
+
+            function updateCount() {
+                counter.textContent =
+                    `${textarea.value.length} / 1000`;
+            }
+
+            textarea.addEventListener(
+                "input",
+                updateCount
+            );
+
+            updateCount();
+        });
+    </script>
+{% endblock %}
