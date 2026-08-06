@@ -544,14 +544,16 @@ def checkout_success(request, order_number):
 
 @login_required
 @require_http_methods(["GET", "POST"])
-def submit_review(request, order_number):
+def submit_review(request, line_item_id):
     """Allow a customer to review one completed order."""
 
-    order = get_object_or_404(
-        Order,
-        order_number=order_number,
-        user_profile__user=request.user,
+    line_item = get_object_or_404(
+        OrderLineItem,
+        pk=line_item_id,
+        order__user_profile__user=request.user,
     )
+
+    order = line_item.order
 
     if not order.is_completed:
         messages.error(
@@ -565,7 +567,7 @@ def submit_review(request, order_number):
             )
         )
 
-    if hasattr(order, "review"):
+    if hasattr(line_item, "review"):
         messages.info(
             request,
             "You have already reviewed this order.",
@@ -588,7 +590,7 @@ def submit_review(request, order_number):
             try:
                 with transaction.atomic():
                     review = review_form.save(commit=False)
-                    review.order = order
+                    review.order_line_item = line_item
                     review.save()
 
                     review_image = image_form.save(commit=False)
@@ -629,6 +631,8 @@ def submit_review(request, order_number):
 
     context = {
         "order": order,
+        "line_item": line_item,
+        "product": line_item.product,
         "review_form": review_form,
         "image_form": image_form,
     }
@@ -679,6 +683,6 @@ def toggle_review_reaction(request, review_id):
     return redirect(
         reverse(
             "order_history",
-            args=[review.order.order_number],
+            args=[review.order_line_item.order.order_number],
         )
     )
