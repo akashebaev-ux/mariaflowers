@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import Order, OrderLineItem, WhatsAppMessage
+from .models import (
+    Order,
+    OrderLineItem,
+    Review,
+    ReviewImage,
+    ReviewReaction,
+    WhatsAppMessage,
+)
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
@@ -35,6 +42,7 @@ class OrderAdmin(admin.ModelAdmin):
         'user_profile',
         'date',
         'is_paid',
+        'status',
         'paid_at',
         'delivery_date',
         'delivery_time',
@@ -60,6 +68,7 @@ class OrderAdmin(admin.ModelAdmin):
         'delivery_date',
         'delivery_time',
         'full_name',
+        'status',
         'is_paid',
         'paid_at',
         'order_total',
@@ -68,6 +77,61 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     ordering = ('-date',)
+
+
+class ReviewImageInline(admin.TabularInline):
+    model = ReviewImage
+    extra = 0
+    readonly_fields = (
+        'uploaded_at',
+    )
+
+
+class ReviewAdmin(admin.ModelAdmin):
+    inlines = (
+        ReviewImageInline,
+    )
+
+    list_display = (
+        'order',
+        'rating',
+        'created_at',
+    )
+
+    list_filter = (
+        'rating',
+        'created_at',
+    )
+
+    search_fields = (
+        'order__order_number',
+        'order__full_name',
+        'order__email',
+        'comment',
+    )
+
+    readonly_fields = (
+        'created_at',
+        'updated_at',
+    )
+
+
+class ReviewReactionAdmin(admin.ModelAdmin):
+    list_display = (
+        'review',
+        'user_profile',
+        'created_at',
+    )
+
+    search_fields = (
+        'review__order__order_number',
+        'user_profile__user__username',
+        'user_profile__user__email',
+    )
+
+    readonly_fields = (
+        'created_at',
+    )
 
 
 class WhatsAppMessageAdmin(admin.ModelAdmin):
@@ -92,6 +156,17 @@ class WhatsAppMessageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Order, OrderAdmin)
+
+admin.site.register(
+    Review,
+    ReviewAdmin,
+)
+
+admin.site.register(
+    ReviewReaction,
+    ReviewReactionAdmin,
+)
+
 admin.site.register(
     WhatsAppMessage,
     WhatsAppMessageAdmin,
