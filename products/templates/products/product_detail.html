@@ -64,10 +64,10 @@
                     </p>
                 {% endif %}
 
-                {% if product.rating %}
+                {% if product.average_rating %}
                     <small class="text-muted">
                         <i class="fas fa-star mr-1"></i>
-                        {{ product.rating }} / 5
+                        {{ product.average_rating|floatformat:2 }} / 5
                     </small>
                 {% else %}
                     <small class="text-muted">
