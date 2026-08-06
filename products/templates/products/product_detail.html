@@ -165,7 +165,11 @@
                                                 class="form-control"
                                                 required
                                             >
-                                                <option value="" selected disabled>
+                                                <option
+                                                    value=""
+                                                    selected
+                                                    disabled
+                                                >
                                                     Select a time
                                                 </option>
 
@@ -203,7 +207,10 @@
                                             {{ today|date:"d F Y" }}
                                         </p>
 
-                                        <div class="delivery-note" role="note">
+                                        <div
+                                            class="delivery-note"
+                                            role="note"
+                                        >
                                             <i
                                                 class="fas fa-info-circle"
                                                 aria-hidden="true"
@@ -387,9 +394,7 @@
                                                 aria-label="Decrease quantity"
                                             >
                                                 <span class="icon">
-                                                    <i
-                                                        class="fas fa-minus"
-                                                    ></i>
+                                                    <i class="fas fa-minus"></i>
                                                 </span>
                                             </button>
                                         </div>
@@ -415,9 +420,7 @@
                                                 aria-label="Increase quantity"
                                             >
                                                 <span class="icon">
-                                                    <i
-                                                        class="fas fa-plus"
-                                                    ></i>
+                                                    <i class="fas fa-plus"></i>
                                                 </span>
                                             </button>
                                         </div>
@@ -450,9 +453,7 @@
                                            rounded-0 mt-5"
                                 >
                                     <span class="icon">
-                                        <i
-                                            class="fas fa-chevron-left"
-                                        ></i>
+                                        <i class="fas fa-chevron-left"></i>
                                     </span>
 
                                     <span class="text-uppercase">
@@ -502,7 +503,94 @@
         </div>
     </div>
 </div>
+
+
+<!-- Customer Reviews -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+
+            <hr>
+
+            <h3 class="logo-font mb-4">
+                Customer Reviews
+            </h3>
+
+            {% if reviews %}
+
+                {% for item in reviews %}
+
+                    <div class="card review-card p-4 mb-4">
+
+                        <div
+                            class="d-flex justify-content-between
+                                   align-items-center mb-3"
+                        >
+                            <div class="review-stars">
+                                {% for number in "12345" %}
+                                    {% if forloop.counter <= item.review.rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <small class="text-muted">
+                                {{ item.review.created_at|date:"j F Y" }}
+                            </small>
+                        </div>
+
+                        {% if item.review.comment %}
+                            <p class="mb-3">
+                                {{ item.review.comment|linebreaksbr }}
+                            </p>
+                        {% endif %}
+
+                        {% for image in item.review.images.all %}
+                            <img
+                                src="{{ image.image.url }}"
+                                alt="Customer review for {{ product.name }}"
+                                class="img-fluid review-customer-image mb-3"
+                            >
+                        {% endfor %}
+
+                        <div class="small text-muted">
+                            <i class="far fa-thumbs-up mr-1"></i>
+
+                            {{ item.review.reactions.count }}
+                            people found this helpful
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="text-center py-4">
+                    <i
+                        class="far fa-comment-dots fa-3x
+                               text-muted mb-3"
+                    ></i>
+
+                    <h5>
+                        No reviews yet
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Be the first customer to review this product.
+                    </p>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}
+
 
 {% block postloadjs %}
 {{ block.super }}

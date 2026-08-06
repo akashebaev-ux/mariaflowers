@@ -615,6 +615,17 @@ a.category-badge > span.badge:hover {
 
 
 /* -------------------------------- Customer Reviews */
+.review-stars {
+    color: var(--maria-primary);
+    font-size: 1rem;
+}
+
+.review-customer-image {
+    width: 180px;
+    max-width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
 
 .review-card {
     height: auto;
