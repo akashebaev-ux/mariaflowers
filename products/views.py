@@ -100,8 +100,27 @@ def product_detail(request, product_id):
         pk=product_id,
     )
 
+    reviews = (
+        product.orderlineitem_set
+        .filter(
+            review__isnull=False,
+        )
+        .select_related(
+            'review',
+            'order',
+        )
+        .prefetch_related(
+            'review__images',
+            'review__reactions',
+        )
+        .order_by(
+            '-review__created_at',
+        )
+    )
+
     context = {
         'product': product,
+        'reviews': reviews,
         "today": timezone.localdate(),
     }
 
