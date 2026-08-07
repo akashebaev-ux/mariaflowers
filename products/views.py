@@ -118,9 +118,26 @@ def product_detail(request, product_id):
         )
     )
 
+    reviewable_item = None
+
+    if request.user.is_authenticated:
+        reviewable_item = (
+            product.orderlineitem_set
+            .filter(
+                order__user_profile__user=request.user,
+                order__status='completed',
+                review__isnull=True,
+            )
+            .order_by(
+                '-order__date',
+            )
+            .first()
+        )
+
     context = {
         'product': product,
         'reviews': reviews,
+        'reviewable_item': reviewable_item,
         "today": timezone.localdate(),
     }
 

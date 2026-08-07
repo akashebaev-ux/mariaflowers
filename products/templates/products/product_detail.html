@@ -516,6 +516,18 @@
                 Customer Reviews
             </h3>
 
+            {% if reviewable_item %}
+                <div class="mb-4">
+                    <a
+                        href="{% url 'submit_review' reviewable_item.id %}"
+                        class="btn btn-black rounded-0 text-uppercase"
+                    >
+                        <i class="fas fa-star mr-2"></i>
+                        Review Product
+                    </a>
+                </div>
+            {% endif %}
+
             {% if reviews %}
 
                 {% for item in reviews %}
