@@ -170,6 +170,9 @@
                                             class="card-img-top img-fluid"
                                             src="{{ product.image.url }}"
                                             alt="{{ product.name }}"
+                                            loading="lazy"
+                                            width="600"
+                                            height="750"
                                         >
                                     </a>
                                 {% else %}
@@ -180,6 +183,9 @@
                                             class="card-img-top img-fluid"
                                             src="{{ MEDIA_URL }}noimage.png"
                                             alt="{{ product.name }}"
+                                            loading="lazy"
+                                            width="600"
+                                            height="750"
                                         >
                                     </a>
                                 {% endif %}
