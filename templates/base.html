@@ -201,10 +201,121 @@
   {% block postloadjs %}
 
   <script type="text/javascript">
-    $('.toast').toast('show');
+      $('.toast').toast('show');
+  </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+      const drawer = document.querySelector('.maria-footer-drawer');
+      const toggle = document.getElementById('footerToggle');
+      const chevron = document.getElementById('footerChevron');
+
+      if (drawer && toggle && chevron) {
+
+          toggle.addEventListener('click', function () {
+
+              const isOpen = drawer.classList.toggle('open');
+
+              toggle.setAttribute('aria-expanded', isOpen);
+
+              chevron.classList.toggle('fa-chevron-up', !isOpen);
+              chevron.classList.toggle('fa-chevron-down', isOpen);
+
+          });
+
+      }
+
+  });
   </script>
 
   {% endblock %}
+
+
+  {# Fixed Collapsible Footer #}
+  <div class="maria-footer-drawer">
+    <button class="maria-footer-toggle" id="footerToggle"
+      aria-expanded="false"
+      aria-controls="footerContent"
+    >
+
+      <span>Customer Service & Information</span>
+      <i class="fas fa-chevron-up" id="footerChevron"></i>
+    </button>
+
+    <div class="maria-footer-content" id="footerContent">
+      <div class="container">
+
+        <div class="row py-4">
+
+          <!-- Brand -->
+          <div class="col-md-3 mb-4">
+            <h4 class="maria-footer-title">Maria Flowers</h4>
+            <p>Fresh flowers for every moment</p>
+
+            <p><i class="fas fa-map-marker-alt mr-2"></i>Almaty, Kazakhstan</p>
+            <p><i class="fas fa-phone mr-2"></i>+7 (700) 123 45 67</p>
+            <p><i class="fas fa-envelope mr-2"></i>info@mariaflowers.art</p>
+
+            <div class="social-links">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+              <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+
+          <!-- Customer Service -->
+          <div class="col-md-3 mb-4">
+            <h5 class="maria-footer-heading">Customer Service</h5>
+
+            <ul class="list-unstyled">
+              <li><a href="{% url 'delivery_policy' %}">Delivery Policy</a></li>
+              <li><a href="{% url 'refund_policy' %}">Refund Policy</a></li>
+              <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+              <li><a href="{% url 'terms_conditions' %}">Terms & Conditions</a></li>
+              <li><a href="{% url 'contact' %}">Contact Us</a></li>
+              <li><a href="{% url 'faq' %}">FAQ</a></li>
+            </ul>
+          </div>
+
+          <!-- About -->
+          <div class="col-md-3 mb-4">
+            <h5 class="maria-footer-heading">About Us</h5>
+
+            <p>Maria Flowers is a premium flower boutique in Almaty.
+              We create beautiful arrangements for every occasion with love.
+            </p>
+
+            <a href="{% url 'about' %}"
+              class="btn btn-outline-secondary btn-sm">
+              About Us
+            </a>
+          </div>
+
+          <!-- Payments -->
+          <div class="col-md-3 mb-4">
+            <h5 class="maria-footer-heading">Payments</h5>
+
+            <p>We accept secure payments with:</p>
+
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa fa-2x mr-2"></i>
+              <i class="fab fa-cc-mastercard fa-2x mr-2"></i>
+              <i class="fab fa-cc-apple-pay fa-2x mr-2"></i>
+              <i class="fab fa-google-pay fa-2x"></i>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="text-center py-3 border-top">
+          &copy; 2026 Maria Flowers. All Rights Reserved.
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </body>
 
