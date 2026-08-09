@@ -1384,6 +1384,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         min-height: 70px;
         font-size: 0.85rem;
     }
+
+    .maria-footer-content > .container {
+        padding-top: 15px;
+    }
 }
 
 /* Delivery selection field sizing on small phones */
