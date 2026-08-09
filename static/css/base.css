@@ -1458,4 +1458,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         display: block;
     }
 
+    .maria-footer-content > .container {
+        padding-top: 15px;
+    }
+
 }
