@@ -3,217 +3,217 @@
 <!doctype html>
 <html lang="en">
 
-    <head>
+  <head>
 
-        {% block meta %}
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        {% endblock %}
+    {% block meta %}
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endblock %}
 
-        {% block extra_meta %}
-        {% endblock %}
+    {% block extra_meta %}
+    {% endblock %}
 
-        {% block corecss %}
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lato:wght@300;400;700;900&display=swap"
-            >
-            <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        {% endblock %}
+    {% block corecss %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lato:wght@300;400;700;900&display=swap"
+    >
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock %}
 
-        {% block extra_css %}
-        {% endblock %}
+    {% block extra_css %}
+    {% endblock %}
 
-        {% block corejs %}
-        <!-- Add your kit code -->
-            <script src="https://kit.fontawesome.com/eb19cfab38.js" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
-            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-              <!-- Stripe -->
-            <script src="https://js.stripe.com/v3/"></script>
-        {% endblock %}
+    {% block corejs %}
+    <!-- Add your kit code -->
+    <script src="https://kit.fontawesome.com/eb19cfab38.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+      <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+    {% endblock %}
 
-        {% block extra_js %}
-        {% endblock %}
+    {% block extra_js %}
+    {% endblock %}
 
-        <title>MariaFlowers {% block extra_title %}{% endblock %}</title>
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="{% static 'images/favicon-32x32.png' %}"
-        >
+    <title>MariaFlowers {% block extra_title %}{% endblock %}</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'images/favicon-32x32.png' %}"
+    >
 
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
-            href="{% static 'images/favicon-192x192.png' %}"
-        >
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{% static 'images/favicon-192x192.png' %}"
+    >
 
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="512x512"
-            href="{% static 'images/favicon-512x512.png' %}"
-        >
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="{% static 'images/favicon-512x512.png' %}"
+    >
 
-    </head>
+  </head>
 
-    <body>
-  <header class="container-fluid fixed-top">
-    <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
-      <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
-        <a
-          href="{% url 'home' %}"
-          class="main-logo-link d-inline-flex align-items-center"
-          aria-label="MariaFlowers home"
-        >
-          <img
-            src="{% static 'images/logo.webp' %}"
-            alt="MariaFlowers-logo"
-            class="brand-logo-icon mr-2"
-            width="48"
-            height="48"
+  <body>
+    <header class="container-fluid fixed-top">
+      <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
+        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
+          <a
+            href="{% url 'home' %}"
+            class="main-logo-link d-inline-flex align-items-center"
+            aria-label="MariaFlowers home"
           >
+            <img
+              src="{% static 'images/logo.webp' %}"
+              alt="MariaFlowers-logo"
+              class="brand-logo-icon mr-2"
+              width="48"
+              height="48"
+            >
 
-          <h2 class="logo-font brand-name my-0">
+            <h2 class="logo-font brand-name my-0">
               <strong>Maria</strong>Flowers
-          </h2>
-        </a>
-      </div>
-      <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-        <form method="GET" action="{% url 'products' %}">
-          {% csrf_token %}
-          <div class="input-group w-100">
+            </h2>
+          </a>
+        </div>
+        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
+          <form method="GET" action="{% url 'products' %}">
+            {% csrf_token %}
+            <div class="input-group w-100">
               <input
-                  class="form-control border border-black rounded-0"
-                  type="text"
-                  name="q"
-                  placeholder="Search our site"
-                  aria-label="Search products"
+                class="form-control border border-black rounded-0"
+                type="text"
+                name="q"
+                placeholder="Search our site"
+                aria-label="Search products"
               >
 
               <div class="input-group-append">
-                  <button
-                      class="btn btn-black border border-black rounded-0 search-button"
-                      type="submit"
-                      aria-label="Submit search"
-                  >
-                      <i class="fas fa-search" aria-hidden="true"></i>
-                  </button>
+                <button
+                  class="btn btn-black border border-black rounded-0 search-button"
+                  type="submit"
+                  aria-label="Submit search"
+                >
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
               </div>
-          </div>
-        </form>
-      </div>
-      <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-        <ul class="list-inline list-unstyled text-center text-lg-right my-0">
-          <li class="list-inline-item dropdown">
-            <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              <div class="text-center">
-                <div><i class="fas fa-user fa-lg"></i></div>
-                <p class="my-0">My Account</p>
-              </div>
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="user-options">
-              {% if request.user.is_authenticated %}
-              {% if request.user.is_superuser %}
-              <a href="{% url 'add_product' %}" class="dropdown-item">Product Management</a>
-              {% endif %}
-              <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
-              <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
-              {% else %}
-              <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
-              <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
-              {% endif %}
             </div>
-          </li>
-          <li class="list-inline-item">
-            <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link" href="{% url 'view_bag' %}">
-              <div class="text-center">
-                <div><i class="fas fa-shopping-bag fa-lg"></i></div>
-                <p class="my-0">
-                  {% if grand_total %}
-                  ${{ grand_total|floatformat:2 }}
-                  {% else %}
-                  $0.00
-                  {% endif %}
-                </p>
+          </form>
+        </div>
+        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
+          <ul class="list-inline list-unstyled text-center text-lg-right my-0">
+            <li class="list-inline-item dropdown">
+              <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <div class="text-center">
+                  <div><i class="fas fa-user fa-lg"></i></div>
+                  <p class="my-0">My Account</p>
+                </div>
+              </a>
+              <div class="dropdown-menu border-0" aria-labelledby="user-options">
+                {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                <a href="{% url 'add_product' %}" class="dropdown-item">Product Management</a>
+                {% endif %}
+                <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
+                <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                {% else %}
+                <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
+                <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                {% endif %}
               </div>
-            </a>
-          </li>
-        </ul>
+            </li>
+            <li class="list-inline-item">
+              <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link" href="{% url 'view_bag' %}">
+                <div class="text-center">
+                  <div><i class="fas fa-shopping-bag fa-lg"></i></div>
+                  <p class="my-0">
+                    {% if grand_total %}
+                    ${{ grand_total|floatformat:2 }}
+                    {% else %}
+                    $0.00
+                    {% endif %}
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="row bg-white">
-      <nav class="navbar navbar-expand-lg navbar-light w-100">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
-          aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        {% include 'includes/mobile-top-header.html' %}
-        {% include 'includes/main-nav.html' %}
-      </nav>
-    </div>
-    <div id="delivery-banner" class="row text-center">
-      <div class="col bg-black text-white">
-        <h4 class="logo-font my-1">Free delivery on orders over ${{ free_delivery_threshold }}!</h4>
+      <div class="row bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light w-100">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
+            aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          {% include 'includes/mobile-top-header.html' %}
+          {% include 'includes/main-nav.html' %}
+        </nav>
       </div>
-    </div>
-  </header>
+      <div id="delivery-banner" class="row text-center">
+        <div class="col bg-black text-white">
+          <h4 class="logo-font my-1">Free delivery on orders over ${{ free_delivery_threshold }}!</h4>
+        </div>
+      </div>
+    </header>
 
-  {% if messages %}
-  <div class="message-container">
+    {% if messages %}
+    <div class="message-container">
       {% for message in messages %}
-          {% with message.level as level %}
-              {% if level == 40 %}
-                  {% include 'includes/toasts/toast_error.html' %}
-              {% elif level == 30 %}
-                  {% include 'includes/toasts/toast_warning.html' %}
-              {% elif level == 25 %}
-                  {% include 'includes/toasts/toast_success.html' %}
-              {% else %}
-                  {% include 'includes/toasts/toast_info.html' %}
-              {% endif %}
-          {% endwith %}
+        {% with message.level as level %}
+          {% if level == 40 %}
+            {% include 'includes/toasts/toast_error.html' %}
+          {% elif level == 30 %}
+            {% include 'includes/toasts/toast_warning.html' %}
+          {% elif level == 25 %}
+            {% include 'includes/toasts/toast_success.html' %}
+          {% else %}
+            {% include 'includes/toasts/toast_info.html' %}
+          {% endif %}
+        {% endwith %}
       {% endfor %}
-  </div>
-  {% endif %}
+    </div>
+    {% endif %}
 
-  {% block page_header %}
-  {% endblock %}
+    {% block page_header %}
+    {% endblock %}
 
-  {% block content %}
-  {% endblock %}
+    {% block content %}
+    {% endblock %}
 
-  {% block postloadjs %}
+    {% block postloadjs %}
 
-  <script type="text/javascript">
+    <script type="text/javascript">
       $('.toast').toast('show');
-  </script>
+    </script>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
 
-      const drawer = document.querySelector('.maria-footer-drawer');
-      const toggle = document.getElementById('footerToggle');
-      const chevron = document.getElementById('footerChevron');
+        const drawer = document.querySelector('.maria-footer-drawer');
+        const toggle = document.getElementById('footerToggle');
+        const chevron = document.getElementById('footerChevron');
 
-      if (drawer && toggle && chevron) {
+          if (drawer && toggle && chevron) {
 
-          toggle.addEventListener('click', function () {
+            toggle.addEventListener('click', function () {
 
               const isOpen = drawer.classList.toggle('open');
 
@@ -222,101 +222,98 @@
               chevron.classList.toggle('fa-chevron-up', !isOpen);
               chevron.classList.toggle('fa-chevron-down', isOpen);
 
-          });
+            });
 
-      }
+          }
 
-  });
-  </script>
+      });
+    </script>
 
-  {% endblock %}
+    {% endblock %}
 
 
-  {# Fixed Collapsible Footer #}
-  <div class="maria-footer-drawer">
-    <button class="maria-footer-toggle" id="footerToggle"
-      aria-expanded="false"
-      aria-controls="footerContent"
-    >
+    {# Fixed Collapsible Footer #}
+    <footer class="maria-footer-drawer" id="mariaFooter">
 
-      <span>Customer Service & Information</span>
-      <i class="fas fa-chevron-up" id="footerChevron"></i>
-    </button>
+      <button class="maria-footer-toggle" id="footerToggle" type="button">
+        <span>Customer Service & Information</span>
+        <i class="fas fa-chevron-up" id="footerChevron"></i>
+      </button>
 
-    <div class="maria-footer-content" id="footerContent">
-      <div class="container">
+      <div class="maria-footer-content" id="footerContent">
+        <div class="container">
 
-        <div class="row py-4">
+          <div class="row py-4">
 
-          <!-- Brand -->
-          <div class="col-md-3 mb-4">
-            <h4 class="maria-footer-title">Maria Flowers</h4>
-            <p>Fresh flowers for every moment</p>
+            <!-- Brand -->
+            <div class="col-md-3 mb-4">
+              <h4 class="maria-footer-title">Maria Flowers</h4>
+              <p>Fresh flowers for every moment</p>
 
-            <p><i class="fas fa-map-marker-alt mr-2"></i>Almaty, Kazakhstan</p>
-            <p><i class="fas fa-phone mr-2"></i>+7 (700) 123 45 67</p>
-            <p><i class="fas fa-envelope mr-2"></i>info@mariaflowers.art</p>
+              <p><i class="fas fa-map-marker-alt mr-2"></i>Almaty, Kazakhstan</p>
+              <p><i class="fas fa-phone mr-2"></i>+7 (700) 123 45 67</p>
+              <p><i class="fas fa-envelope mr-2"></i>info@mariaflowers.art</p>
 
-            <div class="social-links">
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-tiktok"></i></a>
-              <a href="#"><i class="fab fa-whatsapp"></i></a>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+              </div>
             </div>
-          </div>
 
-          <!-- Customer Service -->
-          <div class="col-md-3 mb-4">
-            <h5 class="maria-footer-heading">Customer Service</h5>
+            <!-- Customer Service -->
+            <div class="col-md-3 mb-4">
+              <h5 class="maria-footer-heading">Customer Service</h5>
 
-            <ul class="list-unstyled">
-              <li><a href="{% url 'delivery_policy' %}">Delivery Policy</a></li>
-              <li><a href="{% url 'refund_policy' %}">Refund Policy</a></li>
-              <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
-              <li><a href="{% url 'terms_conditions' %}">Terms & Conditions</a></li>
-              <li><a href="{% url 'contact' %}">Contact Us</a></li>
-              <li><a href="{% url 'faq' %}">FAQ</a></li>
-            </ul>
-          </div>
-
-          <!-- About -->
-          <div class="col-md-3 mb-4">
-            <h5 class="maria-footer-heading">About Us</h5>
-
-            <p>Maria Flowers is a premium flower boutique in Almaty.
-              We create beautiful arrangements for every occasion with love.
-            </p>
-
-            <a href="{% url 'about' %}"
-              class="btn btn-outline-secondary btn-sm">
-              About Us
-            </a>
-          </div>
-
-          <!-- Payments -->
-          <div class="col-md-3 mb-4">
-            <h5 class="maria-footer-heading">Payments</h5>
-
-            <p>We accept secure payments with:</p>
-
-            <div class="payment-icons">
-              <i class="fab fa-cc-visa fa-2x mr-2"></i>
-              <i class="fab fa-cc-mastercard fa-2x mr-2"></i>
-              <i class="fab fa-cc-apple-pay fa-2x mr-2"></i>
-              <i class="fab fa-google-pay fa-2x"></i>
+              <ul class="list-unstyled">
+                <li><a href="{% url 'delivery_policy' %}">Delivery Policy</a></li>
+                <li><a href="{% url 'refund_policy' %}">Refund Policy</a></li>
+                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                <li><a href="{% url 'terms_conditions' %}">Terms & Conditions</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                <li><a href="{% url 'faq' %}">FAQ</a></li>
+              </ul>
             </div>
+
+            <!-- About -->
+            <div class="col-md-3 mb-4">
+              <h5 class="maria-footer-heading">About Us</h5>
+
+              <p>Maria Flowers is a premium flower boutique in Almaty.
+                We create beautiful arrangements for every occasion with love.
+              </p>
+
+              <a href="{% url 'about' %}"
+                class="btn btn-outline-secondary btn-sm">
+                About Us
+              </a>
+            </div>
+
+            <!-- Payments -->
+            <div class="col-md-3 mb-4">
+              <h5 class="maria-footer-heading">Payments</h5>
+
+              <p>We accept secure payments with:</p>
+
+              <div class="payment-icons">
+                <i class="fab fa-cc-visa fa-2x mr-2"></i>
+                <i class="fab fa-cc-mastercard fa-2x mr-2"></i>
+                <i class="fab fa-cc-apple-pay fa-2x mr-2"></i>
+                <i class="fab fa-google-pay fa-2x"></i>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-center py-3 border-top">
+            &copy; 2026 Maria Flowers. All Rights Reserved.
           </div>
 
         </div>
-
-        <div class="text-center py-3 border-top">
-          &copy; 2026 Maria Flowers. All Rights Reserved.
-        </div>
-
       </div>
-    </div>
-  </div>
 
-</body>
+    </footer>
+  </body>
 
 </html>
