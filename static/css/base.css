@@ -1422,7 +1422,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         object-position: center;
         display: block;
     }
-    
+
+     .product-container {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-left: 0;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .product-container > .row {
+        margin-left: -6px;
+        margin-right: -6px;
+    }
+
+    .product-container > .row > [class*="col-"] {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
     .hero-image-column {
         min-height: 310px;
     }
