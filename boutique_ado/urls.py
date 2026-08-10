@@ -28,5 +28,10 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),
     path('profile/', include('profiles.urls')),
     path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
+    path(
+        "terms-and-conditions/",
+        views.terms_conditions,
+        name="terms_conditions",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'boutique_ado.views.handler404'

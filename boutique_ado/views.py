@@ -9,3 +9,8 @@ def handler404(request, exception):
 def privacy_policy(request):
     """Display the Maria Flowers privacy policy."""
     return render(request, "privacy_policy.html")
+
+
+def terms_conditions(request):
+    """Display the Maria Flowers terms and conditions."""
+    return render(request, "terms_conditions.html")
