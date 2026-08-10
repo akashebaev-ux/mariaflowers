@@ -33,5 +33,10 @@ urlpatterns = [
         views.terms_conditions,
         name="terms_conditions",
     ),
+    path(
+        "delivery-policy/",
+        views.delivery_policy,
+        name="delivery_policy",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'boutique_ado.views.handler404'

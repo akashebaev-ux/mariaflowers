@@ -14,3 +14,8 @@ def privacy_policy(request):
 def terms_conditions(request):
     """Display the Maria Flowers terms and conditions."""
     return render(request, "terms_conditions.html")
+
+
+def delivery_policy(request):
+    """Display the Maria Flowers delivery policy."""
+    return render(request, "delivery_policy.html")
