@@ -38,5 +38,10 @@ urlpatterns = [
         views.delivery_policy,
         name="delivery_policy",
     ),
+    path(
+        "refunds/",
+        views.refund_policy,
+        name="refund_policy",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'boutique_ado.views.handler404'

@@ -19,3 +19,8 @@ def terms_conditions(request):
 def delivery_policy(request):
     """Display the Maria Flowers delivery policy."""
     return render(request, "delivery_policy.html")
+
+
+def refund_policy(request):
+    """Display the Maria Flowers returns and refunds policy."""
+    return render(request, "refund_policy.html")
