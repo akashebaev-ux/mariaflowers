@@ -236,11 +236,18 @@ else:
 
 
 # WhatsApp
+
 WHATSAPP_API_URL = os.getenv("WHATSAPP_API_URL", "")
 WHATSAPP_ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN", "")
 WHATSAPP_SENDER_ID = os.getenv("WHATSAPP_SENDER_ID", "")
+
 WHATSAPP_ORDER_RECIPIENT = os.getenv(
     "WHATSAPP_ORDER_RECIPIENT",
+    "",
+)
+
+WHATSAPP_VERIFY_TOKEN = os.getenv(
+    "WHATSAPP_VERIFY_TOKEN",
     "",
 )
 
