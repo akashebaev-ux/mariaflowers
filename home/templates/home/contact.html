@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}
+    - Contact Us
+{% endblock %}
+
+{% block content %}
+
+<div class="container contact-page my-5">
+
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+
+            <p class="contact-eyebrow">
+                WE'RE HERE TO HELP
+            </p>
+
+            <h1 class="contact-title">
+                Contact Us
+            </h1>
+
+            <p class="contact-intro">
+                Have a question about flowers, an order or delivery?
+                Send us a message and our team will be happy to help.
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="row mb-5">
+
+        <div class="col-12 col-md-4 mb-4">
+            <div class="contact-info-card h-100 text-center">
+
+                <i class="fas fa-map-marker-alt contact-icon"></i>
+
+                <h3>Location</h3>
+
+                <p>
+                    Almaty, Kazakhstan
+                </p>
+
+            </div>
+        </div>
+
+
+        <div class="col-12 col-md-4 mb-4">
+            <div class="contact-info-card h-100 text-center">
+
+                <i class="fas fa-phone contact-icon"></i>
+
+                <h3>Phone</h3>
+
+                <p>
+                    <a href="tel:+77029087217">
+                        +7 (702) 908 72 17
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+
+        <div class="col-12 col-md-4 mb-4">
+            <div class="contact-info-card h-100 text-center">
+
+                <i class="fas fa-envelope contact-icon"></i>
+
+                <h3>Email</h3>
+
+                <p>
+                    <a href="mailto:www.mariaflowers.art@gmail.com">
+                        www.mariaflowers.art@gmail.com
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="contact-form-wrapper">
+
+        <div class="contact-form-header">
+
+            <h2>Send a Message</h2>
+
+            <p>
+                Complete the form below and we will get back to you
+                as soon as possible.
+            </p>
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col-12 col-md-6">
+
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}">
+                            Full Name
+                        </label>
+
+                        {{ form.name }}
+
+                        {% for error in form.name.errors %}
+                            <small class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">
+                            Email Address
+                        </label>
+
+                        {{ form.email }}
+
+                        {% for error in form.email.errors %}
+                            <small class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="{{ form.phone.id_for_label }}">
+                            Phone Number
+                        </label>
+
+                        {{ form.phone }}
+
+                        {% for error in form.phone.errors %}
+                            <small class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="{{ form.subject.id_for_label }}">
+                            Subject
+                        </label>
+
+                        {{ form.subject }}
+
+                        {% for error in form.subject.errors %}
+                            <small class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="{{ form.order_reference.id_for_label }}">
+                            Order Reference
+                        </label>
+
+                        {{ form.order_reference }}
+
+                        <small class="form-text text-muted">
+                            Optional
+                        </small>
+
+                        {% for error in form.order_reference.errors %}
+                            <small class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+                <div class="col-12 col-md-6">
+
+                    <div class="form-group contact-message-field">
+
+                        <label for="{{ form.message.id_for_label }}">
+                            Message
+                        </label>
+
+                        {{ form.message }}
+
+                        {% for error in form.message.errors %}
+                            <small class="text-danger">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="text-center mt-4">
+
+                <button
+                    type="submit"
+                    class="btn maria-contact-button"
+                >
+                    Send Message
+                    <i class="fas fa-paper-plane ml-2"></i>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
