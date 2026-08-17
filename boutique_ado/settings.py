@@ -258,6 +258,10 @@ WHATSAPP_VERIFY_TOKEN = os.getenv(
     "WHATSAPP_VERIFY_TOKEN",
     "",
 )
+WHATSAPP_BUSINESS_ACCOUNT_ID = os.getenv(
+    "WHATSAPP_BUSINESS_ACCOUNT_ID",
+    "",
+)
 
 # --------------------------------------------------------
 # Security settings
