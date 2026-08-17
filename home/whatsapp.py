@@ -7,8 +7,8 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
-def send_whatsapp_message(recipient, message):
-    """Send a WhatsApp text message using Meta Cloud API."""
+def send_whatsapp_template(recipient):
+    """Send a WhatsApp template message using Meta Cloud API."""
 
     if not settings.WHATSAPP_API_URL:
         logger.error("WHATSAPP_API_URL is not configured.")
@@ -19,16 +19,40 @@ def send_whatsapp_message(recipient, message):
         return False
 
     headers = {
-        "Authorization": f"Bearer {settings.WHATSAPP_ACCESS_TOKEN}",
+        "Authorization": (
+            f"Bearer {settings.WHATSAPP_ACCESS_TOKEN}"
+        ),
         "Content-Type": "application/json",
     }
 
     data = {
         "messaging_product": "whatsapp",
-        "to": recipient,
-        "type": "text",
-        "text": {
-            "body": message,
+        "to": "787029087217",
+        "type": "template",
+        "template": {
+            "name": "jaspers_market_order_confirmation_v1",
+            "language": {
+                "code": "en_US",
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": "John Doe",
+                        },
+                        {
+                            "type": "text",
+                            "text": "123456",
+                        },
+                        {
+                            "type": "text",
+                            "text": "Aug 18, 2026",
+                        },
+                    ],
+                }
+            ],
         },
     }
 
@@ -40,18 +64,29 @@ def send_whatsapp_message(recipient, message):
             timeout=10,
         )
 
-        response.raise_for_status()
+        print(
+            "WhatsApp status:",
+            response.status_code,
+        )
 
-        print("WhatsApp response:", response.json())
+        print(
+            "WhatsApp response:",
+            response.text,
+        )
+
+        response.raise_for_status()
 
         return True
 
     except requests.RequestException as error:
-        print("WhatsApp error:", error)
+        logger.error(
+            "WhatsApp API request failed: %s",
+            error,
+        )
 
         if error.response is not None:
-            print(
-                "WhatsApp API response:",
+            logger.error(
+                "WhatsApp API response: %s",
                 error.response.text,
             )
 
