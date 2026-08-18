@@ -37,6 +37,8 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://mariaflowers.art",
+    "https://www.mariaflowers.art",
     'https://mariaflowers-f9e87b4ebe6c.herokuapp.com',
 ]
 
