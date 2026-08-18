@@ -1,9 +1,10 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
 from django.conf import settings
+from django.contrib import messages
 from django.core.mail import send_mail
+from django.shortcuts import redirect, render
 
 from .forms import ContactForm
+from .whatsapp import send_contact_whatsapp
 
 
 def index(request):
@@ -61,8 +62,18 @@ Message:
                     update_fields=["email_sent"]
                 )
 
-            except Exception:
-                pass
+            except Exception as error:
+                print("EMAIL ERROR:", error)
+
+            whatsapp_sent = send_contact_whatsapp(
+                contact_message
+            )
+
+            if whatsapp_sent:
+                contact_message.whatsapp_sent = True
+                contact_message.save(
+                    update_fields=["whatsapp_sent"]
+                )
 
             messages.success(
                 request,
@@ -81,5 +92,5 @@ Message:
     return render(
         request,
         "home/contact.html",
-        context
+        context,
     )
