@@ -29,6 +29,11 @@ def refund_policy(request):
     return render(request, "refund_policy.html")
 
 
+def faq(request):
+    """Display the Maria Flowers FAQ page."""
+    return render(request, "faq.html")
+
+
 @csrf_exempt
 def whatsapp_webhook(request):
     """Verify and receive WhatsApp webhook requests."""
