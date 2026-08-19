@@ -49,5 +49,10 @@ urlpatterns = [
         name="whatsapp_webhook",
     ),
     path("faq/", views.faq, name="faq"),
+    path(
+        "about/",
+        views.about,
+        name="about",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'boutique_ado.views.handler404'
