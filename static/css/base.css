@@ -1131,7 +1131,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 
     .header-container {
-        padding-top: 205px;
+        padding-top: 89px;
     }
 }
 
@@ -1140,7 +1140,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 @media (max-width: 991px) {
     .header-container {
-        padding-top: 93px;
+        padding-top: 45px;
     }
 
     .home-header-spacer {
