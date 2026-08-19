@@ -34,6 +34,11 @@ def faq(request):
     return render(request, "faq.html")
 
 
+def about(request):
+    """Display the Maria Flowers About Us page."""
+    return render(request, "about.html")
+
+
 @csrf_exempt
 def whatsapp_webhook(request):
     """Verify and receive WhatsApp webhook requests."""
