@@ -1067,30 +1067,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    Ordered from larger screens to smaller screens
 ============================================================ */
 
-/* Desktop: fixed header and hover dropdowns */
-
-@media (min-width: 992px) {
-    #main-nav .dropdown:hover > .dropdown-menu {
-        display: block;
-    }
-
-    #main-nav .dropdown-menu {
-        top: 100%;
-    }
-
-    .fixed-top-desktop-only {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1030;
-    }
-
-    .header-container {
-        padding-top: 164px;
-    }
-}
-
 /* Large desktop container */
 
 @media (min-width: 1200px) {
@@ -1134,6 +1110,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         object-position: 55% 12%;
     }
 }
+
+/* Desktop: fixed header and hover dropdowns */
+
+@media (min-width: 992px) {
+    #main-nav .dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+
+    #main-nav .dropdown-menu {
+        top: 100%;
+    }
+
+    .fixed-top-desktop-only {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+    }
+
+    .header-container {
+        padding-top: 205px;
+    }
+}
+
 
 /* Tablet and mobile */
 
