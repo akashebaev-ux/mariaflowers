@@ -26,6 +26,11 @@ body {
     line-height: 1.5;
 }
 
+.footer-page-container {
+    padding-top: 8rem !important; 
+    padding-bottom: 3rem !important;
+}
+
 /* -------------------------------- Typography */
 
 h1,
