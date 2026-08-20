@@ -1,4 +1,9 @@
-User-agent:*
+User-agent: *
+Disallow: /admin/
 Disallow: /accounts/
 Disallow: /bag/
-Sitemap: https://boutiqueado2026-070045960dbc.herokuapp.com/sitemap.xml
+Disallow: /checkout/
+Disallow: /profile/
+Disallow: /whatsapp/
+
+Sitemap: https://mariaflowers.art/sitemap.xml

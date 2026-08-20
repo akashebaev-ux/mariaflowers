@@ -4,6 +4,17 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 
+def sitemap_xml(request):
+    """Serve the static sitemap.xml file."""
+    sitemap_path = settings.BASE_DIR / "sitemap.xml"
+
+    with open(sitemap_path, "r", encoding="utf-8") as sitemap_file:
+        return HttpResponse(
+            sitemap_file.read(),
+            content_type="application/xml",
+        )
+
+
 def handler404(request, exception):
     """Error Handler 404 - Page Not Found."""
     return render(request, "errors/404.html", status=404)
