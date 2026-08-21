@@ -516,46 +516,62 @@ The following features are planned as potential future improvements to MariaFlow
 | [![badge](https://img.shields.io/badge/ChatGPT-grey?logo=openai&logoColor=75A99C)](https://chat.openai.com) | Help debug, troubleshoot, and explain things. |
 | [![badge](https://img.shields.io/badge/W3Schools-grey?logo=w3schools&logoColor=04AA6D)](https://www.w3schools.com) | Tutorials/Reference Guide |
 
-⚠️ NOTE ⚠️
-
-Want to add more?
-
-- Tutorial: https://shields.io/badges/static-badge
-- Icons/Logos: https://simpleicons.org
-  - FYI: not all logos are available to use
-
-🛑 --- END --- 🛑
 
 ## Database Design
 
 ### Data Model
 
-Entity Relationship Diagrams (ERD) help to visualize database architecture before creating models. Understanding the relationships between different tables can save time later in the project.
+An Entity Relationship Diagram (ERD) was created to visualise the database
+structure of Maria Flowers and the relationships between the main Django
+models.
 
-![screenshot](documentation/erd.png)
+The project retains the core e-commerce structure originally based on
+Boutique Ado, including users, profiles, products, categories, orders and
+order line items. This structure was then extended with custom models and
+business logic developed specifically for Maria Flowers.
 
-⚠️ INSTRUCTIONS ⚠️
+The most important custom additions include:
 
-Using your defined models, create an ERD with the relationships identified. A couple of recommendations for building your own free ERDs:
-- [Lucidchart](https://www.lucidchart.com/pages/ER-diagram-symbols-and-meaning)
-- [Draw.io](https://draw.io)
+- `Review`
+- `ReviewImage`
+- `ReviewReaction`
+- `ContactMessage`
+- Delivery date and delivery time information added to the order workflow
+- Additional flower and bouquet customisation fields
 
-Looking for an interactive version of your ERD? Consider using a [`Mermaid flowchart`](https://mermaid.live). To simplify the process, you can ask ChatGPT (or similar) the following prompt:
+The ERD was created using
+[dbdiagram.io](https://dbdiagram.io/) and DBML.
 
-> ChatGPT Prompt:  
-> "Generate a Markdown syntax Mermaid ERD using my Django models"  
-> [paste-your-django-models-into-ChatGPT]
+![Maria Flowers ERD](documentation/ERD.png)
 
-The "Boutique Ado" sample ERD in Markdown syntax using Mermaid can be seen below as an example.
+**Source:** [dbdiagram.io](https://dbdiagram.io/)
 
-**NOTE**: A Markdown Preview tool doesn't show the interactive ERD; you must first commit/push the code to your GitHub repository in order to see it live in action.
 
-⚠️ --- END --- ⚠️
+### Model Relationships
 
-I have used `Mermaid` to generate an interactive ERD of my project.
+The main database relationships are:
+
+- A Django `User` has one `UserProfile`.
+- A `UserProfile` can be associated with multiple `Order` records.
+- A `Category` can contain multiple `Product` records.
+- An `Order` can contain multiple `OrderLineItem` records.
+- Each `OrderLineItem` references one `Product`.
+- An eligible `Order` can be associated with a customer `Review`.
+- A `Review` can contain related `ReviewImage` records.
+- A `Review` can receive `ReviewReaction` records from authenticated users.
+- `ContactMessage` stores customer enquiries independently so that submitted
+  messages remain available to site administration.
+
+
+### Mermaid ERD
+
+I have also used
+[Mermaid](https://mermaid.live/) to provide an interactive representation of
+the main Maria Flowers database relationships.
 
 ```mermaid
 erDiagram
+
     User {
         int id PK
         varchar username
@@ -574,8 +590,6 @@ erDiagram
         varchar default_country
     }
 
-    User ||--|| UserProfile : has_one
-
     Category {
         int id PK
         varchar name
@@ -587,14 +601,11 @@ erDiagram
         varchar sku
         varchar name
         text description
-        bool has_sizes
         decimal price
         decimal rating
         varchar image_url
         image image
     }
-
-    Product ||--o| Category : belongs_to
 
     Order {
         int id PK
@@ -608,6 +619,8 @@ erDiagram
         varchar street_address1
         varchar street_address2
         varchar county
+        date delivery_date
+        varchar delivery_time
         datetime date
         decimal delivery_cost
         decimal order_total
@@ -620,64 +633,49 @@ erDiagram
         int id PK
         int quantity
         decimal lineitem_total
-        varchar product_size
     }
 
-    Order ||--o| OrderLineItem : has_many
-    OrderLineItem ||--o| Product : belongs_to
-
-    Order ||--o| UserProfile : belongs_to
-
-    Newsletter {
+    Review {
         int id PK
-        varchar email
+        int rating
+        text comment
+        datetime created_at
     }
 
-    Contact {
+    ReviewImage {
+        int id PK
+        image image
+    }
+
+    ReviewReaction {
+        int id PK
+    }
+
+    ContactMessage {
         int id PK
         varchar name
         varchar email
+        varchar phone
+        varchar subject
+        varchar order_reference
         text message
     }
 
-    FAQ {
-        int id PK
-        varchar question
-        text answer
-    }
-```
+    User ||--|| UserProfile : has
+    UserProfile ||--o{ Order : places
 
-source: [Mermaid](https://mermaid.live/edit#pako:eNqVVcFu2zAM_RVD57RIHLdpfRs6DBg2bB2GXYYAhmIxjlBZcimqqdvk3yfbSVPHceP5kBh8TyRFPtKvLDUCWMwAP0ueIc_nOvDPHwsYvDbv1SM1BVIE998OpieO6Ypj4DxV8xy6CORcqq654NauDYoG2c71IeQ9mqVUMDCygCV3ipJiZTQk2uULwH6WJQSghAuBYO1kKDHsJ5JZ68Rgkkoq-1mpcfojvDCWqiac8YDliXoFm83FxWbTql0crLhNfEX2xDtOkBksB1b1dC-XKEELVSYH-C0TH1m4lAb6tw_uXFCCZ_K3tynKgqTRB2RhjKrvZ-UL2INdQCpzroICZQpdM3KSOuuG9WAGicN3Kq1NzW_PNauam82hrHGwAGV0Zr0g9tyfKAYPkKm4vfJdOqWS_5uvD8ehJabWsV4dfqzzs3N1dp6OJ0T4ypLMoX7pNlOAkk-ApZ8LS124KScZ4qoL-g2nxTFYy82gzKTmKlnw7OQdZAFJIY-3Vt3o71LDV4L8TMMr06Pjmlp13KemvBPpnRxn99afRn618k8lsddlO6NmG-Rcl6fy3R3ZK7tfyTtie890yT9gbRUQDdb-Owm_3ebOaOKD18mg0ag7nHv1daf6y6dfAyM9OrDtbVS75dqu94O2ZSOWA_rgwn9Ta7dzRivwKbLYvwqOD3M21xWPOzK_S52ymNDBiLmikvvuK8ziJVfWWwuuWfzKnlk8jSaXN9ez8HoyHc_C8TiajVjJ4ovp5XUUTqMovLqdXd2Et-FsO2Ivxngfk8vxZBpGkT_m_zxW-_tbY01QNC5b7YJt_wE0ZoQj)
+    Category ||--o{ Product : contains
 
-⚠️ RECOMMENDED ⚠️
+    Order ||--|{ OrderLineItem : contains
+    Product ||--o{ OrderLineItem : included_in
 
-Alternatively, or in addition to, a more comprehensive ERD can be auto-generated once you're at the end of your development stages, just before you submit. Follow the steps below to obtain a thorough ERD that you can include. Feel free to leave the steps below in the README for future use to yourself.
+    Order ||--o| Review : enables
 
-⚠️ --- END --- ⚠️
+    Review ||--o{ ReviewImage : contains
 
-I have used `pygraphviz` and `django-extensions` to auto-generate an ERD.
+    Review ||--o{ ReviewReaction : receives
+    User ||--o{ ReviewReaction : creates
 
-The steps taken were as follows:
-- In the terminal: `sudo apt update`
-- then: `sudo apt-get install python3-dev graphviz libgraphviz-dev pkg-config`
-- then type `Y` to proceed
-- then: `pip3 install django-extensions pygraphviz`
-- in my `settings.py` file, I added the following to my `INSTALLED_APPS`:
-```python
-INSTALLED_APPS = [
-    ...
-    'django_extensions',
-    ...
-]
-```
-- back in the terminal: `python3 manage.py graph_models -a -o erd.png`
-- drag the new `erd.png` file into my `documentation/` folder
-- removed `'django_extensions',` from my `INSTALLED_APPS`
-- finally, in the terminal: `pip3 uninstall django-extensions pygraphviz -y`
-
-![screenshot](documentation/advanced-erd.png)
-
-source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
 
 ## Agile Development Process
 
