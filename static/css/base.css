@@ -1024,7 +1024,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .maria-footer-drawer.open .maria-footer-content {
-    max-height: 520px;
+    max-height: 540px;
 }
 
 .maria-footer-title {
