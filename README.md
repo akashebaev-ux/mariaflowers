@@ -678,35 +678,203 @@ erDiagram
 
 ## Agile Development Process
 
+The MariaFlowers project was developed using an Agile approach. GitHub Projects, GitHub Issues, Milestones, User Stories, Acceptance Criteria, and MoSCoW prioritisation were used to organise and track the development process.
+
+The project was divided into development sprints, with related User Stories grouped into milestones. Each User Story represented a requirement from the perspective of a customer, visitor, or administrator and included Acceptance Criteria where appropriate.
+
+Throughout development, User Stories were moved through the project board according to their current status. Priorities were also reviewed as the project developed, allowing features to be re-prioritised when technical, business, or external dependencies were identified.
+
 ### GitHub Projects
 
-⚠️ TIP ⚠️
+[GitHub Projects](https://www.github.com/akashebaev-ux/mariaflowers/projects) was used as the main Agile project management tool for MariaFlowers.
 
-Consider adding screenshots of your Projects Board(s), Issues (open and closed), and Milestone tasks.
+The project board provided a visual overview of development and allowed User Stories to be moved through the following workflow:
 
-⚠️ --- END ---⚠️
+- **Backlog** – functionality that had been identified but had not yet been started.
+- **ToDo** – User Stories ready to be implemented.
+- **In Progress** – functionality currently being developed or tested.
+- **Done** – completed User Stories that satisfied their Acceptance Criteria.
 
-[GitHub Projects](https://www.github.com/akashebaev-ux/mariaflowers/projects) served as an Agile tool for this project. Through it, EPICs, User Stories, issues/bugs, and Milestone tasks were planned, then subsequently tracked on a regular basis using the Kanban project board.
+This Kanban-style workflow made it possible to monitor development progress and distinguish between completed functionality, work in progress, and features planned for future development.
 
-![screenshot](documentation/gh-projects.png)
+![MariaFlowers GitHub Project Board](documentation/roadmap-1.png)
+
+As development progressed, completed User Stories were moved into the **Done** column. The project board also displays the MoSCoW priority and relevant sprint associated with each User Story.
+
+![MariaFlowers Completed Project Items](documentation/roadmap-done.png)
+
+### User Stories and Acceptance Criteria
+
+Features were planned as User Stories from the perspective of the intended user.
+
+A typical User Story followed the structure:
+
+> **As a** user, **I can** perform an action, **so that** I can achieve a particular goal.
+
+Acceptance Criteria were added to User Stories where appropriate to define the requirements that needed to be satisfied before the story could be considered complete.
+
+For example, the **Choose a delivery date and time** User Story required customers to be able to:
+
+- select an available delivery date;
+- select an available delivery time;
+- avoid selecting dates in the past;
+- save the selected delivery date and time with their order.
+
+Once the Acceptance Criteria had been satisfied and the functionality had been tested, the User Story could be closed and moved to **Done** on the GitHub Project board.
+
+![User Story and Acceptance Criteria](documentation/user-story-acceptance-criteria.png)
 
 ### GitHub Issues
 
-[GitHub Issues](https://www.github.com/akashebaev-ux/mariaflowers/issues) served as an another Agile tool. There, I managed my User Stories and Milestone tasks, and tracked any issues/bugs.
+[GitHub Issues](https://www.github.com/akashebaev-ux/mariaflowers/issues) was used to create and manage User Stories, development tasks, and planned functionality.
 
-| Link | Screenshot |
-| --- | --- |
-| [![GitHub issues](https://img.shields.io/github/issues-search/akashebaev-ux/mariaflowers?query=is%3Aissue%20is%3Aopen%20-label%3Abug&label=Open%20Issues&color=yellow)](https://www.github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue%20is%3Aopen%20-label%3Abug) | ![screenshot](documentation/gh-issues-open.png) |
-| [![GitHub closed issues](https://img.shields.io/github/issues-search/akashebaev-ux/mariaflowers?query=is%3Aissue%20is%3Aclosed%20-label%3Abug&label=Closed%20Issues&color=green)](https://www.github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue%20is%3Aclosed%20-label%3Abug) | ![screenshot](documentation/gh-issues-closed.png) |
+Issues were assigned MoSCoW priority labels and, where appropriate, associated with a development sprint or future implementation milestone.
 
-### MoSCoW Prioritization
+This provided a record of both functionality completed during the project and functionality intentionally retained for future development.
 
-I've decomposed my Epics into User Stories for prioritizing and implementing them. Using this approach, I was able to apply "MoSCoW" prioritization and labels to my User Stories within the Issues tab.
+#### Open Issues
 
-- **Must Have**: guaranteed to be delivered - required to Pass the project (*max ~60% of stories*)
-- **Should Have**: adds significant value, but not vital (*~20% of stories*)
-- **Could Have**: has small impact if left out (*the rest ~20% of stories*)
-- **Won't Have**: not a priority for this iteration - future features
+Open Issues represent functionality that was not completed within the current project iteration or was intentionally retained for future implementation.
+
+These include potential enhancements such as:
+
+- Custom Bouquet Builder;
+- Live GPS Delivery Tracking;
+- Automatic Taxi Booking;
+- bouquet preparation videos;
+- vase options;
+- wrapping options;
+- flower care instructions.
+
+Keeping these features as Issues provides a documented development backlog that can be used if MariaFlowers is developed further.
+
+![MariaFlowers Open Issues](documentation/open-issues.png)
+
+#### Closed Issues
+
+Closed Issues represent User Stories whose required functionality was successfully implemented during development.
+
+These include core MariaFlowers functionality such as:
+
+- project setup and rebranding;
+- browsing flower categories;
+- viewing product details;
+- bouquet options;
+- product management;
+- searching and filtering products;
+- shopping bag management;
+- customer information;
+- recipient information;
+- delivery date and time selection;
+- greeting card messages;
+- order review;
+- Stripe payment;
+- WhatsApp integration;
+- ratings and reviews;
+- order management through Django Admin;
+- order status functionality;
+- contact functionality;
+- newsletter subscription.
+
+The Closed Issues therefore provide evidence of the functionality delivered during the development process.
+
+![MariaFlowers Closed Issues Part 1](documentation/closed-issues-1.png)
+
+![MariaFlowers Closed Issues Part 2](documentation/closed-issues-2.png)
+
+### Milestones and Sprints
+
+GitHub Milestones were used to divide development into manageable stages and group related User Stories around specific development objectives.
+
+The project was developed incrementally rather than attempting to implement all functionality at the same time.
+
+For example:
+
+- **Sprint 1 – Project Setup & Product Catalogue** focused on transforming the original Boutique Ado project into MariaFlowers and establishing the flower catalogue and core product functionality.
+- **Sprint 2 – Shopping & Checkout** focused on shopping bag functionality, customer and recipient information, delivery scheduling, greeting card options, order review, and payment functionality.
+- **Sprint 3** focused on additional order functionality, administration, WhatsApp integration, order status, and customer reviews.
+- **Sprint 4** focused on additional customer-facing functionality such as contact and newsletter features.
+- Features outside the scope of the current project iteration were retained for **Future Implementations**.
+
+Using milestones helped divide a relatively large e-commerce project into smaller development stages and provided a clear record of the functionality targeted during each stage.
+
+![MariaFlowers GitHub Milestones](documentation/milestones.png)
+
+### MoSCoW Prioritisation
+
+MoSCoW prioritisation was used to determine the importance of each User Story and to control the scope of the project.
+
+GitHub labels were applied to Issues so that the priority of each User Story could also be seen directly from the Issues list and project board.
+
+The following priorities were used:
+
+- **Must Have** – essential functionality required for the core MariaFlowers e-commerce experience.
+- **Should Have** – important functionality that provides significant value but is not essential to the basic operation of the application.
+- **Could Have** – desirable functionality that could be implemented if development time and project scope allowed.
+- **Won't Have** – functionality intentionally excluded from the current iteration because of scope, development priorities, technical dependencies, or requirements that could not be realistically completed within the current project environment.
+
+Examples of **Must Have** functionality include product management, browsing flower categories, shopping bag management, delivery date selection, Stripe payment, customer reviews, and administrative order management.
+
+Examples of **Should Have** functionality include search and filtering, customer information, order tracking, and contact functionality.
+
+Examples of **Could Have** functionality include greeting card messages, newsletter subscription, and additional WhatsApp functionality.
+
+Features such as Live GPS Delivery Tracking, Automatic Taxi Booking, the Custom Bouquet Builder, and other functionality requiring additional services or a real operational environment were classified as **Won't Have** for the current iteration and retained for possible future implementation.
+
+### Changes to Priorities During Development
+
+The MoSCoW priorities were not treated as fixed throughout development. Priorities were reviewed as the project progressed and more information became available about the technical and practical requirements of individual features.
+
+This allowed the project scope to be adjusted while maintaining focus on delivering the core MariaFlowers e-commerce functionality.
+
+One example of this process was the **Upload bouquet preparation videos** User Story.
+
+#### Bouquet Preparation Videos – Should Have to Won't Have
+
+The **Upload bouquet preparation videos** User Story was originally classified as a **Should Have** feature.
+
+The intended functionality was to allow a preparation video to be associated with a customer's order so that the customer could see their bouquet during the preparation process.
+
+During development, this User Story was reviewed and reclassified from **Should Have** to **Won't Have** for the current project iteration.
+
+The decision was made because the complete feature depends on a real operational flower shop workflow.
+
+For the feature to work as intended:
+
+1. A real customer must place an order.
+2. The flower shop must receive and process the order.
+3. A florist must physically prepare the customer's bouquet.
+4. A preparation video must be recorded for that specific order.
+5. The video must be associated with the correct customer order.
+6. The customer must then be able to access the preparation video.
+
+Although the application could technically be extended to store and display order-related videos, realistically completing and testing the entire workflow would require genuine orders, physical bouquet preparation, and an operational flower shop.
+
+Creating an artificial preparation video only to demonstrate the feature would not accurately test the intended real-world business process.
+
+For this reason, the feature was deliberately moved from **Should Have** to **Won't Have** rather than being presented as completed functionality.
+
+The User Story remains documented as a future implementation and could be reconsidered when MariaFlowers operates within a real flower shop environment where the complete order fulfilment process can be tested.
+
+This re-prioritisation demonstrates the Agile nature of the development process: project requirements were reviewed throughout implementation and adjusted according to feasibility, dependencies, available resources, and business requirements.
+
+### Future Development Backlog
+
+Features classified as **Won't Have** were not removed from the project planning process.
+
+Instead, they remain documented as future development opportunities. This ensures that ideas identified during development are retained while preventing non-essential or externally dependent functionality from affecting completion of the core project.
+
+Examples include:
+
+- Bouquet Preparation Videos;
+- Live GPS Delivery Tracking;
+- Automatic Taxi Booking;
+- Custom Bouquet Builder;
+- additional bouquet customisation options;
+- vase selection where applicable;
+- other functionality requiring external services or a fully operational flower shop.
+
+This approach allowed development to remain focused on delivering a functional e-commerce application while maintaining a clear roadmap for possible future expansion.
 
 ## Ecommerce Business Model
 
