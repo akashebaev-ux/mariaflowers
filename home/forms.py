@@ -1,5 +1,6 @@
 from django import forms
 from .models import ContactMessage
+from .models import NewsletterSubscriber
 
 
 class ContactForm(forms.ModelForm):
@@ -54,4 +55,19 @@ class ContactForm(forms.ModelForm):
                     "placeholder": "How can we help you?",
                 }
             ),
+        }
+
+
+class NewsletterForm(forms.ModelForm):
+    """Form for newsletter subscriptions."""
+
+    class Meta:
+        model = NewsletterSubscriber
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your email',
+                'aria-label': 'Email address',
+            }),
         }
