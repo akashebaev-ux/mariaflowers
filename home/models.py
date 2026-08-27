@@ -36,3 +36,16 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.get_subject_display()}"
+
+
+class NewsletterSubscriber(models.Model):
+    """Store newsletter email subscriptions."""
+
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-subscribed_at']
+
+    def __str__(self):
+        return self.email
