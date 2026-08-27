@@ -564,9 +564,7 @@ The main database relationships are:
 
 ### Mermaid ERD
 
-I have also used
-[Mermaid](https://mermaid.live/) to provide an interactive representation of
-the main Maria Flowers database relationships.
+I have also used [Mermaid](https://mermaid.live/) to provide an interactive representation of the main Maria Flowers database relationships.
 
 ```mermaid
 erDiagram
@@ -626,11 +624,16 @@ erDiagram
         decimal grand_total
         text original_bag
         varchar stripe_pid
+        boolean is_paid
+        datetime paid_at
+        varchar status
     }
 
     OrderLineItem {
         int id PK
+        int extra_flowers
         int quantity
+        varchar greeting_message
         decimal lineitem_total
     }
 
@@ -639,15 +642,18 @@ erDiagram
         int rating
         text comment
         datetime created_at
+        datetime updated_at
     }
 
     ReviewImage {
         int id PK
         image image
+        datetime uploaded_at
     }
 
     ReviewReaction {
         int id PK
+        datetime created_at
     }
 
     ContactMessage {
@@ -660,6 +666,12 @@ erDiagram
         text message
     }
 
+    NewsletterSubscriber {
+        int id PK
+        varchar email
+        datetime subscribed_at
+    }
+
     User ||--|| UserProfile : has
     UserProfile ||--o{ Order : places
 
@@ -668,13 +680,12 @@ erDiagram
     Order ||--|{ OrderLineItem : contains
     Product ||--o{ OrderLineItem : included_in
 
-    Order ||--o| Review : enables
+    OrderLineItem ||--o| Review : receives
 
     Review ||--o{ ReviewImage : contains
-
     Review ||--o{ ReviewReaction : receives
-    User ||--o{ ReviewReaction : creates
-
+    UserProfile ||--o{ ReviewReaction : creates
+```
 
 ## Agile Development Process
 
