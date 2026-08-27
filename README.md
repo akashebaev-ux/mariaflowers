@@ -263,6 +263,9 @@ flower photography to remain the main visual focus.
 [ImageColorPicker.com](https://imagecolorpicker.com/) was used to identify
 and select colours for the website.
 
+
+![MariaFlowers Colour Palette](documentation/colours.png)
+
 | Colour | Hex | Usage |
 | --- | --- | --- |
 | Primary Purple | `#6d0b83` | Branding, buttons, links and key UI elements |
