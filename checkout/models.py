@@ -8,7 +8,7 @@ from django.core.validators import (
 )
 from django.db import models
 from django.db.models import Sum
-
+from django.utils import timezone
 from django_countries.fields import CountryField
 
 from products.models import Product
@@ -209,6 +209,24 @@ class Order(models.Model):
         )
 
         self.save()
+
+    def mark_completed_if_expired(self):
+        """
+        Automatically mark an order as completed
+        once its delivery date has passed.
+        """
+        if (
+            self.delivery_date
+            and self.delivery_date < timezone.localdate()
+            and self.status not in [
+                ORDER_STATUS_COMPLETED,
+                ORDER_STATUS_CANCELLED,
+            ]
+        ):
+            self.status = ORDER_STATUS_COMPLETED
+            self.save(update_fields=["status"])
+
+        return self.status
 
     def save(self, *args, **kwargs):
         """
