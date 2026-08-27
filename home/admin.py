@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ContactMessage
+from .models import ContactMessage, NewsletterSubscriber
 
 
 @admin.register(ContactMessage)
@@ -34,3 +34,10 @@ class ContactMessageAdmin(admin.ModelAdmin):
         "email_sent",
         "whatsapp_sent",
     )
+
+
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+    list_display = ('email', 'subscribed_at')
+    search_fields = ('email',)
+    ordering = ('-subscribed_at',)
