@@ -809,7 +809,7 @@ For example:
 
 Using milestones helped divide a relatively large e-commerce project into smaller development stages and provided a clear record of the functionality targeted during each stage.
 
-![MariaFlowers GitHub Milestones](documentation/milestones.png)
+![MariaFlowers GitHub Milestones](documentation/gh-milestones.png)
 
 ### MoSCoW Prioritisation
 
