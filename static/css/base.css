@@ -1067,6 +1067,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #6a1b7c;
 }
 
+/* Newsletter email input */
+.maria-footer-drawer input[type="email"] {
+    font-size: 12px;
+}
+
+.newsletter-email-input::placeholder {
+    font-size: 13px;
+}
+
+.newsletter-subscribe-btn {
+    font-size: 13px;
+}
+
+
+
 /* ============================================================
    Responsive media queries
    Ordered from larger screens to smaller screens

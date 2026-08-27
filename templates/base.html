@@ -316,18 +316,47 @@
               </a>
             </div>
 
-            <!-- Payments -->
+            <!-- Newsletter -->
             <div class="col-md-3 mb-4">
-              <h5 class="maria-footer-heading">Payments</h5>
+                <h5 class="maria-footer-heading">Newsletter</h5>
 
-              <p>We accept secure payments with:</p>
+                <p>
+                    Subscribe for promotions, discounts and updates
+                    about our latest flower collections.
+                </p>
 
-              <div class="payment-icons">
-                <i class="fab fa-cc-visa fa-2x mr-2"></i>
-                <i class="fab fa-cc-mastercard fa-2x mr-2"></i>
-                <i class="fab fa-cc-apple-pay fa-2x mr-2"></i>
-                <i class="fab fa-google-pay fa-2x"></i>
-              </div>
+                <form method="POST" action="{% url 'newsletter_signup' %}">
+                    {% csrf_token %}
+
+                    <div class="input-group">
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="Your email address"
+                            aria-label="Email address"
+                            required
+                        >
+
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-black newsletter-subscribe-btn"
+                                type="submit"
+                                aria-label="Subscribe to newsletter"
+                            >
+                                Subscribe
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="payment-icons mt-4">
+                    <p class="mb-2">Secure payments:</p>
+                    <i class="fab fa-cc-visa fa-2x mr-2"></i>
+                    <i class="fab fa-cc-mastercard fa-2x mr-2"></i>
+                    <i class="fab fa-cc-apple-pay fa-2x mr-2"></i>
+                    <i class="fab fa-google-pay fa-2x"></i>
+                </div>
             </div>
 
           </div>
