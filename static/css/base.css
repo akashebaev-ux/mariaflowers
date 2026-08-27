@@ -1069,7 +1069,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* Newsletter email input */
 .maria-footer-drawer input[type="email"] {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .newsletter-email-input::placeholder {
