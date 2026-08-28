@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 document.addEventListener("DOMContentLoaded", function () {
     const extraFlowersInput = document.getElementById(
         "id_extra_flowers"

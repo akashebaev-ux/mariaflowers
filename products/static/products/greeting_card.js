@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 document.addEventListener("DOMContentLoaded", function () {
     const messageField = document.getElementById(
         "id_greeting_message"
