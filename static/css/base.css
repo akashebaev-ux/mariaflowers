@@ -347,7 +347,7 @@ header {
     background-color: var(--maria-primary) !important;
 }
 
-#delivery-banner h4 {
+#delivery-banner p {
     margin: 0;
     padding: 0.5rem 0;
     color: var(--maria-white);
@@ -1236,7 +1236,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         font-size: 1rem;
     }
 
-    #delivery-banner h4 {
+    #delivery-banner p {
         font-size: 0.85rem;
     }
 
@@ -1356,7 +1356,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         font-size: 1.45rem;
     }
 
-    #delivery-banner h4 {
+    #delivery-banner p {
         padding: 0.4rem 0.5rem;
         font-size: 0.73rem;
         line-height: 1.35;
