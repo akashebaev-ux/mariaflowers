@@ -178,7 +178,7 @@
       </div>
       <div id="delivery-banner" class="row text-center">
         <div class="col bg-black text-white">
-          <h4 class="logo-font my-1">Free delivery on orders over ${{ free_delivery_threshold }}!</h4>
+          <p class="logo-font my-1">Free delivery on orders over ${{ free_delivery_threshold }}!</p>
         </div>
       </div>
     </header>
@@ -212,7 +212,7 @@
 
     {% block postloadjs %}
 
-    <script type="text/javascript">
+    <script>
       $('.toast').toast('show');
     </script>
 
@@ -259,7 +259,7 @@
 
             <!-- Brand -->
             <div class="col-md-3 mb-4">
-              <h4 class="maria-footer-title">Maria Flowers</h4>
+              <h2 class="maria-footer-title">Maria Flowers</h2>
               <p>Fresh flowers for every moment</p>
 
               <p><i class="fas fa-map-marker-alt mr-2"></i>Almaty, Kazakhstan</p>
@@ -290,7 +290,7 @@
 
             <!-- Customer Service -->
             <div class="col-md-3 mb-4">
-              <h5 class="maria-footer-heading">Customer Service</h5>
+              <h3 class="maria-footer-heading">Customer Service</h3>
 
               <ul class="list-unstyled">
                 <li><a href="{% url 'delivery_policy' %}">Delivery Policy</a></li>
@@ -304,7 +304,7 @@
 
             <!-- About -->
             <div class="col-md-3 mb-4">
-              <h5 class="maria-footer-heading">About Us</h5>
+              <h3 class="maria-footer-heading">About Us</h3>
 
               <p>Maria Flowers is a premium flower boutique in Almaty.
                 We create beautiful arrangements for every occasion with love.
@@ -318,7 +318,7 @@
 
             <!-- Newsletter -->
             <div class="col-md-3 mb-4">
-                <h5 class="maria-footer-heading">Newsletter</h5>
+                <h3 class="maria-footer-heading">Newsletter</h3>
 
                 <p>
                     Subscribe for promotions, discounts and updates
