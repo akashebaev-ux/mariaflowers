@@ -891,19 +891,68 @@ This approach allowed development to remain focused on delivering a functional e
 
 ## Ecommerce Business Model
 
-⚠️ INSTRUCTIONS ⚠️
+MariaFlowers follows a **Business-to-Consumer (B2C)** e-commerce model. The website is designed to sell flower bouquets and related products directly to individual customers who want to purchase flowers online for themselves or as gifts for other people.
 
-Use this space to discuss the business model for your e-commerce project. An example is provided below that aligns closely with **Boutique Ado's B2C** strategy. Be sure to align to your own project requirements.
+The primary business objective is to provide customers with a convenient way to browse available flower products, select bouquet options, place an order, choose a preferred delivery date and time, provide recipient information, add a personalised greeting message, and complete payment online.
 
-⚠️ --- END --- ⚠️
+Unlike a subscription-based business, MariaFlowers primarily operates through **individual transactions**. Customers purchase products when required, for example for birthdays, anniversaries, celebrations, romantic occasions, or other special events.
 
-This site sells goods to individual customers, and therefore follows a **Business to Customer** model. It is of the simplest **B2C** forms, as it focuses on individual transactions, and doesn't need anything such as monthly/annual subscriptions.
+### Revenue Model
 
-It is still in its early development stages, although it already has a newsletter, and links for social media marketing.
+The main source of revenue for MariaFlowers is the direct sale of flower bouquets and related products through the website. Customers browse the product catalogue, add products to their shopping bag and complete their purchase through the online checkout.
 
-Social media can potentially build a community of users around the business, and boost site visitor numbers, especially when using larger platforms such a Facebook.
+The website also supports delivery as part of the ordering process, allowing MariaFlowers to provide a complete flower-ordering service rather than requiring customers to arrange collection separately.
 
-A newsletter list can be used by the business to send regular messages to site users. For example, what items are on special offer, new items in stock, updates to business hours, notifications of events, and much more!
+### Target Customers
+
+MariaFlowers primarily targets individual customers looking for a convenient way to purchase and send flowers in Almaty.
+
+Potential customers include:
+
+- Customers purchasing flowers for birthdays and celebrations.
+- Customers sending flowers as gifts to friends, partners or family members.
+- Customers purchasing flowers for anniversaries and romantic occasions.
+- Customers who prefer ordering flowers online rather than visiting a physical flower shop.
+- Customers who require flowers to be delivered to another recipient.
+
+The responsive design also allows customers to browse and order flowers using mobile devices, which is particularly important for customers making quick or last-minute purchases.
+
+### Customer Engagement
+
+MariaFlowers includes several features designed to support customer engagement and encourage customers to return to the website.
+
+Registered customers can access their order history and account information, while the ratings and reviews functionality allows customers to share their experiences after eligible orders.
+
+A newsletter subscription feature allows visitors to provide their email address to receive future information about promotions, discounts and new flower collections. This provides the business with an opportunity to maintain contact with interested customers and encourage repeat purchases.
+
+### Social Media Marketing
+
+Social media forms an important part of the potential marketing strategy for MariaFlowers. Links to social platforms are provided through the website footer, allowing customers to discover and interact with the business through additional channels.
+
+Platforms such as **Facebook, Instagram and TikTok** can be used to showcase bouquets, new flower collections, seasonal arrangements and promotional offers. Because flowers are highly visual products, image and video-based social media content can be particularly useful for attracting potential customers.
+
+Social media can also help build awareness of the MariaFlowers brand and direct potential customers to the e-commerce website.
+
+### Email Marketing
+
+The MariaFlowers newsletter provides an additional digital marketing channel. Visitors can voluntarily subscribe by entering their email address through the newsletter form.
+
+The mailing list could be used to communicate:
+
+- New flower collections.
+- Seasonal bouquets.
+- Promotional offers and discounts.
+- Valentine's Day, Mother's Day and other seasonal campaigns.
+- New products and services.
+- Important business or delivery updates.
+
+This creates an opportunity to maintain relationships with previous and potential customers rather than relying exclusively on customers discovering the website again independently.
+
+### Customer Retention
+
+MariaFlowers is designed not only to support individual purchases but also to encourage repeat business. Features such as customer accounts, order history, ratings and reviews, newsletter subscriptions and social media links provide opportunities to maintain longer-term relationships with customers.
+
+Together, these features support the overall **B2C e-commerce strategy** by combining online product sales with customer engagement, digital marketing and opportunities for repeat purchases.
 
 ## SEO & Marketing
 
@@ -948,39 +997,25 @@ I've created a mockup Facebook business account using the [Balsamiq template](ht
 
 ### Newsletter Marketing
 
-I have incorporated a newsletter sign-up form on my application, to allow users to supply their email address if they are interested in learning more. 
+MariaFlowers includes a newsletter subscription feature that allows visitors
+to subscribe to future marketing communications directly from the website.
 
-⚠️ OPTION 1: RECOMMENDED ⚠️
+The newsletter form is available in the website footer, allowing visitors to
+enter their email address without creating an account. Django form validation
+is used to reject invalid email addresses, while successful subscriptions are
+stored in the database.
 
-**Custom Django Model Newsletter**
+A custom `NewsletterSubscriber` model is used to store subscriber information:
 
-- Create a custom `newsletter` app in your project, with a custom model/class called `Newsletter`.
-- This method satisfies two assessment criteria:
-    1. include a newsletter
-    2. one of your 3 required custom models
-- It doesn't need anything except the `email` field on the model, but feel free to add more if you need.
-- Example: (keep this in your README if you've done this method, attach your `Newsletter` model in a code block like the following example)
-    ```python
-    class Newsletter(models.Model):
-        email = models.EmailField(unique=True, null=False, blank=False)
+```python
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
 
-        def __str__(self):
-            return self.email
-    ```
-- Consider using the same `send_mail()` functionality used on the `webhook_handler.py` file.
-    - You can trigger an email to be sent out to subscribed users when new products are added to the site!
+    def __str__(self):
+        return self.email
+```
 
-⚠️ --- END --- ⚠️
-
-🛑 OPTION 2 🛑
-
-**MailChimp Newsletter**
-
-- Sign up for a Mailchimp account
-- This allows up to 2,500 subscription email sends per month
-- Incorporate the code and scripts into your project like in the Code Institute lessons.
-
-🛑 --- END --- 🛑
 
 ## Testing
 
@@ -989,7 +1024,7 @@ I have incorporated a newsletter sign-up form on my application, to allow users 
 
 ## Deployment
 
-The live deployed application can be found deployed on [Heroku](https://mariaflowers-f9e87b4ebe6c.herokuapp.com).
+The live deployed application can be found deployed on [Heroku](https://mariaflowers-f9e87b4ebe6c.herokuapp.com) or [Maria Flowers](www.mariaflowers.art).
 
 ### Heroku Deployment
 
@@ -1003,13 +1038,6 @@ Deployment steps are as follows, after account setup:
 
 > [!IMPORTANT]  
 > This is a sample only; you would replace the values with your own if cloning/forking my repository.
-
-🛑 !!! ATTENTION akashebaev-ux !!! 🛑
-
-⚠️ DO NOT update the environment variables to your own! These should never be public; only use the demo values below! ⚠️
-⚠️ Replace the keys below with your own actual keys used; example: if not using AWS, then replace those keys with Cloudinary keys, or similar. ⚠️
-
-🛑 --- END --- 🛑
 
 | Key | Value |
 | --- | --- |
@@ -1263,12 +1291,6 @@ You will need to create a new file called `env.py` at the root-level, and includ
 > [!IMPORTANT]  
 > This is a sample only; you would replace the values with your own if cloning/forking my repository.
 
-🛑 !!! ATTENTION akashebaev-ux !!! 🛑
-
-⚠️ DO NOT update the environment variables to your own! These should never be public; only use the demo values below! ⚠️
-⚠️ Replace the keys below with your own actual keys used; example: if not using Cloudinary | AWS, then replace those keys with whatever keys you're using. ⚠️
-
-🛑 --- END --- 🛑
 
 Sample `env.py` file:
 
@@ -1335,101 +1357,241 @@ By forking the GitHub Repository, you make a copy of the original repository on 
 
 ### Local VS Deployment
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to discuss any differences between the local version you've developed, and the live deployment site. Generally, there shouldn't be [m]any major differences, so if you honestly cannot find any differences, feel free to use the following example:
-
-⚠️ --- END --- ⚠️
-
 There are no remaining major differences between the local version when compared to the deployed version online.
 
 ## Credits
 
-⚠️ INSTRUCTIONS ⚠️
+The following resources, tools, documentation, and tutorials were used during
+the development of MariaFlowers.
 
-In the following sections, you need to reference where you got your content, media, and any extra help. It is common practice to use code from other repositories and tutorials (which is totally acceptable), however, it is important to be very specific about these sources to avoid potential plagiarism.
+### Code
 
-⚠️ --- END ---⚠️
+The project was originally based on the Code Institute **Boutique Ado**
+walkthrough project. Boutique Ado provided the initial foundation for standard
+e-commerce functionality, including the product catalogue, shopping bag,
+checkout, Stripe payments, customer profiles, and deployment structure.
 
-### Content
+The original project was substantially adapted and extended to create
+MariaFlowers. Custom functionality developed for this project includes
+flower-specific product presentation, delivery date and time selection,
+recipient information, greeting card functionality, order status management,
+customer contact functionality, newsletter subscriptions, WhatsApp Business
+integration, and the verified ratings and reviews system.
 
-⚠️ INSTRUCTIONS ⚠️
+The following documentation and learning resources were consulted during
+development:
 
-Use this space to provide attribution links for any borrowed code snippets, elements, and resources. Ideally, you should provide an actual link to every resource used, not just a generic link to the main site. If you've used multiple components from the same source (such as Bootstrap), then you only need to list it once, but if it's multiple Codepen samples, then you should list each example individually. If you've used AI for some assistance (such as ChatGPT or Perplexity), be sure to mention that as well. A few examples have been provided below to give you some ideas.
-
-Eventually you'll want to learn how to use Git branches. Here's a helpful tutorial called [Learn Git Branching](https://learngitbranching.js.org) to bookmark for later.
-
-⚠️ --- END ---⚠️
-
-| Source | Notes |
-| --- | --- |
-| [Markdown Builder](https://markdown.2bn.dev) | Help generating Markdown files |
-| [Chris Beams](https://chris.beams.io/posts/git-commit) | "How to Write a Git Commit Message" |
-| [Boutique Ado](https://codeinstitute.net) | Code Institute walkthrough project inspiration |
-| [Bootstrap](https://getbootstrap.com) | Various components / responsive front-end framework |
-| [AWS S3](https://aws.amazon.com/s3) | Cloud storage for static/media files |
-| [Whitenoise](https://whitenoise.readthedocs.io) | Static file service |
-| [Stripe](https://docs.stripe.com/payments/elements) | Online payment services |
-| [Gmail API](https://developers.google.com/gmail/api/guides) | Sending payment confirmation emails |
-| [Python Tutor](https://pythontutor.com) | Additional Python help |
-| [ChatGPT](https://chatgpt.com) | Help with code logic and explanations |
+- [Code Institute](https://codeinstitute.net/) – course material and the
+  Boutique Ado walkthrough project.
+- [Django Documentation](https://docs.djangoproject.com/) – Django models,
+  forms, views, authentication, validation, management commands, and other
+  framework functionality.
+- [Bootstrap Documentation](https://getbootstrap.com/docs/) – responsive
+  layouts and interface components.
+- [Stripe Documentation](https://docs.stripe.com/) – payment processing and
+  webhook integration.
+- [Meta for Developers](https://developers.facebook.com/docs/whatsapp/) –
+  WhatsApp Business Cloud API integration.
+- [AWS Documentation](https://docs.aws.amazon.com/) – configuration of Amazon
+  S3 for static and media file storage.
+- [Heroku Documentation](https://devcenter.heroku.com/) – application
+  deployment and environment configuration.
+- [W3Schools](https://www.w3schools.com/) – additional HTML, CSS and JavaScript
+  reference material.
+- [Stack Overflow](https://stackoverflow.com/) – consulted when researching
+  development and debugging issues.
 
 ### Media
 
-⚠️ INSTRUCTIONS ⚠️
+Product and website imagery was selected and adapted for the MariaFlowers
+e-commerce project.
 
-Use this space to provide attribution links to any media files borrowed from elsewhere (images, videos, audio, etc.). If you're the owner (or a close acquaintance) of some/all media files, then make sure to specify this information. Let the assessors know that you have explicit rights to use the media files within your project. Ideally, you should provide an actual link to every media file used, not just a generic link to the main site, unless it's AI-generated artwork.
+Where third-party images are used, they remain the property of their
+respective creators and were used for educational and demonstration purposes.
 
-Looking for some media files? Here are some popular sites to use. The list of examples below is by no means exhaustive.
+The MariaFlowers responsive website mockup was created using:
 
-- Images
-    - [Pexels](https://www.pexels.com)
-    - [Unsplash](https://unsplash.com)
-    - [Pixabay](https://pixabay.com)
-    - [Lorem Picsum](https://picsum.photos) (placeholder images)
-    - [Wallhere](https://wallhere.com) (wallpaper / backgrounds)
-    - [This Person Does Not Exist](https://thispersondoesnotexist.com) (reload to get a new person)
-- Audio
-    - [Audio Micro](https://www.audiomicro.com/free-sound-effects)
-    - [Button Clicks](https://www.zapsplat.com/sound-effect-category/button-clicks)
-    - [Lasers & Weapons](https://www.zapsplat.com/sound-effect-category/lasers-and-weapons/page/5)
-    - [Puzzle Music](https://soundimage.org/puzzle-music)
-    - [Camtasia Audio](https://library.techsmith.com/camtasia/assets/Audio)
-- Video
-    - [Videvo](https://www.videvo.net)
-- Image Compression
-    - [TinyPNG](https://tinypng.com) (for images <5MB)
-    - [CompressPNG](https://compresspng.com) (for images >5MB)
+- [Am I Responsive?](https://ui.dev/amiresponsive)
 
-A few examples have been provided below to give you some ideas on how to do your own Media credits.
+Wireframes were created using:
 
-⚠️ --- END ---⚠️
+- [Balsamiq](https://balsamiq.com/wireframes/)
 
-| Source | Notes |
-| --- | --- |
-| [favicon.io](https://favicon.io) | Generating the favicon |
-| [Boutique Ado](https://codeinstitute.net) | Sample images provided from the walkthrough projects |
-| [Font Awesome](https://fontawesome.com) | Icons used throughout the site |
-| [Pexels](https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg) | Hero image |
-| [Wallhere](https://c.wallhere.com/images/9c/c8/da4b4009f070c8e1dfee43d25f99-2318808.jpg!d) | Background wallpaper |
-| [Pixabay](https://cdn.pixabay.com/photo/2017/09/04/16/58/passport-2714675_1280.jpg) | Background wallpaper |
-| [DALL-E 3](https://openai.com/index/dall-e-3) | AI generated artwork |
-| [TinyPNG](https://tinypng.com) | Compressing images < 5MB |
-| [CompressPNG](https://compresspng.com) | Compressing images > 5MB |
-| [CloudConvert](https://cloudconvert.com/webp-converter) | Converting images to `.webp` |
+The project colour palette was developed with assistance from:
+
+- [ImageColorPicker.com](https://imagecolorpicker.com/)
+
+Fonts were provided by:
+
+- [Google Fonts](https://fonts.google.com/) – Cormorant Garamond and Lato.
+
+Icons used throughout the application were provided by:
+
+- [Font Awesome](https://fontawesome.com/)
+
+The database Entity Relationship Diagram was created using:
+
+- [dbdiagram.io](https://dbdiagram.io/)
+- [Mermaid](https://mermaid.live/)
 
 ### Acknowledgements
 
-⚠️ INSTRUCTIONS ⚠️
+- **Code Institute** for the course material and Boutique Ado walkthrough that
+  provided the original e-commerce foundation for this project.
+- **Code Institute tutors and mentor**, where applicable, for guidance and
+  support during development.
+- **ChatGPT by OpenAI** was used as a development support tool for explaining
+  concepts, debugging code, reviewing implementation approaches, improving
+  documentation, and assisting with README content.
+- **Google Chrome DevTools** was used extensively for debugging, responsive
+  design testing, and investigating layout and performance issues.
 
-Use this space to provide attribution and acknowledgement to any supports that helped, encouraged, or supported you throughout the development stages of this project. It's always lovely to appreciate those that help us grow and improve our developer skills. A few examples have been provided below to give you some ideas.
+All AI-assisted code and documentation were reviewed, adapted, and tested
+before being incorporated into the project.
 
-⚠️ --- END ---⚠️
+### Content
+
+The following external resources and documentation were used during the
+development of MariaFlowers. Where external code, documentation, or examples
+were consulted, they were adapted to meet the requirements of this project.
+
+| Source | Notes |
+| --- | --- |
+| [Code Institute – Boutique Ado](https://codeinstitute.net/) | The Boutique Ado walkthrough provided the original e-commerce foundation for the project, including products, shopping bag, checkout, Stripe integration, profiles, and deployment concepts. The project was subsequently adapted and extended into MariaFlowers. |
+| [Django Documentation](https://docs.djangoproject.com/en/3.2/) | Reference for Django models, views, forms, URLs, validation, authentication, management commands, and database functionality. |
+| [Django Allauth](https://docs.allauth.org/) | Used for customer registration, login, logout, and account authentication functionality. |
+| [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) | Responsive layout, grid system, navigation, forms, buttons, and other interface components. |
+| [Stripe Documentation](https://docs.stripe.com/payments) | Reference for implementing secure online payments and Stripe payment functionality. |
+| [Stripe Webhooks](https://docs.stripe.com/webhooks) | Reference for processing Stripe webhook events and ensuring orders are recorded following payment events. |
+| [AWS S3](https://docs.aws.amazon.com/s3/) | Used for production static and media file storage. |
+| [Heroku Dev Center](https://devcenter.heroku.com/) | Reference for deployment, environment variables, and production configuration. |
+| [Meta – WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/) | Reference for implementing WhatsApp Business Cloud API functionality for order and customer communication. |
+| [Google Fonts](https://fonts.google.com/) | Source for the Cormorant Garamond and Lato fonts used throughout the website. |
+| [Font Awesome](https://fontawesome.com/) | Icons used throughout the MariaFlowers interface. |
+| [ImageColorPicker](https://imagecolorpicker.com/) | Used to assist with selecting and documenting the MariaFlowers colour palette. |
+| [Balsamiq](https://balsamiq.com/wireframes/) | Used to create the mobile, tablet, and desktop wireframes. |
+| [dbdiagram.io](https://dbdiagram.io/) | Used to create the database Entity Relationship Diagram (ERD). |
+| [Mermaid](https://mermaid.live/) | Used to create an additional Mermaid representation of the database relationships. |
+| [XML-Sitemaps](https://www.xml-sitemaps.com/) | Used to generate the initial XML sitemap for the deployed website. |
+| [Google Search Central](https://developers.google.com/search/docs) | Reference for sitemap, robots.txt, and SEO implementation. |
+| [W3Schools](https://www.w3schools.com/) | Additional reference for HTML, CSS, JavaScript, and general web-development concepts. |
+| [Google Chrome DevTools](https://developer.chrome.com/docs/devtools/) | Used for debugging, responsive design testing, CSS inspection, and performance investigation. |
+| [ChatGPT](https://chatgpt.com/) | Used as an AI development assistant for code explanations, debugging, implementation guidance, testing suggestions, and README/documentation assistance. |
+
+## Media
+
+The visual content used throughout MariaFlowers includes personal photographs,
+project-created documentation images, icons, fonts, wireframes, and other
+visual assets used to support the design and presentation of the application.
+
+### Product and Model Images
+
+Some of the original photographs used throughout the MariaFlowers website
+feature my girlfriend. These photographs are personal images and are used in
+this project with her permission.
+
+The photographs were adapted and used as visual content for the MariaFlowers
+educational e-commerce project. Selected images were edited or modified to
+better represent flower products and maintain a consistent visual style across
+the website.
+
+As these are personal photographs used with permission, no external image
+attribution is required for these images.
+
+### Image Optimisation
+
+Images used throughout the website were optimised where appropriate to improve
+page loading performance and reduce file sizes.
+
+[CloudConvert](https://cloudconvert.com/png-to-webp) was used to convert
+selected PNG images to WebP format. WebP provides smaller image file sizes
+while maintaining suitable visual quality for the product catalogue and other
+website content.
+
+### Icons
+
+[Font Awesome](https://fontawesome.com/) was used for icons throughout the
+MariaFlowers interface, including navigation, account, shopping bag, social
+media, and other interface elements.
+
+### Fonts
+
+[Google Fonts](https://fonts.google.com/) was used to provide the typography
+for MariaFlowers.
+
+The website uses:
+
+- **Cormorant Garamond** for branding, headings, product titles, and other
+  prominent visual elements.
+- **Lato** for body text, navigation, forms, buttons, and other interface
+  elements.
+
+### Wireframes
+
+[Balsamiq](https://balsamiq.com/wireframes/) was used to create the
+MariaFlowers wireframes for mobile, tablet, and desktop/laptop screen sizes.
+
+The wireframes were created specifically for this project and are included
+within the `documentation` directory.
+
+### Colour Palette
+
+[ImageColorPicker.com](https://imagecolorpicker.com/) was used to assist with
+identifying and documenting the MariaFlowers colour palette.
+
+The resulting colour palette is based on the colours used within the
+MariaFlowers CSS and is documented in the Colour Scheme section of this
+README.
+
+### AI-Assisted Visual Content
+
+[ChatGPT](https://chatgpt.com/) was used during the development of MariaFlowers
+to assist with selected visual assets, including image editing and the creation
+of supporting project documentation graphics.
+
+AI-assisted visual content was reviewed and adapted where necessary before
+being incorporated into the project.
+
+### Documentation Images
+
+Screenshots contained within the `documentation` directory were created during
+the development and testing of MariaFlowers.
+
+These include screenshots of:
+
+- Website features and functionality.
+- Mobile, tablet, and desktop responsive layouts.
+- GitHub Issues and User Stories.
+- GitHub Project board.
+- GitHub Milestones and development sprints.
+- Testing and validation results.
+- Django administration functionality.
+- Stripe payment functionality.
+- WhatsApp integration.
+- Newsletter functionality.
+- Other project development and documentation evidence.
+
+Unless otherwise credited, these screenshots were created directly from the
+MariaFlowers application or the tools used during its development.
+
+### Media Resources
+
+| Source | Notes |
+| --- | --- |
+| Personal photographs | Original photographs featuring my girlfriend, used with her permission for the MariaFlowers educational project. |
+| [CloudConvert](https://cloudconvert.com/png-to-webp) | Used to convert selected PNG images to WebP format to reduce image file sizes and improve website performance. |
+| [Font Awesome](https://fontawesome.com/) | Icons used throughout the MariaFlowers interface. |
+| [Google Fonts](https://fonts.google.com/) | Source of the Cormorant Garamond and Lato fonts used throughout the website. |
+| [Balsamiq](https://balsamiq.com/wireframes/) | Used to create the mobile, tablet, and desktop/laptop wireframes. |
+| [ImageColorPicker](https://imagecolorpicker.com/) | Used to assist with identifying and documenting the MariaFlowers colour palette. |
+| [ChatGPT](https://chatgpt.com/) | Used to assist with selected image editing and supporting visual documentation assets. |
+
+### Acknowledgements
+
 
 - I would like to thank my Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) for the support throughout the development of this project.
 - I would like to thank the [Code Institute](https://codeinstitute.net) Tutor Team for their assistance with troubleshooting and debugging some project issues.
 - I would like to thank the [Code Institute Slack community](https://code-institute-room.slack.com) and [Code Institute Discord community](https://discord-portal.codeinstitute.net) for the moral support; it kept me going during periods of self doubt and impostor syndrome.
-- I would like to thank my partner, for believing in me, and allowing me to make this transition into software development.
-- I would like to thank my employer, for supporting me in my career development change towards becoming a software developer.
+- I would like to thank my partner, for believing in me, and allowing me to use her images.
 
 
