@@ -11,7 +11,6 @@
                     type="button"
                     class="decrement-qty btn btn-sm btn-black rounded-0"
                     data-item_id="{{ item.item_id }}"
-                    id="decrement-qty_{{ item.item_id }}"
                 >
                     <span>
                         <i class="fas fa-minus fa-sm"></i>
@@ -27,7 +26,6 @@
                 min="1"
                 max="99"
                 data-item_id="{{ item.item_id }}"
-                id="id_qty_{{ item.item_id }}"
             >
 
             <div class="input-group-append">
@@ -35,7 +33,6 @@
                     type="button"
                     class="increment-qty btn btn-sm btn-black rounded-0"
                     data-item_id="{{ item.item_id }}"
-                    id="increment-qty_{{ item.item_id }}"
                 >
                     <span>
                         <i class="fas fa-plus fa-sm"></i>
@@ -68,7 +65,7 @@
 
 <a
     class="remove-item text-danger float-right"
-    id="remove_{{ item.item_id }}"
+    data-item_id="{{ item.item_id }}"
     data-product_size="{{ item.size }}"
     data-extra_flowers="{{ item.extra_flowers }}"
 >
