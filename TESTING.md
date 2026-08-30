@@ -107,7 +107,7 @@ Validator:
 
 The `checkout.css` file was validated by input using the W3C CSS Validator.
 
-<img src="documentation/validation/checkout-css-no-errors.png"
+<img src="documentation/validation/css/checkout-css-no-errors.png"
      alt="Checkout CSS validation with no errors"
      width="400">
 
@@ -125,7 +125,7 @@ Validator:
 
 The `profile.css` file was validated by input using the W3C CSS Validator.
 
-<img src="documentation/validation/profile-css-no-errors.png"
+<img src="documentation/validation/css/profile-css-no-errors.png"
      alt="Profile CSS validation with no errors"
      width="400">
 
@@ -146,7 +146,7 @@ Validator:
 
 The deployed `base.css` file was validated directly from the AWS S3 URL.
 
-<img src="documentation/validation/CSS-NO-ERRORS.png"
+<img src="documentation/validation/css/CSS-NO-ERRORS.png"
      alt="Base CSS validation with no errors"
      width="400">
 
@@ -155,7 +155,7 @@ The deployed `base.css` file was validated directly from the AWS S3 URL.
 The validator also reported eight warnings relating to browser-specific
 vendor extensions and browser-supported CSS values.
 
-<img src="documentation/validation/Warnings-css.png"
+<img src="documentation/validation/css/Warnings-css.png"
      alt="Base CSS validation warnings"
      width="400">
 
