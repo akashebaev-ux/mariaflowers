@@ -2,6 +2,16 @@
 
 {% load static %}
 
+{% block extra_meta %}
+    {{ block.super }}
+    <link
+        rel="preload"
+        as="image"
+        href="{% static 'images/mariaflowers-hero.webp' %}"
+        fetchpriority="high"
+    >
+{% endblock %}
+
 {% block extra_title %}
     | Fresh Flowers Delivered
 {% endblock %}
@@ -76,6 +86,8 @@
                         src="{% static 'images/mariaflowers-hero.webp' %}"
                         alt="Woman holding a bouquet of roses"
                         class="hero-image"
+                        fetchpriority="high"
+                        loading="eager"
                     >
 
                 </div>
