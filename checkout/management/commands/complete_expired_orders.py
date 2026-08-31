@@ -1,22 +1,13 @@
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
-from checkout.models import Order
+from checkout.utils import complete_expired_orders
 
 
 class Command(BaseCommand):
     help = "Mark orders as completed after their delivery date has passed."
 
     def handle(self, *args, **options):
-        today = timezone.localdate()
-
-        updated = Order.objects.filter(
-            delivery_date__lt=today
-        ).exclude(
-            status__in=["completed", "cancelled"]
-        ).update(
-            status="completed"
-        )
+        updated = complete_expired_orders()
 
         self.stdout.write(
             self.style.SUCCESS(
