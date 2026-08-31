@@ -11,43 +11,69 @@ from checkout.utils import complete_expired_orders
 
 @login_required
 def profile(request):
-    """ Display the user's profile. """
-    profile = get_object_or_404(UserProfile, user=request.user)
+    """Display the user's profile."""
+    profile = get_object_or_404(
+        UserProfile.objects.select_related('user'),
+        user=request.user
+    )
 
-    # Update expired orders for this user when the profile is opened
+    # Update expired orders for this user
     complete_expired_orders(profile)
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
+
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile updated successfully')
+            messages.success(
+                request,
+                'Profile updated successfully'
+            )
         else:
-            messages.error(request, 'Update failed. Please ensure the form is valid.')  # noqa
+            messages.error(
+                request,
+                'Update failed. Please ensure the form is valid.'
+            )
     else:
         form = UserProfileForm(instance=profile)
 
-    orders = profile.orders.all()
+    orders = (
+        profile.orders
+        .all()
+        .prefetch_related('lineitems__product')
+        .order_by('-date')
+    )
 
     template = 'profiles/profile.html'
+
     context = {
         'form': form,
         'orders': orders,
-        'on_profile_page': True
+        'on_profile_page': True,
     }
 
     return render(request, template, context)
 
 
+@login_required
 def order_history(request, order_number):
-    order = get_object_or_404(Order, order_number=order_number)
+    """Display a previous order belonging to the logged-in user."""
+    order = get_object_or_404(
+        Order,
+        order_number=order_number,
+        user_profile__user=request.user,
+    )
 
-    messages.info(request, (
-        f'This is a past confirmation for order number {order_number}. '
-        'A confirmation email was sent on the order date.'
-    ))
+    messages.info(
+        request,
+        (
+            f'This is a past confirmation for order number {order_number}. '
+            'A confirmation email was sent on the order date.'
+        )
+    )
 
     template = 'checkout/checkout_success.html'
+
     context = {
         'order': order,
         'from_profile': True,
