@@ -463,6 +463,7 @@ The user stories were prioritised using the **MoSCoW method**:
 | Responsive Design | MariaFlowers uses a responsive layout so that customers can browse flowers, manage their shopping bag, and place orders from desktop, tablet, and mobile devices. | ![Responsive Design](documentation/iamresponsive.png) |
 | Social Media Links | Social media links are provided through the website footer, giving customers additional ways to discover or communicate with MariaFlowers. | ![Social Media](documentation/Social_Media.png) |
 | Custom 404 Page | A custom 404 page is displayed when a visitor attempts to access a page that does not exist, maintaining the MariaFlowers design instead of displaying a generic server error page. | ![404 Page](documentation/404.png) |
+| Custom 500 Page | A custom 500 Internal Server Error page is displayed when an unexpected server-side error occurs, providing users with a MariaFlowers-branded error message and a link back to the homepage instead of Django's generic server error page. | ![500 Page](documentation/validation/500.png) |
 | Heroku Deployment | MariaFlowers is deployed to Heroku, making the application publicly accessible and providing a production environment for the Django application. | ![Heroku Deployment](documentation/Heroku.png) |
 
 
