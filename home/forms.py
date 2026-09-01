@@ -35,6 +35,8 @@ class ContactForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Your phone number",
+                    "inputmode": "numeric",
+                    "pattern": "[0-9]*",
                 }
             ),
             "subject": forms.Select(
@@ -57,17 +59,29 @@ class ContactForm(forms.ModelForm):
             ),
         }
 
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+
+        if phone and not phone.isdigit():
+            raise forms.ValidationError(
+                "Phone number must contain numbers only."
+            )
+
+        return phone
+
 
 class NewsletterForm(forms.ModelForm):
     """Form for newsletter subscriptions."""
 
     class Meta:
         model = NewsletterSubscriber
-        fields = ['email']
+        fields = ["email"]
         widgets = {
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter your email',
-                'aria-label': 'Email address',
-            }),
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter your email",
+                    "aria-label": "Email address",
+                }
+            ),
         }
