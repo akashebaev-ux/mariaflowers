@@ -42,23 +42,6 @@ appropriate main `h1`, followed by logically ordered section headings.
 After these corrections, the affected pages were revalidated using
 the W3C Nu HTML Checker and passed validation.
 
-🛑 IMPORTANT 🛑
-
-RE: Python/Jinja syntax in HTML
-
-Python projects that use Jinja syntax, such as `{% for loops %}`, `{% url 'home' %}`, and `{{ variable|filter }}` will not validate properly if you're copying/pasting the Django template code directly into the HTML validator.
-
-In order to properly validate these types of files, it's recommended to [validate by URI](https://validator.w3.org/#validate_by_uri) from the deployed Heroku pages.
-
-Unfortunately, pages that require a user to be logged-in and authenticated will not work using this method, due to the fact that the HTML Validator does not have access to the authenticated session. In order to validate authenticated pages:
-
-- Navigate to the deployed page which requires authentication.
-- Right-click anywhere on the page and select **View Page Source** (`CTRL+U` or `⌘+U` on Mac).
-- Copy the rendered HTML source.
-- Use the [validate by input](https://validator.w3.org/#validate_by_input) method.
-- Repeat this process for pages that require authentication.
-
-🛑 ---- END --- 🛑
 
 I have used the recommended [HTML W3C Validator](https://validator.w3.org) to validate all of my HTML files.
 The stylesheets passed validation with no errors.
@@ -326,115 +309,299 @@ I have used the recommended [PEP8 CI Python Linter](https://pep8ci.herokuapp.com
 | profiles | [views.py](https://github.com/akashebaev-ux/mariaflowers/blob/main/profiles/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/akashebaev-ux/mariaflowers/main/profiles/views.py) | ![screenshot](documentation/validation/profiles-views-python-no-errors.png) | **Pass — no errors found** |
 
 
-
 ## Responsiveness
 
-⚠️ INSTRUCTIONS ⚠️
+The deployed **Maria Flowers** website was manually tested on different screen sizes to check that the layout remains usable and visually consistent across **mobile, tablet, and desktop devices**.
 
-Use this space to discuss testing the live/deployed site on various device sizes.
+Testing was carried out on the **live deployed website** using Chrome Developer Tools and built-in device emulation.
 
-The minimum requirement is to test the following 3 sizes:
+The following device sizes were used during testing:
 
-- Mobile
-- Tablet
-- Desktop
+- **Mobile:** iPhone 12 Pro
+- **Mobile:** iPhone 16 Pro Max
+- **Tablet:** iPad Air
+- **Desktop:** MacBook Air / laptop viewport
 
-**IMPORTANT**: You must provide screenshots of your results, to "prove" that you've actually tested them.
-
-Using the [amiresponsive](http://ami.responsivedesign.is) mockup images (*or similar*) does not meet the requirements. Consider using some of the built-in device sizes from the Developer Tools.
-
-If you have tested the project on your actual mobile phone or tablet, consider also including screenshots of these as well. It showcases a higher level of manual tests, and can be seen as a positive inclusion!
-
-⚠️ --- END --- ⚠️
-
-I've tested my deployed project to check for responsiveness issues.
+The purpose of this testing was to confirm that important elements such as navigation, product cards, images, forms, buttons, and page layouts adapt correctly to different screen widths.
 
 | Page | Mobile | Tablet | Desktop | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/responsiveness/mobile-register.png) | ![screenshot](documentation/responsiveness/tablet-register.png) | ![screenshot](documentation/responsiveness/desktop-register.png) | Works as expected |
-| Login | ![screenshot](documentation/responsiveness/mobile-login.png) | ![screenshot](documentation/responsiveness/tablet-login.png) | ![screenshot](documentation/responsiveness/desktop-login.png) | Works as expected |
-| Profile | ![screenshot](documentation/responsiveness/mobile-profile.png) | ![screenshot](documentation/responsiveness/tablet-profile.png) | ![screenshot](documentation/responsiveness/desktop-profile.png) | Works as expected |
-| Home | ![screenshot](documentation/responsiveness/mobile-home.png) | ![screenshot](documentation/responsiveness/tablet-home.png) | ![screenshot](documentation/responsiveness/desktop-home.png) | Works as expected |
-| Products | ![screenshot](documentation/responsiveness/mobile-products.png) | ![screenshot](documentation/responsiveness/tablet-products.png) | ![screenshot](documentation/responsiveness/desktop-products.png) | Works as expected |
-| Product Details | ![screenshot](documentation/responsiveness/mobile-product-details.png) | ![screenshot](documentation/responsiveness/tablet-product-details.png) | ![screenshot](documentation/responsiveness/desktop-product-details.png) | Works as expected |
-| Bag | ![screenshot](documentation/responsiveness/mobile-bag.png) | ![screenshot](documentation/responsiveness/tablet-bag.png) | ![screenshot](documentation/responsiveness/desktop-bag.png) | Works as expected |
-| Checkout | ![screenshot](documentation/responsiveness/mobile-checkout.png) | ![screenshot](documentation/responsiveness/tablet-checkout.png) | ![screenshot](documentation/responsiveness/desktop-checkout.png) | Works as expected |
-| Checkout Success | ![screenshot](documentation/responsiveness/mobile-checkout-success.png) | ![screenshot](documentation/responsiveness/tablet-checkout-success.png) | ![screenshot](documentation/responsiveness/desktop-checkout-success.png) | Works as expected |
-| Add Product | ![screenshot](documentation/responsiveness/mobile-add-product.png) | ![screenshot](documentation/responsiveness/tablet-add-product.png) | ![screenshot](documentation/responsiveness/desktop-add-product.png) | Works as expected |
-| Edit Product | ![screenshot](documentation/responsiveness/mobile-edit-product.png) | ![screenshot](documentation/responsiveness/tablet-edit-product.png) | ![screenshot](documentation/responsiveness/desktop-edit-product.png) | Works as expected |
-| Newsletter | ![screenshot](documentation/responsiveness/mobile-newsletter.png) | ![screenshot](documentation/responsiveness/tablet-newsletter.png) | ![screenshot](documentation/responsiveness/desktop-newsletter.png) | Works as expected |
-| Contact | ![screenshot](documentation/responsiveness/mobile-contact.png) | ![screenshot](documentation/responsiveness/tablet-contact.png) | ![screenshot](documentation/responsiveness/desktop-contact.png) | Works as expected |
-| 404 | ![screenshot](documentation/responsiveness/mobile-404.png) | ![screenshot](documentation/responsiveness/tablet-404.png) | ![screenshot](documentation/responsiveness/desktop-404.png) | Works as expected |
+| Home | ![Mobile Home](documentation/responsiveness/mobile-home.png) | ![Tablet Home](documentation/responsiveness/tablet-home.png) | ![Desktop Home](documentation/responsiveness/desktop-home.png) | Hero section displays correctly on desktop |
+| Products | ![Mobile Products](documentation/responsiveness/mobile-products.png) | ![Tablet Products](documentation/responsiveness/tablet-products.png) | ![Desktop Products](documentation/responsiveness/desktop-products.png)| Product grid adapts from a single-column mobile layout to a multi-column tablet layout |
+| Product Details | ![Mobile Product Details](documentation/responsiveness/mobile-product-details.png) | ![Tablet Details](documentation/responsiveness/tablet-details.png) | ![Desktop Details](documentation/responsiveness/desktop-details.png)| Product image and product information stack correctly on smaller screens |
+
+### Mobile Testing
+
+The website was tested using mobile device emulation, including **iPhone 12 Pro** and **iPhone 16 Pro Max** screen sizes.
+
+On mobile devices, the main desktop navigation is replaced by a compact navigation bar containing the menu button, search option, account link, and shopping bag.
+
+The Products page changes to a single-column layout so that each product card has enough space for the image, product name, price, category, rating, and management controls.
+
+The Product Details page also changes to a vertical layout. The product image uses the available screen width and the product information is displayed below the image rather than beside it.
+
+No unwanted horizontal scrolling was observed in the tested mobile layouts.
+
+### Tablet Testing
+
+The website was also tested using an **iPad Air** viewport.
+
+The Products page makes use of the additional tablet screen width by displaying products in two columns.
+
+Images and product information remain readable, and the navigation changes appropriately for the available screen size.
+
+The tablet layout provides a useful transition between the single-column mobile layout and the wider desktop layout.
+
+### Desktop Testing
+
+Desktop testing was carried out using a laptop-sized viewport.
+
+The Home page uses the larger available width to display the introductory text and call-to-action buttons alongside the main promotional image.
+
+The full desktop navigation, search bar, account link, shopping bag, promotional banner, hero content, and footer remain correctly aligned.
+
+### Responsive Behaviour Observed
+
+During testing, the following responsive behaviour was confirmed:
+
+- Navigation changes appropriately between mobile and desktop layouts.
+- Product cards resize and rearrange depending on the available width.
+- Product images scale without overflowing their containers.
+- Product information remains readable on small screens.
+- Buttons remain accessible and appropriately sized.
+- The promotional delivery banner remains visible across screen sizes.
+- The footer remains accessible at the bottom of the page.
+- Product grids change from one column on mobile to multiple columns on larger screens.
+- No significant horizontal overflow was found on the tested pages.
+
+### Result
+
+The current responsiveness tests confirm that the Maria Flowers layout adapts correctly across the tested **mobile, tablet, and desktop** screen sizes.
+
+
 
 ## Browser Compatibility
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to discuss testing the live/deployed site on various browsers. Consider testing at least 3 different browsers, if available on your system. You DO NOT need to use all of the browsers below, just pick any 3 (minimum).
-
-Recommended browsers to consider:
-- [Chrome](https://www.google.com/chrome)
-- [Firefox (Developer Edition)](https://www.mozilla.org/firefox/developer)
-- [Edge](https://www.microsoft.com/edge)
-- [Safari](https://support.apple.com/downloads/safari)
-- [Brave](https://brave.com/download)
-- [Opera](https://www.opera.com/download)
-
-**IMPORTANT**: You must provide screenshots of the browsers you've tested, to "prove" that you've actually tested them.
-
-Please note, there are services out there that can test multiple browser compatibilities at the same time. Some of these are paid services, but some are free. If you use these, you must provide a link to the source used for attribution, and multiple screenshots of the results.
-
-⚠️ --- END --- ⚠️
-
 I've tested my deployed project on multiple browsers to check for compatibility issues.
+
+The website was tested using Google Chrome, Mozilla Firefox and Safari on laptop/desktop devices. The main pages were checked for layout consistency, navigation, forms, product displays, shopping bag functionality and checkout presentation.
 
 | Page | Chrome | Firefox | Safari | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/browsers/chrome-register.png) | ![screenshot](documentation/browsers/firefox-register.png) | ![screenshot](documentation/browsers/safari-register.png) | Works as expected |
-| Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/firefox-login.png) | ![screenshot](documentation/browsers/safari-login.png) | Works as expected |
-| Profile | ![screenshot](documentation/browsers/chrome-profile.png) | ![screenshot](documentation/browsers/firefox-profile.png) | ![screenshot](documentation/browsers/safari-profile.png) | Works as expected |
-| Home | ![screenshot](documentation/browsers/chrome-home.png) | ![screenshot](documentation/browsers/firefox-home.png) | ![screenshot](documentation/browsers/safari-home.png) | Works as expected |
-| Products | ![screenshot](documentation/browsers/chrome-products.png) | ![screenshot](documentation/browsers/firefox-products.png) | ![screenshot](documentation/browsers/safari-products.png) | Works as expected |
-| Product Details | ![screenshot](documentation/browsers/chrome-product-details.png) | ![screenshot](documentation/browsers/firefox-product-details.png) | ![screenshot](documentation/browsers/safari-product-details.png) | Works as expected |
-| Bag | ![screenshot](documentation/browsers/chrome-bag.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
+| Home | ![screenshot](documentation/browsers/chrome-homepage.png) | ![screenshot](documentation/browsers/firefox-homepage.png) | ![screenshot](documentation/browsers/safari-homepage.png) | Works as expected |
+| Products | ![screenshot](documentation/browsers/chrome-products.png) | ![screenshot](documentation/browsers/firefox-products.png) | ![screenshot](documentation/browsers/safari-products.png)| Works as expected |
+| Gifts | ![screenshot](documentation/browsers/chrome-gifts.png) | ![screenshot](documentation/browsers/firefox-gifts.png) | ![screenshot](documentation/browsers/safari-gifts.png) | Works as expected |
+| Product Details | ![screenshot](documentation/browsers/chrome-product-detail.png) | ![screenshot](documentation/browsers/firefox-product-detail.png) | ![screenshot](documentation/browsers/safari-details.png)| Works as expected |
+| Shopping Bag | ![screenshot](documentation/browsers/chrome-shopping-bag.png) | ![screenshot](documentation/browsers/firefox-shopping-bag.png) | ![screenshot](documentation/browsers/safari-shopping-bag.png) | Works as expected |
 | Checkout | ![screenshot](documentation/browsers/chrome-checkout.png) | ![screenshot](documentation/browsers/firefox-checkout.png) | ![screenshot](documentation/browsers/safari-checkout.png) | Works as expected |
-| Checkout Success | ![screenshot](documentation/browsers/chrome-checkout-success.png) | ![screenshot](documentation/browsers/firefox-checkout-success.png) | ![screenshot](documentation/browsers/safari-checkout-success.png) | Works as expected |
-| Add Product | ![screenshot](documentation/browsers/chrome-add-product.png) | ![screenshot](documentation/browsers/firefox-add-product.png) | ![screenshot](documentation/browsers/safari-add-product.png) | Works as expected |
-| Edit Product | ![screenshot](documentation/browsers/chrome-edit-product.png) | ![screenshot](documentation/browsers/firefox-edit-product.png) | ![screenshot](documentation/browsers/safari-edit-product.png) | Works as expected |
-| Newsletter | ![screenshot](documentation/browsers/chrome-newsletter.png) | ![screenshot](documentation/browsers/firefox-newsletter.png) | ![screenshot](documentation/browsers/safari-newsletter.png) | Works as expected |
+| Sign Up | ![screenshot](documentation/browsers/chrome-signup.png) | ![screenshot](documentation/browsers/firefox-signup.png) | ![screenshot](documentation/browsers/safari-signup.png) | Works as expected |
+| Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/firefox-login.png) | ![screenshot](documentation/browsers/safari-login.png)| Works as expected |
 | Contact | ![screenshot](documentation/browsers/chrome-contact.png) | ![screenshot](documentation/browsers/firefox-contact.png) | ![screenshot](documentation/browsers/safari-contact.png) | Works as expected |
-| 404 | ![screenshot](documentation/browsers/chrome-404.png) | ![screenshot](documentation/browsers/firefox-404.png) | ![screenshot](documentation/browsers/safari-404.png) | Works as expected |
+| Footer | ![screenshot](documentation/browsers/chrome-contact-footer.png) | ![screenshot](documentation/browsers/firefox-contact-footer.png)| ![screenshot](documentation/browsers/safari-contact-footer.png) | Works as expected |
+
+### Browser Compatibility Result
+
+No major browser compatibility issues were identified during testing.
+
+- Navigation displayed correctly across the tested browsers.
+- Product images and product grids remained correctly aligned.
+- Product detail pages maintained their intended layout.
+- Shopping bag quantity controls remained usable.
+- Checkout forms and order summaries displayed correctly.
+- Sign-up and login forms remained properly aligned.
+- Contact forms displayed correctly.
+- The expandable customer service footer remained functional.
+- No obvious horizontal overflow or overlapping content was observed.
+
+
 
 ## Lighthouse Audit
 
-⚠️ INSTRUCTIONS ⚠️
+The deployed Maria Flowers website was tested using **Google Chrome Lighthouse** to identify potential issues relating to **Performance, Accessibility, Best Practices, and SEO**.
 
-Use this space to discuss testing the live/deployed site's Lighthouse Audit reports. Avoid testing the local version (Gitpod/VSCode/etc.), as this can have knock-on effects for performance. If you don't have "Lighthouse" in your Developer Tools, it can be added as an [extension](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk).
+All Lighthouse tests were carried out on the **deployed version of the website** rather than the local development environment, as testing locally can produce different performance results.
 
-Unless your project is a single-page application (SPA), you should test Lighthouse Audit results for all of your pages, for both *mobile* and *desktop*.
+Lighthouse audits were carried out using both **Mobile** and **Desktop** modes. Mobile Lighthouse scores are generally lower because Lighthouse simulates a slower mobile device, reduced CPU performance, and a slower network connection.
 
-**IMPORTANT**: You must provide screenshots of the results, to "prove" that you've actually tested them.
-
-⚠️ --- END --- ⚠️
-
-I've tested my deployed project using the Lighthouse Audit tool to check for any major issues. Some warnings are outside of my control, and mobile results tend to be lower than desktop.
+The website contains a mixture of informational pages, product pages, authenticated pages, forms, high-resolution product images, and third-party integrations. Therefore, Lighthouse results vary between different areas of the application.
 
 | Page | Mobile | Desktop |
 | --- | --- | --- |
-| Register | ![screenshot](documentation/lighthouse/mobile-register.png) | ![screenshot](documentation/lighthouse/desktop-register.png) |
-| Login | ![screenshot](documentation/lighthouse/mobile-login.png) | ![screenshot](documentation/lighthouse/desktop-login.png) |
-| Profile | ![screenshot](documentation/lighthouse/mobile-profile.png) | ![screenshot](documentation/lighthouse/desktop-profile.png) |
-| Home | ![screenshot](documentation/lighthouse/mobile-home.png) | ![screenshot](documentation/lighthouse/desktop-home.png) |
-| Products | ![screenshot](documentation/lighthouse/mobile-products.png) | ![screenshot](documentation/lighthouse/desktop-products.png) |
-| Product Details | ![screenshot](documentation/lighthouse/mobile-product-details.png) | ![screenshot](documentation/lighthouse/desktop-product-details.png) |
-| Bag | ![screenshot](documentation/lighthouse/mobile-bag.png) | ![screenshot](documentation/lighthouse/desktop-bag.png) |
-| Checkout | ![screenshot](documentation/lighthouse/mobile-checkout.png) | ![screenshot](documentation/lighthouse/desktop-checkout.png) |
-| Checkout Success | ![screenshot](documentation/lighthouse/mobile-checkout-success.png) | ![screenshot](documentation/lighthouse/desktop-checkout-success.png) |
-| Add Product | ![screenshot](documentation/lighthouse/mobile-add-product.png) | ![screenshot](documentation/lighthouse/desktop-add-product.png) |
-| Edit Product | ![screenshot](documentation/lighthouse/mobile-edit-product.png) | ![screenshot](documentation/lighthouse/desktop-edit-product.png) |
-| Newsletter | ![screenshot](documentation/lighthouse/mobile-newsletter.png) | ![screenshot](documentation/lighthouse/desktop-newsletter.png) |
-| Contact | ![screenshot](documentation/lighthouse/mobile-contact.png) | ![screenshot](documentation/lighthouse/desktop-contact.png) |
-| 404 | ![screenshot](documentation/lighthouse/mobile-404.png) | ![screenshot](documentation/lighthouse/desktop-404.png) |
+| Register | ![Mobile Register](documentation/lighthouse/mobile/mobile-register.png) | ![Desktop Register](documentation/lighthouse/desktop/desktop-register.png) |
+| Login | ![Mobile Login](documentation/lighthouse/mobile/mobile-login.png) | ![Desktop Login](documentation/lighthouse/desktop/desktop-login.png) |
+| Logout | ![Mobile Logout](documentation/lighthouse/mobile/mobile-logout.png) | ![Desktop Logout](documentation/lighthouse/desktop/desktop-logout.png) |
+| Password Reset | ![Mobile Password Reset](documentation/lighthouse/mobile/mobile-password-reset.png) | ![Desktop Password Reset](documentation/lighthouse/desktop/desktop-password-reset.png) |
+| Profile | ![Mobile Profile](documentation/lighthouse/mobile/mobile-profile.png) | ![Desktop Profile](documentation/lighthouse/desktop/desktop-profile.png) |
+| Home | ![Mobile Home](documentation/lighthouse/mobile/mobile-home.png)  | ![Desktop Home](documentation/lighthouse/desktop/desktop-home.png) |
+| About | ![Mobile About](documentation/lighthouse/mobile/mobile-about.png) | ![Desktop About](documentation/lighthouse/desktop/desktop-about.png) |
+| Products | ![Mobile Products](documentation/lighthouse/mobile/mobile-products.png) | ![Desktop Products](documentation/lighthouse/desktop/desktop-products.png) |
+| Gifts | ![Mobile Gifts](documentation/lighthouse/mobile/mobile-gifts.png) | ![Desktop Gifts](documentation/lighthouse/desktop/desktop-gifts.png) |
+| Product Details | ![Mobile Product Details](documentation/lighthouse/mobile/mobile-product-details.png) | ![Desktop Product Details](documentation/lighthouse/desktop/desktop-product-details.png) |
+| Bag | ![Mobile Bag](documentation/lighthouse/mobile/mobile-bag.png) | ![Desktop Bag](documentation/lighthouse/desktop/desktop-bag.png) |
+| Checkout | ![Mobile Checkout](documentation/lighthouse/mobile/mobile-checkout.png) | ![Desktop Checkout](documentation/lighthouse/desktop/desktop-checkout.png) |
+| Checkout Success | ![Mobile Checkout Success](documentation/lighthouse/mobile/mobile-checkout-success.png) | ![Desktop Checkout Success](documentation/lighthouse/desktop/desktop-checkout-success.png) |
+| Add Product | ![Mobile Add Product](documentation/lighthouse/mobile/mobile-add-product.png) | ![Desktop Add Product](documentation/lighthouse/desktop/desktop-add-product.png) |
+| Product Review | ![Mobile Review](documentation/lighthouse/mobile/mobile-review.png) | ![Desktop Product Review](documentation/lighthouse/desktop/desktop-product-review.png) |
+| Contact | ![Mobile Contact](documentation/lighthouse/mobile/mobile-contact.png) | ![Desktop Contact](documentation/lighthouse/desktop/desktop-contact.png) |
+| FAQ | ![Mobile FAQ](documentation/lighthouse/mobile/mobile-faq.png) | ![Desktop FAQ](documentation/lighthouse/desktop/desktop-faq.png) |
+| Delivery Policy | ![Mobile Delivery Policy](documentation/lighthouse/mobile/mobile-delivery-policy.png) | ![Desktop Delivery Policy](documentation/lighthouse/desktop/desktop-delivery-policy.png) |
+| Privacy Policy | ![Mobile Privacy Policy](documentation/lighthouse/mobile/mobile-privacy-policy.png) | ![Desktop Privacy Policy](documentation/lighthouse/desktop/desktop-privacy-policy.png) |
+| Refund Policy | ![Mobile Refund Policy](documentation/lighthouse/mobile/mobile-refund-policy.png) | ![Desktop Refund Policy](documentation/lighthouse/desktop/desktop-refund-policy.png) |
+| Terms & Conditions | ![Mobile Terms and Conditions](documentation/lighthouse/mobile/mobile-terms-and-conditions.png) | ![Desktop Terms and Conditions](documentation/lighthouse/desktop/desktop-terms-conditions.png) |
+
+### Desktop Lighthouse Results
+
+The following scores were recorded during Desktop Lighthouse testing of the deployed Maria Flowers website.
+
+| Page | Performance | Accessibility | Best Practices | SEO |
+| --- | ---: | ---: | ---: | ---: |
+| Home | 87 | 100 | 100 | 100 |
+| About | 95 | 100 | 100 | 100 |
+| Products | 70 | 95 | 100 | 91 |
+| Gifts | 75 | 95 | 100 | 91 |
+| Product Details | 81 | 95 | 100 | 100 |
+| Bag | 81 | 86 | 100 | 91 |
+| Checkout | 75 | 89 | 77 | 100 |
+| Checkout Success | 82 | 100 | 100 | 100 |
+| Add Product | 96 | 95 | 100 | 100 |
+| Product Review | 82 | 96 | 100 | 100 |
+| Contact | 97 | 100 | 100 | 100 |
+| FAQ | 86 | 96 | 100 | 100 |
+| Delivery Policy | 86 | 96 | 100 | 100 |
+| Privacy Policy | 82 | 100 | 100 | 100 |
+| Refund Policy | 97 | 96 | 100 | 100 |
+| Terms & Conditions | 91 | 96 | 100 | 100 |
+
+### Lighthouse Results Analysis
+
+Overall, Lighthouse testing showed strong results across the Maria Flowers website, particularly for **Accessibility, Best Practices, and SEO**.
+
+Many pages achieved scores of **95–100** in Accessibility and **100** in Best Practices and SEO.
+
+Performance scores varied more significantly because different pages contain different types and quantities of resources.
+
+For example, the **Products** and **Gifts** pages display multiple high-resolution product images at the same time. Loading and rendering these images increases the amount of data required by the browser and can therefore result in lower Performance scores.
+
+The **Product Details** page also contains a large product image together with interactive elements such as quantity selection, product customisation, delivery options, and customer reviews. As a result, it requires more resources than simpler informational pages.
+
+### Mobile Lighthouse Results
+
+Mobile Lighthouse Performance scores were generally lower than Desktop results.
+
+This is expected because Lighthouse Mobile mode simulates a less powerful mobile device and applies CPU and network throttling.
+
+Some informational pages achieved Mobile Performance scores in the high 50s while still receiving excellent Accessibility, Best Practices, and SEO results.
+
+This indicates that the lower mobile Performance scores are primarily associated with loading and rendering resources under simulated mobile conditions rather than major structural or accessibility problems.
+
+### Checkout Lighthouse Results
+
+The **Checkout** page received lower Lighthouse results than many of the other pages, particularly for **Performance** and **Best Practices**.
+
+This is partly because the checkout process uses **third-party functionality**, most importantly the **Stripe payment integration**.
+
+Stripe loads external JavaScript and secure payment components that are not part of the Maria Flowers codebase. Stripe also uses secure iframe-based payment components and additional security functionality required to process payments safely.
+
+These external resources can increase:
+
+- JavaScript execution time.
+- Network requests.
+- Main-thread activity.
+- Page loading time.
+- Third-party resource usage.
+
+As a result, they can have an impact on the Lighthouse Performance and Best Practices scores.
+
+Lighthouse may also identify warnings relating to third-party scripts, browser APIs, cookies, security mechanisms, CAPTCHA or bot-detection functionality, and deprecated functionality contained within externally loaded libraries.
+
+Because this code is supplied and maintained by third-party providers, these particular warnings cannot always be corrected directly within the Maria Flowers project.
+
+The lower Checkout Lighthouse score therefore does not necessarily indicate a problem with the project's own HTML, CSS, Python, or JavaScript implementation.
+
+Removing Stripe or its required security resources simply to increase the Lighthouse score would remove essential secure payment functionality and would therefore not be an appropriate optimisation.
+
+The reported issues were reviewed during testing, and the checkout process was manually tested to confirm that:
+
+- Customer information can be entered correctly.
+- Form validation works as expected.
+- Stripe payment functionality loads correctly.
+- Payments can be processed.
+- Orders are created successfully.
+- Customers are redirected to the Checkout Success page after a successful transaction.
+
+### Performance Considerations
+
+Several factors can influence Lighthouse Performance scores across the website:
+
+- High-resolution product and promotional images.
+- Multiple images displayed simultaneously on product listing pages.
+- External JavaScript resources.
+- Stripe payment functionality.
+- Third-party security functionality.
+- Font and icon resources.
+- Browser and network conditions at the time of testing.
+- Mobile CPU and network throttling applied automatically by Lighthouse.
+- Dynamic Django content and database queries.
+- Authenticated functionality such as profiles, orders, reviews, and checkout.
+
+Where possible, images and static resources were optimised and unnecessary code was removed during development.
+
+However, some external resources are necessary for the website's functionality and cannot be completely removed without affecting important features such as secure payment processing.
+
+### Accessibility
+
+Accessibility results were generally very strong across the website.
+
+Lighthouse accessibility testing helped identify issues relating to areas such as:
+
+- Heading structure.
+- Form labels.
+- ARIA attributes.
+- Navigation structure.
+- Link accessibility.
+- Image alternative text.
+- Colour contrast.
+- Interactive controls.
+
+Issues identified during development were reviewed and corrected where possible.
+
+Some pages received slightly lower Accessibility scores because of page-specific forms, controls, or interactive components. These pages were additionally checked manually to ensure that their primary functionality remained usable.
+
+### Best Practices
+
+Most pages achieved a **100 Best Practices score**.
+
+The main exception was the **Checkout** page, which achieved a lower score.
+
+As described above, the checkout process relies on Stripe and other externally loaded resources.
+
+Some Lighthouse Best Practices warnings can therefore originate from third-party scripts rather than directly from the project's source code.
+
+All warnings were reviewed to determine whether they originated from Maria Flowers or from external services.
+
+### SEO
+
+SEO results were generally excellent, with most pages achieving a score of **100**.
+
+The website includes appropriate page titles, heading structures, semantic HTML, navigation links, alternative text, and other elements that allow search engines to understand the content of the application.
+
+Some product listing pages received slightly lower SEO scores. These findings were reviewed during testing and did not prevent the pages from being accessible or usable.
+
+### Conclusion
+
+The Lighthouse tests demonstrate that the deployed Maria Flowers website performs well overall across **Performance, Accessibility, Best Practices, and SEO**.
+
+The strongest results were recorded on informational pages such as **Contact**, **About**, **Refund Policy**, and **Terms & Conditions**.
+
+More complex e-commerce pages, particularly **Products**, **Bag**, and **Checkout**, recorded lower Performance scores because they contain additional images, forms, dynamic content, and third-party integrations.
+
+The Checkout page is particularly affected by the use of **Stripe and external payment/security resources**, which are necessary to provide secure payment functionality and are partly outside the direct control of the project.
+
+Mobile Performance scores were also generally lower because Lighthouse simulates slower mobile hardware and network conditions.
+
+All Lighthouse findings were reviewed during development, and issues originating from the Maria Flowers codebase were addressed where reasonably possible.
+
+
 
 ## Defensive Programming
 
