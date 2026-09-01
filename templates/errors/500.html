@@ -1,0 +1,43 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Server Error | MariaFlowers</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/base.css' %}"
+    >
+</head>
+
+<body>
+    <main class="container text-center py-5">
+        <h1 class="logo-font mb-4">
+            500 - Server Error
+        </h1>
+
+        <p class="lead mb-4">
+            Sorry, something went wrong on our side.
+        </p>
+
+        <p class="text-muted mb-4">
+            Please try again later or return to the Maria Flowers homepage.
+        </p>
+
+        <a
+            href="/"
+            class="btn btn-black rounded-0 text-uppercase"
+        >
+            Return Home
+        </a>
+    </main>
+</body>
+</html>
