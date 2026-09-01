@@ -9,23 +9,31 @@ Developer: Azamat Kashebayev ([akashebaev-ux](https://www.github.com/akashebaev-
 
 ## Project Introduction and Rationale
 
-Maria Flowers is a full-stack e-commerce flower shop designed to provide customers with a simple, convenient, and reliable way to order fresh flowers online. The application allows users to browse and search a catalogue of flower arrangements, view detailed product information, add products to a shopping bag, select their preferred delivery date and time, and complete their purchase securely using Stripe.
+Maria Flowers is a full-stack e-commerce flower-delivery application designed to provide customers with a simple, convenient, and reliable way to order fresh flowers online.
 
-The website is primarily aimed at customers who want to order flowers for occasions such as birthdays, anniversaries, celebrations, romantic occasions, or simply as a gift. The application has been designed to make the ordering process straightforward while giving customers important information about products, delivery, payments, and store policies before completing their purchase.
+The application allows users to browse and search a catalogue of flower arrangements, view detailed product information, personalise selected bouquets, add products to a shopping bag, select a preferred delivery date and time, provide recipient information, and complete their purchase securely using Stripe.
 
-Registered customers have access to additional functionality, including saved delivery information and order history. Maria Flowers also includes a verified review system that allows eligible customers to rate their purchase, leave an optional comment, and upload review images after the relevant order has been completed. Connecting reviews to genuine customer orders helps make the feedback displayed on the website more trustworthy.
+Registered customers have access to additional functionality, including saved delivery information and order history. Maria Flowers also includes a verified review system that allows eligible customers to rate purchased products, leave optional comments, upload review images, and interact with existing customer reviews. Connecting reviews to genuine completed purchases helps make the feedback displayed on the website more trustworthy.
 
-From the business perspective, Maria Flowers provides administrators with tools to manage products, categories, customer orders, reviews, and customer enquiries. The application also integrates email notifications and the WhatsApp Business Cloud API to support communication relating to orders and customer enquiries.
+From the business perspective, Maria Flowers provides administrators with tools to manage products, categories, customer orders, reviews, customer enquiries, and other application data. The application also integrates email notifications and the WhatsApp Business Cloud API to support communication relating to orders and customer enquiries.
 
 ### Project Rationale
 
-I chose to develop Maria Flowers because ordering flowers online involves requirements that go beyond those of a basic e-commerce store. Flowers are frequently purchased for a particular occasion and therefore customers often need control over when their order will be delivered. For this reason, I wanted to develop an e-commerce application where delivery information, customer communication, and post-purchase feedback are important parts of the overall user experience.
+I chose to develop Maria Flowers because purchasing flowers online involves requirements that go beyond those of a standard e-commerce transaction.
 
-The project was originally developed from Code Institute's **Boutique Ado** walkthrough project, which provided the foundation for standard e-commerce functionality such as product management, a shopping bag, checkout, Stripe payments, and customer profiles. I then adapted and extended this foundation to create Maria Flowers as a distinct flower-delivery application.
+Flowers are often purchased for important occasions such as birthdays, anniversaries, celebrations, romantic occasions, weddings, or as gifts for people who may be located in another city or country. Customers therefore need confidence not only that their payment has been processed successfully, but also that the flowers will be delivered at the appropriate time and that the product they receive will meet their expectations.
 
-My custom development includes flower-specific branding and product presentation, delivery date and time selection, extended order functionality, customer contact enquiries, WhatsApp Business integration, and a verified review system with ratings, comments, review images, and reactions.
+This creates an additional trust requirement that is particularly important when a customer is ordering from a flower shop they have never used before.
 
-Developing Maria Flowers allowed me to apply the core full-stack concepts covered throughout the Code Institute course while also extending the original walkthrough project with my own database models, business logic, integrations, validation, testing, responsive design, and user experience decisions.
+The wider concept behind Maria Flowers is therefore based on reducing this uncertainty. The long-term aim is to develop the application into a marketplace where customers can place flower orders through Maria Flowers while approved flower shops fulfil those orders locally. Maria Flowers would provide the additional layer of trust, customer protection, and quality assurance around the transaction.
+
+For the current project, I focused on building the e-commerce foundation required to support this concept. This includes product browsing, secure payments, delivery scheduling, recipient information, order management, customer communication, verified reviews, and post-purchase feedback.
+
+The project was originally developed from Code Institute's **Boutique Ado** walkthrough project, which provided the foundation for standard e-commerce functionality such as product management, a shopping bag, checkout, Stripe payments, and customer profiles. I then adapted and extended this foundation to create Maria Flowers as a distinct flower-delivery application. A full overview of the functionality I added or significantly modified can be found in the [Custom Features and Enhancements](#custom-features-and-enhancements) section.
+
+My custom development includes flower-specific branding and product presentation, bouquet customisation, delivery date and time selection, extended order functionality, automatic order completion, customer contact enquiries, WhatsApp Business integration, newsletter functionality, and a verified review system with ratings, comments, review images, and reactions.
+
+Developing Maria Flowers allowed me to apply the core full-stack concepts covered throughout the Code Institute course while also extending the original walkthrough project with my own database models, business logic, integrations, validation, automated testing, responsive design, accessibility improvements, and user experience decisions.
 
 ![Maria Flowers responsive mockup](documentation/iamresponsive.png)
 
@@ -389,7 +397,6 @@ The desktop and laptop wireframes show the planned layout for larger screens, in
 | As a Site Owner | I can store WhatsApp messages | so that communication related to orders can be recorded | Should Have |
 | As a Flower Shop | I can receive paid orders | so that I can begin preparing confirmed customer orders | Must Have |
 | As a Flower Shop | I can send WhatsApp responses | so that I can communicate with customers about their orders | Could Have |
-| As a Flower Shop | I can upload bouquet preparation videos | so that customers can see their flowers being prepared | Should Have |
 | As a Customer | I can leave ratings and reviews | so that I can share my experience with other customers | Must Have |
 | As a Customer | I can track my order status | so that I know the progress of my flower order | Should Have |
 | As a Site Admin | I can manage orders through Django Admin | so that I can efficiently process and maintain customer orders | Must Have |
@@ -398,9 +405,11 @@ The desktop and laptop wireframes show the planned layout for larger screens, in
 | As a Customer | I can have a taxi automatically booked for delivery | so that my flower order can be delivered without manual booking | Won't Have |
 | As a Customer | I can track my delivery using live GPS | so that I can see where my flower delivery is | Won't Have |
 | As a Customer | I can build a custom bouquet | so that I can create a personalised flower arrangement | Won't Have |
-| As a Site User | I can view flower care instructions | so that I know how to keep the flowers fresh for longer | Could Have |
+| As a Site User | I can view flower care instructions | so that I know how to keep the flowers fresh for longer | Won't Have |
 | As a Customer | I can choose whether to include a vase | so that I can customise how my flowers are presented | Won't Have |
-| As a Customer | I can choose a wrapping option | so that I can personalise the presentation of my bouquet | Could Have |
+| As a Customer | I can choose a wrapping option | so that I can personalise the presentation of my bouquet | Won't Have |
+| As a Flower Shop | I can upload bouquet preparation videos | so that customers can see their flowers being prepared | Won't Have |
+
 
 ### MoSCoW Prioritisation
 
@@ -492,6 +501,55 @@ The following features are planned as potential future improvements to MariaFlow
 - **Multi-Language Support**: Introduce additional languages such as Kazakh and Russian to make MariaFlowers more accessible to customers in Kazakhstan.
 
 - **Mobile Application**: Develop dedicated iOS and Android applications if the platform grows sufficiently to justify a native mobile experience.
+
+--- 
+
+## Custom Features and Enhancements
+
+Maria Flowers was developed using the Code Institute **Boutique Ado** walkthrough project as its initial foundation. The original project was substantially adapted and extended to create a flower e-commerce application with additional functionality specific to flower ordering and delivery.
+
+The following features were added or significantly modified beyond the original Boutique Ado project:
+
+| Feature | Description |
+| --- | --- |
+| Maria Flowers Rebranding | Rebranded the Boutique Ado project into Maria Flowers, including branding, navigation, content, product catalogue, imagery and styling. |
+| Flower Product Catalogue | Replaced the original clothing-focused catalogue with flower products, bouquets and flower-specific categories. |
+| Bouquet Options | Added flower-specific product options to allow customers to personalise bouquet orders. |
+| Delivery Date Selection | Added functionality allowing customers to choose a delivery date for their flower order. |
+| Delivery Time Selection | Added selectable delivery time slots so customers can choose a preferred delivery period. |
+| Recipient Information | Added recipient details to the checkout process so flowers can be delivered to a person other than the purchaser. |
+| Greeting Card Messages | Added an optional greeting card message that customers can include with their flower order. |
+| Order Status System | Added order statuses to allow orders to be tracked through the fulfilment process. |
+| Automatic Order Completion | Added custom logic that automatically marks orders as completed after the delivery date has passed. |
+| Ratings and Reviews | Added customer ratings and reviews for completed orders. |
+| Review Validation | Restricted reviews so they can only be submitted for eligible completed orders. |
+| Review Images | Added functionality allowing images to be associated with customer reviews. |
+| Helpful Review Reactions | Added reactions that allow authenticated users to mark reviews as helpful while preventing duplicate reactions. |
+| WhatsApp Integration | Added WhatsApp Business Cloud API integration for flower-shop order communication. |
+| Paid Order Notifications | Added functionality to send WhatsApp notifications when an order has been successfully paid. |
+| WhatsApp Message Storage | Added database storage for WhatsApp messages and their delivery status. |
+| Duplicate Message Prevention | Added logic to prevent the same paid-order WhatsApp notification from being sent more than once. |
+| Contact Form | Added a custom contact page allowing visitors to contact Maria Flowers. |
+| Contact Email Notifications | Added email notifications for submitted contact messages. |
+| Contact WhatsApp Notifications | Added WhatsApp notifications for contact form submissions. |
+| Newsletter Subscription | Added newsletter subscription functionality with subscriber information stored in the database. |
+| Flower Search and Filtering | Adapted product search, filtering and sorting for the Maria Flowers catalogue. |
+| Order History Enhancements | Extended customer order history with delivery information, order status and review availability. |
+| Custom Django Admin | Extended Django Admin functionality to support flower products, customer orders and additional Maria Flowers models. |
+| Legal and Information Pages | Added Privacy Policy, Terms and Conditions, Delivery Policy, Refund Policy, FAQ, About and Contact pages. |
+| Custom Error Pages | Added customised error handling and error pages consistent with Maria Flowers branding. |
+| Responsive Design Improvements | Added and refined responsive styling for mobile, tablet and desktop layouts. |
+| Accessibility Improvements | Improved heading structure, navigation markup, ARIA usage and HTML validity following accessibility testing. |
+| Performance Improvements | Optimised front-end assets, images, CSS and external resources following Lighthouse testing. |
+
+These changes transformed the original Boutique Ado foundation into a specialised flower-ordering application designed around the requirements of Maria Flowers.
+
+
+### Custom Code
+
+A detailed overview of the models, business logic, and functionality added beyond the original Code Institute Boutique Ado walkthrough can be found in the [Maria Flowers Custom Code Documentation](documentation/custom-code/CUSTOM_CODE.md).
+
+---
 
 ## Tools & Technologies
 
@@ -891,51 +949,213 @@ This approach allowed development to remain focused on delivering a functional e
 
 ## Ecommerce Business Model
 
-MariaFlowers follows a **Business-to-Consumer (B2C)** e-commerce model. The website is designed to sell flower bouquets and related products directly to individual customers who want to purchase flowers online for themselves or as gifts for other people.
+The current Maria Flowers application operates as a **Business-to-Consumer (B2C) e-commerce application**, allowing customers to browse flower products, customise selected bouquets, provide recipient and delivery information, and complete payments securely through Stripe.
 
-The primary business objective is to provide customers with a convenient way to browse available flower products, select bouquet options, place an order, choose a preferred delivery date and time, provide recipient information, add a personalised greeting message, and complete payment online.
+However, the long-term business vision for Maria Flowers is to develop the platform into a **quality-assured international flower marketplace** connecting customers with approved local flower shops.
 
-Unlike a subscription-based business, MariaFlowers primarily operates through **individual transactions**. Customers purchase products when required, for example for birthdays, anniversaries, celebrations, romantic occasions, or other special events.
+In this marketplace model, customers would place and pay for their orders through Maria Flowers rather than completing transactions directly with individual flower shops. The selected partner flower shop would prepare and deliver the physical bouquet, while Maria Flowers would manage the marketplace transaction and provide an additional layer of quality assurance, customer protection, and accountability.
+
+The intended transaction model is:
+
+**Customer → Maria Flowers Marketplace → Approved Local Flower Shop → Recipient**
+
+This model would allow a customer in one country to order flowers for somebody in another country without requiring flowers to be physically shipped internationally. Instead, an approved flower shop located near the recipient would prepare and deliver the order locally.
+
+Maria Flowers would therefore act as the trusted intermediary between the customer and the flower shop.
+
+### Value Proposition
+
+The main value provided by Maria Flowers would not simply be access to flowers.
+
+Customers would primarily use the marketplace because Maria Flowers provides **trust, quality assurance, and customer protection** around the transaction.
+
+Ordering flowers online can involve uncertainty, particularly when a customer is ordering from a flower shop they have never used before or sending flowers to somebody in another city or country.
+
+Customers may be concerned about whether:
+
+- The flowers will be fresh.
+- The delivered bouquet will match the product shown online.
+- The arrangement will be professionally prepared.
+- The correct flowers and quantities will be used.
+- The delivery will arrive on the agreed date and time.
+- Appropriate substitutions will be made if a particular flower is unavailable.
+- The flower shop will respond appropriately if something goes wrong.
+
+Maria Flowers is intended to reduce these concerns by establishing quality and service standards that participating flower shops would be required to follow.
+
+Rather than requiring customers to independently investigate and trust individual flower shops, customers would be able to trust the Maria Flowers marketplace.
+
+> **The flower shop provides the flowers. Maria Flowers provides the guarantee.**
+
+### Customer Guarantee
+
+Customer protection would be a central part of the future Maria Flowers marketplace.
+
+Customers would complete their transactions through Maria Flowers with the expectation that the marketplace stands behind the quality of the order.
+
+If a partner flower shop failed to meet the required quality or service standards, Maria Flowers would take responsibility for resolving the issue with the customer rather than requiring the customer to deal with the flower shop alone.
+
+Depending on the circumstances, possible resolutions could include:
+
+- A replacement bouquet.
+- A partial refund.
+- A full refund.
+- Marketplace credit.
+- A discount on a future purchase.
+- Complimentary flowers or another appropriate gift.
+
+This guarantee would form an important part of the value customers receive when completing their transaction through Maria Flowers.
+
+### Flower Shop Quality and Accountability
+
+Flower shops participating in the future marketplace would be required to meet defined Maria Flowers standards for product quality, presentation, delivery, and customer service.
+
+Partner performance could be evaluated using information such as:
+
+- Verified customer ratings and reviews.
+- Customer complaints.
+- Product quality issues.
+- Order accuracy.
+- Delivery performance.
+- Order cancellations.
+- Refund requests.
+- Replacement requests.
+- Repeated failure to meet marketplace requirements.
+
+Where a partner flower shop repeatedly failed to meet the required standards, Maria Flowers could apply contractual quality-control measures.
+
+Depending on the severity and frequency of the problem, these measures could include:
+
+- Formal warnings.
+- Responsibility for customer compensation.
+- Contractual financial penalties.
+- Reduced marketplace visibility.
+- Temporary suspension.
+- Permanent removal from the marketplace.
+
+These measures would help protect customers and maintain trust in the Maria Flowers brand.
 
 ### Revenue Model
 
-The main source of revenue for MariaFlowers is the direct sale of flower bouquets and related products through the website. Customers browse the product catalogue, add products to their shopping bag and complete their purchase through the online checkout.
+The current Maria Flowers application demonstrates direct flower purchases completed securely through Stripe.
 
-The website also supports delivery as part of the ordering process, allowing MariaFlowers to provide a complete flower-ordering service rather than requiring customers to arrange collection separately.
+In the future marketplace model, customers would continue to complete their transactions through Maria Flowers, while local partner flower shops would fulfil the physical orders.
+
+Maria Flowers could generate revenue primarily through a **marketplace commission or service fee** applied to transactions completed through the platform.
+
+A future transaction could operate as follows:
+
+1. A customer selects and orders flowers through Maria Flowers.
+2. The customer completes payment through the Maria Flowers marketplace.
+3. Maria Flowers confirms the transaction and routes the order to an approved flower shop located near the recipient.
+4. The flower shop prepares and delivers the bouquet.
+5. Maria Flowers retains an agreed marketplace commission or service fee.
+6. The remaining amount is settled with the partner flower shop according to the marketplace agreement.
+
+The value provided by Maria Flowers would therefore extend beyond simply facilitating the sale of flowers.
+
+The marketplace could provide:
+
+- Secure payment processing.
+- Access to approved flower shops.
+- Quality assurance.
+- Customer protection.
+- Order management.
+- Customer support.
+- Dispute resolution.
+- Verified customer reviews.
+- Partner performance monitoring.
+- Compensation where agreed marketplace standards are not met.
+
+Customers would therefore be paying not only for the physical flowers, but also for the confidence that Maria Flowers stands behind the transaction.
 
 ### Target Customers
 
-MariaFlowers primarily targets individual customers looking for a convenient way to purchase and send flowers in Almaty.
+Maria Flowers is intended for customers who want a convenient and reliable way to purchase or send flowers while reducing the uncertainty involved in ordering from an unfamiliar flower shop.
 
 Potential customers include:
 
 - Customers purchasing flowers for birthdays and celebrations.
-- Customers sending flowers as gifts to friends, partners or family members.
+- Customers sending flowers to friends, partners, family members, or colleagues.
 - Customers purchasing flowers for anniversaries and romantic occasions.
+- Customers sending flowers to recipients in another city or country.
 - Customers who prefer ordering flowers online rather than visiting a physical flower shop.
-- Customers who require flowers to be delivered to another recipient.
+- Customers who value quality assurance when making an online purchase.
+- Customers who want additional protection if an order does not meet expectations.
+- Customers who prefer completing the entire transaction through one trusted marketplace.
+- Customers who do not want to independently research individual flower shops before placing an order.
 
-The responsive design also allows customers to browse and order flowers using mobile devices, which is particularly important for customers making quick or last-minute purchases.
+A particularly important future customer group is people sending flowers internationally.
+
+For example, a customer living in Sweden could order flowers through Maria Flowers for a recipient living in France. Instead of shipping fresh flowers from Sweden to France, Maria Flowers could route the order to an approved flower shop located near the recipient.
+
+This would allow Maria Flowers to operate internationally while keeping flower preparation and delivery local.
+
+### Flower Shop Partners
+
+Flower shops would represent the second side of the future Maria Flowers marketplace.
+
+Partner flower shops could benefit from:
+
+- Access to additional customers.
+- International customer demand.
+- Increased online visibility.
+- Customer acquisition through the Maria Flowers platform.
+- Secure online payment infrastructure.
+- Order-management tools.
+- Customer communication functionality.
+- Verified customer reviews.
+- Marketplace reputation.
+- Reduced need to independently market to customers in other countries.
+
+In return, participating flower shops would be expected to comply with Maria Flowers standards relating to product quality, presentation, order accuracy, delivery, and customer service.
+
+The aim would be to create a network of reliable flower shops where customers can trust the **Maria Flowers brand regardless of which local florist ultimately fulfils the order**.
 
 ### Customer Engagement
 
-MariaFlowers includes several features designed to support customer engagement and encourage customers to return to the website.
+Maria Flowers includes several features designed to support customer engagement and encourage customers to return to the platform.
 
-Registered customers can access their order history and account information, while the ratings and reviews functionality allows customers to share their experiences after eligible orders.
+Registered customers can access their order history and account information, while the verified ratings and reviews functionality allows eligible customers to share their experiences after completed purchases.
 
-A newsletter subscription feature allows visitors to provide their email address to receive future information about promotions, discounts and new flower collections. This provides the business with an opportunity to maintain contact with interested customers and encourage repeat purchases.
+The review system is particularly important to the future marketplace concept because customer feedback could help both customers and Maria Flowers evaluate the performance and reliability of flower-shop partners.
+
+A newsletter subscription feature also allows visitors to provide their email address to receive future information about promotions, new flower collections, platform developments, and seasonal campaigns.
+
+In the future marketplace model, customer retention would be based not only on individual flower purchases but also on trust in the **Maria Flowers guarantee**.
+
+A customer who has successfully used Maria Flowers should be able to return to the platform when sending flowers to a different recipient, city, or country without needing to independently research the local flower shop fulfilling each new order.
 
 ### Social Media Marketing
 
-Social media forms an important part of the potential marketing strategy for MariaFlowers. Links to social platforms are provided through the website footer, allowing customers to discover and interact with the business through additional channels.
+Social media forms an important part of the potential marketing strategy for Maria Flowers.
 
-Platforms such as **Facebook, Instagram and TikTok** can be used to showcase bouquets, new flower collections, seasonal arrangements and promotional offers. Because flowers are highly visual products, image and video-based social media content can be particularly useful for attracting potential customers.
+Links to social platforms are provided through the website footer, allowing customers to discover and interact with the Maria Flowers brand through additional channels.
 
-Social media can also help build awareness of the MariaFlowers brand and direct potential customers to the e-commerce website.
+Platforms such as **Facebook, Instagram and TikTok** could be used to showcase:
+
+- Flower arrangements.
+- New collections.
+- Seasonal bouquets.
+- Customer experiences.
+- Partner flower shops.
+- Quality standards.
+- Verified customer reviews.
+- Successful deliveries.
+- Promotional campaigns.
+- Customer-protection guarantees.
+
+Because flowers are highly visual products, image and video-based social media content can be particularly effective for attracting potential customers.
+
+Social media could also be used to communicate the main Maria Flowers value proposition: customers are not simply choosing a bouquet from an unfamiliar flower shop, but completing their transaction through a marketplace that provides additional quality assurance and customer protection.
+
+This could help build recognition of **Maria Flowers as the trusted brand behind the transaction**, regardless of which approved flower shop fulfils the physical order.
 
 ### Email Marketing
 
-The MariaFlowers newsletter provides an additional digital marketing channel. Visitors can voluntarily subscribe by entering their email address through the newsletter form.
+The Maria Flowers newsletter provides an additional digital marketing channel that can be used to maintain communication with both previous customers and potential future customers.
+
+Visitors can voluntarily subscribe by entering their email address through the newsletter form.
 
 The mailing list could be used to communicate:
 
@@ -943,27 +1163,102 @@ The mailing list could be used to communicate:
 - Seasonal bouquets.
 - Promotional offers and discounts.
 - Valentine's Day, Mother's Day and other seasonal campaigns.
+- New marketplace locations or partner flower shops.
 - New products and services.
+- Customer guarantee information.
 - Important business or delivery updates.
+
+Email marketing can also help strengthen trust in the Maria Flowers brand by reminding customers that the platform provides more than access to flower products. Future campaigns could communicate the quality standards, customer protection measures, verified reviews, and marketplace guarantee offered through Maria Flowers.
 
 This creates an opportunity to maintain relationships with previous and potential customers rather than relying exclusively on customers discovering the website again independently.
 
 ### Customer Retention
 
-MariaFlowers is designed not only to support individual purchases but also to encourage repeat business. Features such as customer accounts, order history, ratings and reviews, newsletter subscriptions and social media links provide opportunities to maintain longer-term relationships with customers.
+Maria Flowers is designed not only to support individual flower purchases but also to encourage customers to return to the platform for future orders.
 
-Together, these features support the overall **B2C e-commerce strategy** by combining online product sales with customer engagement, digital marketing and opportunities for repeat purchases.
+Features such as customer accounts, order history, verified ratings and reviews, newsletter subscriptions, and social media links provide opportunities to maintain longer-term relationships with customers.
+
+In the future marketplace model, customer retention would depend particularly on trust in the **Maria Flowers guarantee**.
+
+A customer who has successfully completed an order through Maria Flowers should be able to return to the platform when ordering flowers for another occasion, recipient, city, or country without having to independently research and evaluate a different local flower shop each time.
+
+The aim is for customers to develop trust in the **Maria Flowers brand itself**, even when different approved flower shops fulfil individual orders.
+
+Customer loyalty could therefore be supported through:
+
+- Consistent quality standards.
+- Reliable delivery.
+- Verified customer reviews.
+- Clear customer protection.
+- Fast resolution of complaints.
+- Replacement or compensation where appropriate.
+- Promotional offers.
+- Newsletter campaigns.
+- Repeat-order functionality.
+- A consistent purchasing experience across different locations.
+
+Together, these features support the wider Maria Flowers marketplace strategy by combining online flower purchases with customer engagement, quality assurance, customer protection, and opportunities for repeat business.
+
+
+---
+
 
 ## SEO & Marketing
 
 ### Keywords
 
-I've identified some appropriate keywords to align with my site, that should help users when searching online to find my page easily from a search engine. This included a series of the following keyword types:
+Keyword research was carried out to identify words and phrases relevant to the current Maria Flowers website and its target customers.
 
-- Short-tail (head terms) keywords
-- Long-tail keywords
+The website content naturally uses flower-related keywords throughout headings, product descriptions, navigation, product categories, and customer-facing information.
 
-I've also played around with [Word Tracker](https://www.wordtracker.com) a bit to check the frequency of some of my site's primary keywords (only until the free trial expired).
+Some of the main terms used throughout the website include:
+
+- **Fresh flowers**
+- **Flowers**
+- **Flower arrangements**
+- **Bouquets**
+- **Beautiful bouquets**
+- **Flower delivery**
+- **Birthdays**
+- **Anniversaries**
+- **Celebrations**
+- **Gifts**
+- **Special offers**
+
+These terms are relevant to the products and services currently presented on Maria Flowers and help search engines understand the purpose of the website.
+
+Both short-tail and more descriptive keyword phrases are used naturally within the site's content rather than being repeatedly inserted purely for search-engine purposes.
+
+I used [Wordtracker](https://www.wordtracker.com) to explore keyword-related information and gain a better understanding of search competition, keyword difficulty, backlinks, and opportunities for future SEO development.
+
+### Future SEO Strategy
+
+The long-term vision for Maria Flowers is to develop the application into an international quality-assured flower marketplace. If this marketplace functionality is implemented in the future, the SEO strategy would also expand to reflect the new services provided by the platform.
+
+Future SEO development could include international and location-specific search terms, marketplace-related content, and dedicated pages for countries, cities, and approved flower-shop partners.
+
+### Future Backlink Strategy
+
+Backlinks would also form an important part of the future SEO strategy.
+
+As Maria Flowers develops into a marketplace, real approved flower-shop partners could link from their own websites to Maria Flowers or to their marketplace profile.
+
+For example, a participating florist could display an **Official Maria Flowers Partner** link on its website.
+
+This would create genuine and relevant backlinks from businesses operating directly within the flower industry.
+
+Additional future backlink opportunities could include:
+
+- Partner flower-shop websites.
+- Florist directories.
+- Wedding planners and venues.
+- Hotels.
+- Event organisers.
+- Gift websites.
+- Flower-related blogs and publications.
+- Relevant business directories.
+
+The aim would be to build backlinks naturally through genuine commercial relationships rather than using unrelated or low-quality links purely to increase backlink numbers.
 
 ### Sitemap
 
