@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page_title %}
+Edit {{ product.name }} | MariaFlowers Admin
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="Maria Flowers administration page for editing an existing product in the catalogue."
+>
+{% endblock %}
+
+{% block extra_meta %}
+{{ block.super }}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">

@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page_title %}
+{{ product.name }} | MariaFlowers
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="{{ product.description|striptags|truncatechars:155 }}"
+>
+{% endblock %}
+
 {% block page_header %}
 <div class="container header-container">
     <div class="row">

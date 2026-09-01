@@ -2,6 +2,22 @@
 {% load static %}
 {% load bag_tools %}
 
+{% block page_title %}
+Secure Checkout | MariaFlowers
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="Complete your Maria Flowers order securely with delivery details, order summary and Stripe payment."
+>
+{% endblock %}
+
+{% block extra_meta %}
+{{ block.super }}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block extra_css %}
     <link
         rel="stylesheet"

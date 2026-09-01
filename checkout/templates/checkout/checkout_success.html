@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page_title %}
+Order Confirmed | MariaFlowers
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="Your Maria Flowers order has been confirmed. Review your order, delivery and payment details."
+>
+{% endblock %}
+
+{% block extra_meta %}
+{{ block.super }}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block extra_css %}
     <link
         rel="stylesheet"

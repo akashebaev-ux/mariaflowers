@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page_title %}
+Shopping Bag | MariaFlowers
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="Review the flowers, gifts, quantities, delivery details and order total in your Maria Flowers shopping bag."
+>
+{% endblock %}
+
+{% block extra_meta %}
+{{ block.super }}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">

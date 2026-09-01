@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
+{% block page_title %}
+{% block head_title %}Account{% endblock %} | MariaFlowers
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="Manage your Maria Flowers account, sign in, register or update your account security settings."
+>
+{% endblock %}
+
+{% block extra_meta %}
+{{ block.super }}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block content %}
     <div class="container header-container">
         <div class="overlay"></div>

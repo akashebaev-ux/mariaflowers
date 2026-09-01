@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_title %}
-    | Review Product
+{% block page_title %}
+Review {{ product.name }} | MariaFlowers
+{% endblock %}
+
+{% block meta_description %}
+<meta
+    name="description"
+    content="Share your experience with {{ product.name }} by submitting a verified rating, comment and optional review image."
+>
+{% endblock %}
+
+{% block extra_meta %}
+{{ block.super }}
+<meta name="robots" content="noindex, nofollow">
 {% endblock %}
 
 {% block page_header %}
