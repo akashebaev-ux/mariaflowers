@@ -1061,10 +1061,13 @@ Chrome DevTools/Lighthouse also displayed the following warning:
 
 ![Deprecated JavaScript warning](documentation/bugs/issue-deprecated-stripe-on-all-pages.png)
 
-Because the warning originates from externally loaded JavaScript rather than an identified Maria Flowers source file, it has been documented rather than modifying third-party code.
+The issue was partially resolved by removing the Stripe JavaScript from the global `base.html` template and loading it only on pages where Stripe payment functionality is required.
 
-**Status:** Known external warning.
+This prevented the Stripe-related warning from appearing across all pages of the website and reduced unnecessary third-party JavaScript loading.
 
+However, the warning may still appear on checkout pages where Stripe is required. Because the remaining warning originates from externally loaded third-party JavaScript rather than directly from the Maria Flowers source code, I have documented it as a known external limitation rather than modifying Stripe's code.
+
+**Status:** Partially fixed — the warning no longer appears globally, but may still appear on checkout pages where Stripe is loaded.
 ---
 
 ### Performance Findings
