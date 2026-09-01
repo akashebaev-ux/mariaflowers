@@ -15,6 +15,8 @@ results.
 
 ## Code Validation
 
+---
+
 ### HTML
 
 #### HTML Validation Fixes
@@ -71,7 +73,7 @@ The stylesheets passed validation with no errors.
 | 404 | [404.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/errors/404.html) | [W3C HTML Checker](https://validator.w3.org/nu/#textarea) | ![404 HTML validation error](documentation/validation/404-html-errors.png) | An `h4` followed the page `h1`, skipping heading levels. The heading wrapper around the **Return to shop** action was removed. | ![404 HTML validation passed](documentation/validation/404-html-no-errors.png) | **Pass after fix** |
 
 
-
+---
 
 ### CSS
 
@@ -164,7 +166,7 @@ The validator confirms **"Congratulations! No errors found."**
 | static | [base.css](https://github.com/akashebaev-ux/mariaflowers/blob/main/static/css/base.css) | [Validate deployed CSS](https://jigsaw.w3.org/css-validator/validator?uri=https://mariaflowers.s3.amazonaws.com/static/css/base.css?v=2&output=html) | <img src="documentation/validation/css/CSS-NO-ERRORS.png" alt="Base CSS validation" width="400"><br><br><img src="documentation/validation/css/Warnings-css.png" alt="Base CSS warnings" width="400"> | **Pass — no errors, 8 warnings** |
 
 
-
+---
 
 ### JavaScript Validation
 
@@ -264,6 +266,8 @@ JavaScript environment/global variables, the code was revalidated.
 **Result: Pass**
 
 
+---
+
 **### Python**
 
 
@@ -308,6 +312,9 @@ I have used the recommended [PEP8 CI Python Linter](https://pep8ci.herokuapp.com
 | profiles | [urls.py](https://github.com/akashebaev-ux/mariaflowers/blob/main/profiles/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/akashebaev-ux/mariaflowers/main/profiles/urls.py) | ![screenshot](documentation/validation/profiles-urls-python-no-errors.png) | **Pass — no errors found** |
 | profiles | [views.py](https://github.com/akashebaev-ux/mariaflowers/blob/main/profiles/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/akashebaev-ux/mariaflowers/main/profiles/views.py) | ![screenshot](documentation/validation/profiles-views-python-no-errors.png) | **Pass — no errors found** |
 
+
+
+---
 
 ## Responsiveness
 
@@ -379,6 +386,8 @@ During testing, the following responsive behaviour was confirmed:
 The current responsiveness tests confirm that the Maria Flowers layout adapts correctly across the tested **mobile, tablet, and desktop** screen sizes.
 
 
+---
+
 
 ## Browser Compatibility
 
@@ -413,7 +422,7 @@ No major browser compatibility issues were identified during testing.
 - The expandable customer service footer remained functional.
 - No obvious horizontal overflow or overlapping content was observed.
 
-
+---
 
 ## Lighthouse Audit
 
@@ -601,7 +610,7 @@ Mobile Performance scores were also generally lower because Lighthouse simulates
 
 All Lighthouse findings were reviewed during development, and issues originating from the Maria Flowers codebase were addressed where reasonably possible.
 
-
+---
 
 
 
@@ -656,7 +665,7 @@ The application also uses Django authentication and authorization to protect fun
 
 
 
-
+---
 
 
 
@@ -705,137 +714,213 @@ The custom 404 page was tested by manually entering a non-existent URL and displ
 
 
 
-
+---
 
 
 
 
 ## Automated Testing
 
-I have conducted a series of automated tests on my application.
+Automated testing was carried out using Django's built-in testing framework.
 
-> [!NOTE]  
-> I fully acknowledge and understand that, in a real-world scenario, an extensive set of additional tests would be more comprehensive.
+The tests focus on key functionality within the checkout application, including
+order totals, delivery dates, automatic order completion, greeting card
+messages, product reviews, review images, and review reactions.
 
-### JavaScript (Jest Testing)
+> [!NOTE]
+> The automated tests cover important application functionality and custom
+> business logic. In a production environment, additional integration,
+> security, payment, and end-to-end tests would provide even broader coverage.
 
-⚠️ INSTRUCTIONS ⚠️
+### Python - Django Unit Testing
 
-Adjust the code below (file names, function names, etc.) to match your own project files/folders. Use these notes loosely when documenting your own Jest procedures, and remove/adjust where applicable.
+The automated tests are located in:
 
-- Installing Node.js (**Windows**)
-  - https://codeinstitute.s3.eu-west-1.amazonaws.com/nodejs-installation-guides/Installing+and+maintaining+NodeJS+(Windows).pdf
-- Installing Node.js (**MacOS**)
-  - https://codeinstitute.s3.eu-west-1.amazonaws.com/nodejs-installation-guides/Installing+and+maintaining+NodeJS+(MacOS).pdf
+`checkout/tests.py`
 
-⚠️ SAMPLE ⚠️
+Django automatically creates a temporary test database before running the test
+suite. This allows the tests to run independently of the development or
+production database. Once the tests have finished, the temporary database is
+destroyed.
 
-I have used the [Jest](https://jestjs.io) JavaScript testing framework to test the application functionality. In order to work with Jest, I first had to initialize NPM.
+To run all automated tests with detailed output, I used:
 
-- `npm init`
-- Hit `<enter>` for all options, except for **test command:**, just type `jest`.
-
-Add Jest to a list called **Dev Dependencies** in a dev environment:
-
-- `npm install --save-dev jest`
-
-**IMPORTANT**: Initial configurations
-
-When creating test files, the name of the file needs to be `file-name.test.js` in order for Jest to properly work. Without the following, Jest won't properly run the tests:
-
-- `npm install -D jest-environment-jsdom`
-
-Due to a change in Jest's default configuration, you'll need to add the following code to the top of the `.test.js` file:
-
-```js
-/**
- * @jest-environment jsdom
- */
-
-/* jshint esversion: 11, jquery: true */
-/* global jest, require, describe, beforeEach, afterEach, test, expect, global */
-
-const { test, expect } = require("@jest/globals");
-const { function1, function2, function3, etc. } = require("../script-name");
-
-beforeAll(() => {
-    let fs = require("fs");
-    let fileContents = fs.readFileSync("index.html", "utf-8");
-    document.open();
-    document.write(fileContents);
-    document.close();
-});
+```bash
+python3 manage.py test -v 2
 ```
 
-Remember to adjust the `fs.readFileSync()` to the specific file you'd like you test. The example above is testing the `index.html` file.
 
-Finally, at the bottom of the script file where your primary scripts are written, include the following at the very bottom of the file. Make sure to include the name of all of your functions that are being tested in the `.test.js` file.
+The -v 2 option increases the verbosity of the test runner so that the name
+and result of each individual test can be seen in the terminal.
 
-```js
-/* jshint esversion: 11, jquery: true */
-/* global module */
-if (typeof module !== "undefined") module.exports = {
-    function1, function2, function3, etc
-};
+
+## Automated Test Coverage
+
+The checkout test suite contains **27 automated tests**.
+
+| Test Class | Area Tested | Tests |
+| --- | --- | ---: |
+| `DeliveryDateTests` | Delivery date storage | 1 |
+| `ExpiredOrderCompletionTests` | Automatic order completion and order status handling | 6 |
+| `GreetingCardOrderTests` | Greeting-card message functionality | 3 |
+| `OrderTotalTests` | Line-item and order-total calculations | 4 |
+| `ReviewImageModelTests` | Review image relationships | 2 |
+| `ReviewModelTests` | Ratings, comments, review validation and product relationships | 9 |
+| `ReviewReactionModelTests` | Helpful reactions and duplicate reaction prevention | 2 |
+| **Total** | | **27** |
+
+### Delivery Date Tests
+
+The delivery-date test confirms that the selected delivery date is correctly
+stored against the order.
+
+Tested functionality:
+
+- Delivery dates are saved correctly.
+
+### Expired Order Completion Tests
+
+These tests verify the custom functionality that automatically completes
+orders once their delivery date has expired.
+
+Tested functionality:
+
+- An expired order is marked as completed.
+- A future order is not marked as completed.
+- An order scheduled for today is not completed prematurely.
+- A cancelled order remains cancelled.
+- An already completed order remains completed.
+- Profile filtering only updates expired orders belonging to the specified
+  customer.
+
+### Greeting Card Tests
+
+Tested functionality:
+
+- A greeting message can be blank.
+- A greeting message is saved correctly.
+- Greeting messages have a maximum length of 250 characters.
+
+### Order Total Tests
+
+Tested functionality:
+
+- Line-item total is calculated correctly from price and quantity.
+- Order total updates when an item is added.
+- Order total updates when quantity changes.
+- Order total updates when an item is deleted.
+
+### Review Tests
+
+Tested functionality:
+
+- Ratings between 1 and 5 are valid.
+- Ratings below 1 are rejected.
+- Ratings above 5 are rejected.
+- Written comments can be blank.
+- Written comments are stored correctly.
+- Incomplete orders cannot be reviewed.
+- Only one review can be submitted for the same order line item.
+- A completed order line item can be reviewed.
+- A review remains connected to the correct purchased product.
+
+### Review Image Tests
+
+Tested functionality:
+
+- An uploaded image is associated with the correct review.
+- A review can contain multiple images.
+
+### Review Reaction Tests
+
+Tested functionality:
+
+- A registered user can mark a review as helpful.
+- The same user cannot react more than once to the same review.
+
+---
+
+
+
+
+## Automated Test Results
+
+All **27 automated tests passed successfully**.
+
+### Test Database and Setup
+
+The first screenshot shows Django creating the temporary test database and
+applying the application's migrations.
+
+[![Django test setup and migrations](documentation/automation/checkout-test-1.png)](documentation/automation/checkout-test-1.png)
+
+*Figure 1: Django creates the test database and successfully applies the
+required migrations before executing the tests.*
+
+### Individual Test Results
+
+The second screenshot shows the individual tests being executed using verbose
+output.
+
+[![Django individual automated test results](documentation/automation/checkout-test-2.png)](documentation/automation/checkout-test-2.png)
+
+*Figure 2: Individual delivery, order, greeting-card and review tests returning
+`ok`.*
+
+### Final Automated Test Result
+
+[![Final Django automated test result](documentation/automation/checkout-end-test.png)](documentation/automation/checkout-end-test.png)
+
+*Figure 3: Final Django test output confirming that all 27 automated tests
+passed.*
+
+The final terminal output was:
+
+```text
+Ran 27 tests in 41.309s
+
+OK
 ```
 
-Now that these steps have been undertaken, further tests can be written, and be expected to fail initially. Write JS code that can get the tests to pass as part of the Red-Green refactor process. Once ready, to run the tests, use this command:
+| Tests Run | Passed | Failed | Errors |
+| ---: | ---: | ---: | ---: |
+| 27 | 27 | 0 | 0 |
 
-- `npm test`
+---
 
-**NOTE**: To obtain a coverage report, use the following command:
 
-- `npm test --coverage`
 
-Below are the results from the tests that I've written for this application:
 
-| Test Suites | Tests | Screenshot |
-| --- | --- | --- |
-| 1 passed | 16 passed | ![screenshot](documentation/automation/jest-coverage.png) |
 
-#### Jest Test Issues
+## Automated Testing Issues
 
-⚠️ INSTRUCTIONS ⚠️
+During development, the review tests initially failed because they were based
+on an earlier version of the `Review` model.
 
-Use this section to list any known issues you ran into while writing your Jest tests. Remember to include screenshots (where possible), and a solution to the issue (if known). This can be used for both "fixed" and "unresolved" issues. Remove this sub-section entirely if you somehow didn't run into any issues while working with Jest.
+The earlier tests attempted to create reviews using:
 
-⚠️ --- END --- ⚠️
+```python
+order=self.order
+```
 
-### Python (Unit Testing)
+The final application associates reviews with individual purchased
+`OrderLineItem` objects instead.
 
-⚠️ INSTRUCTIONS ⚠️
+The tests were therefore updated to use:
 
-Adjust the code below (file names, function names, etc.) to match your own project files/folders. Use these notes loosely when documenting your own Python Unit tests, and remove/adjust where applicable.
+```python
+order_line_item=self.line_item
+```
 
-⚠️ SAMPLE ⚠️
+Some earlier tests also referred to an outdated `Order.can_be_reviewed`
+property that was no longer part of the final application architecture.
 
-I have used Django's built-in unit testing framework to test the application functionality. In order to run the tests, I ran the following command in the terminal each time:
+The test suite was updated to verify the current behaviour instead of changing
+working application code to satisfy outdated tests.
 
-- `python3 manage.py test name-of-app`
+After the test suite was updated, all **27 tests passed successfully**.
 
-To create the coverage report, I would then run the following commands:
-
-- `pip3 install coverage`
-- `pip3 freeze --local > requirements.txt`
-- `coverage run --omit="*/site-packages/*,*/migrations/*,*/__init__.py,env.py,.env" manage.py test`
-- `coverage report`
-
-To see the HTML version of the reports, and find out whether some pieces of code were missing, I ran the following commands:
-
-- `coverage html`
-- `python3 -m http.server`
-
-Below are the results from the full coverage report on my application that I've tested:
-
-![screenshot](documentation/automation/html-coverage.png)
-
-#### Unit Test Issues
-
-⚠️ INSTRUCTIONS ⚠️
-
-Use this section to list any known issues you ran into while writing your Python unit tests. Remember to include screenshots (where possible), and a solution to the issue (if known). This can be used for both "fixed" and "unresolved" issues. Remove this sub-section entirely if you somehow didn't run into any issues while working with your tests.
-
-⚠️ --- END --- ⚠️
+---
 
 
 
