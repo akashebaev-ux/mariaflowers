@@ -603,67 +603,66 @@ All Lighthouse findings were reviewed during development, and issues originating
 
 
 
+
+
 ## Defensive Programming
 
-⚠️ INSTRUCTIONS ⚠️
+Defensive programming was manually tested on the deployed Maria Flowers website to ensure that invalid input is rejected, required fields cannot be bypassed, payment information is validated, and restricted functionality is protected.
 
-Defensive programming (defensive design) is extremely important! When building projects that accept user inputs or forms, you should always test the level of security for each form field. Examples of this could include (but not limited to):
+Testing included both successful user flows and deliberate invalid input to verify that the application responds safely and predictably.
 
-All Projects:
-
-- Users cannot submit an empty form (add the `required` attribute)
-- Users must enter valid field types (ensure the correct input `type=""` is used)
-- Users cannot brute-force a URL to navigate to a restricted pages
-
-Python Projects:
-
-- Users cannot perform CRUD functionality if not authenticated (if login functionality exists)
-- User-A should not be able to manipulate data belonging to User-B, or vice versa
-- Non-Authenticated users should not be able to access pages that require authentication
-- Standard users should not be able to access pages intended for superusers/admins
-
-You'll want to test all functionality on your application, whether it's a standard form, or CRUD functionality, for data manipulation on a database. Try to access various pages on your site as different user types (User-A, User-B, guest user, admin, superuser). You should include any manual tests performed, and the expected results/outcome.
-
-Testing should be replicable (can someone else replicate the same outcome?). Ideally, tests cases should focus on each individual section of every page on the website. Each test case should be specific, objective, and step-wise replicable.
-
-Instead of adding a general overview saying that everything works fine, consider documenting tests on each element of the page (eg. button clicks, input box validation, navigation links, etc.) by testing them in their "happy flow", their "bad/exception flow", mentioning the expected and observed results, and drawing a parallel between them where applicable.
-
-Consider using the following format for manual test cases:
-
-- Expected Outcome / Test Performed / Result Received / Fixes Implemented
-
-- **Expected**: "Feature is expected to do X when the user does Y."
-- **Testing**: "Tested the feature by doing Y."
-- (either) **Result**: "The feature behaved as expected, and it did Y."
-- (or) **Result**: "The feature did not respond to A, B, or C."
-- **Fix**: "I did Z to the code because something was missing."
-
-Use the table below as a basic start, and expand on it using the logic above.
-
-⚠️ --- END --- ⚠️
-
-Defensive programming was manually tested with the below user acceptance testing:
-
-| Page | Expectation | Test | Result | Screenshot |
+| Page / Feature | Expected Outcome | Test Performed | Result Received | Screenshot |
 | --- | --- | --- | --- | --- |
-| Products | Feature is expected to allow users to browse products without registration. | Opened product pages as a guest user. | Products were fully accessible without requiring registration. | ![screenshot](documentation/defensive/products.png) |
-| | Feature is expected to sort products by price and name. | Tested sorting options for price (low-to-high/high-to-low) and name (alphabetical). | Sorting worked correctly for all options. | ![screenshot](documentation/defensive/sorting.png) |
-| | Feature is expected to filter products by category. | Applied category filters while browsing products. | Filters worked as expected, displaying only relevant products. | ![screenshot](documentation/defensive/filtering.png) |
-| | Feature is expected to show detailed product information. | Clicked on individual products to view details. | Product details (description, price, image) were displayed correctly. | ![screenshot](documentation/defensive/product-details.png) |
-| Shopping Cart | Feature is expected to allow customers to add items to the cart with quantity controls. | Added products to the cart and adjusted quantities. | Items were added successfully, and quantities updated as expected. | ![screenshot](documentation/defensive/add-to-cart.png) |
-| | Feature is expected to allow customers to view and manage their cart. | Opened the cart page and edited cart contents. | Cart contents were displayed, updated, and removed correctly. | ![screenshot](documentation/defensive/manage-cart.png) |
-| Checkout | Feature is expected to display cart items, grand total, and input fields for checkout. | Proceeded to checkout with items in the cart. | Checkout page displayed cart items, total, and input fields as expected. | ![screenshot](documentation/defensive/checkout.png) |
-| | Feature is expected to allow secure payment via Stripe. | Entered valid card details using Stripe at checkout. | Payment was processed securely, and an order confirmation page was displayed. | ![screenshot](documentation/defensive/stripe-payment.png) |
-| | Feature is expected to send a confirmation email after purchase. | Completed a purchase and checked email inbox. | Confirmation email was received with order details. | ![screenshot](documentation/defensive/confirmation-email.png) |
-| | Feature is expected to display an order confirmation page with an order number. | Completed a purchase. | Order confirmation page displayed successfully with an order number. | ![screenshot](documentation/defensive/order-confirmation.png) |
-| Account Management | Feature is expected to allow returning customers to log in and view past orders. | Logged in as a returning customer and accessed order history. | Past orders were displayed correctly in the account section. | ![screenshot](documentation/defensive/order-history.png) |
-| | Feature is expected to remember the shipping address for returning customers. | Completed multiple checkouts as a returning customer. | Shipping address was pre-filled on subsequent purchases. | ![screenshot](documentation/defensive/saved-address.png) |
-| Admin Features | Feature is expected to allow the site owner to create new products. | Created new products with valid data (name, price, description, image, category). | Products were added successfully and displayed on the site. | ![screenshot](documentation/defensive/create-product.png) |
-| | Feature is expected to allow the site owner to update product details. | Edited product details as an admin user. | Product updates were saved and displayed correctly. | ![screenshot](documentation/defensive/update-product.png) |
-| | Feature is expected to allow the site owner to delete products. | Deleted a product from the inventory. | Product was removed successfully from the site, after being prompted to confirm first. | ![screenshot](documentation/defensive/delete-product.png) |
-| Orders | Feature is expected to allow the site owner to view all orders placed. | Accessed the orders dashboard as an admin user. | All orders were displayed correctly. | ![screenshot](documentation/defensive/view-orders.png) |
-| Newsletter | Feature is expected to allow users to sign up for the newsletter. | Submitted valid email addresses for newsletter registration. | Email addresses were successfully added to the newsletter list. | ![screenshot](documentation/defensive/newsletter.png) |
-| 404 Error Page | Feature is expected to display a 404 error page for non-existent pages. | Navigated to an invalid URL (e.g., `/test`). | A custom 404 error page was displayed as expected. | ![screenshot](documentation/defensive/404.png) |
+| Login | Incorrect login credentials should not authenticate a user. | Entered an invalid username and password and attempted to sign in. | Login was rejected and the message "The username and/or password you specified are not correct." was displayed. | ![screenshot](documentation/testing/form-validation/login-invalid-credentials.png) |
+| Password Reset | Password reset should require a correctly formatted email address. | Entered text without a valid email format. | Browser validation prevented submission and requested a valid email address containing `@`. | ![screenshot](documentation/testing/form-validation/password-reset-invalid-email.png) |
+| Sign Up | Registration should require a valid email address. | Entered an invalid value into the email field. | Browser validation rejected the invalid email address. | ![screenshot](documentation/testing/form-validation/signup-invalid-email.png) |
+| Sign Up | Required registration fields must not be left empty. | Completed part of the registration form but left the password field empty. | Submission was prevented and the browser displayed a required-field message. | ![screenshot](documentation/testing/form-validation/signup-required-password.png) |
+| Sign Up | Weak passwords should be rejected. | Entered a short/common password similar to the username. | Django password validation rejected the password and displayed the relevant validation messages. | ![screenshot](documentation/testing/form-validation/signup-weak-password.png) |
+| Search | Empty searches should not be submitted. | Clicked the search button without entering a search term. | Browser validation prevented an empty search submission. | ![screenshot](documentation/testing/form-validation/product-search-required.png) |
+| Product Detail | A delivery date must be selected before a product can be added to the bag. | Attempted to continue without choosing a delivery date. | Browser validation prevented submission and requested a delivery date. | ![screenshot](documentation/testing/form-validation/product-delivery-date-required.png) |
+| Product Detail | A delivery time must be selected before a product can be added to the bag. | Selected a valid delivery date but left the delivery time unselected. | Submission was prevented and the user was prompted to select a delivery time. | ![screenshot](documentation/testing/form-validation/product-delivery-time-required.png) |
+| Checkout | Customer name is required before checkout can proceed. | Attempted to submit checkout without entering a full name. | Required-field validation prevented submission. | ![screenshot](documentation/testing/form-validation/checkout-name-required.png) |
+| Checkout | Customer email is required before checkout can proceed. | Entered a name but left the email field empty. | Required-field validation prevented submission. | ![screenshot](documentation/testing/form-validation/checkout-email-required.png) |
+| Checkout | A delivery address must be provided. | Completed the preceding fields but left the required street address empty. | Checkout submission was prevented until an address was entered. | ![screenshot](documentation/testing/form-validation/checkout-address-required.png) |
+| Checkout | A country must be selected. | Completed the address fields but left the country selector unchanged. | Browser validation prompted the user to select an item from the country list. | ![screenshot](documentation/testing/form-validation/checkout-country-required.png) |
+| Checkout / Stripe | Payment should not proceed without complete card details. | Attempted to complete the order without entering complete card information. | Stripe rejected the incomplete payment details and displayed an error. | ![screenshot](documentation/testing/form-validation/checkout-card-required.png) |
+| Checkout / Stripe | Correctly formatted Stripe test-card details should be accepted. | Entered valid Stripe test-card information. | Stripe accepted the card details and allowed the checkout process to continue. | ![screenshot](documentation/testing/form-validation/checkout-valid-card-details.png) |
+| Add Product | Product name is required when creating a product. | Attempted to submit the add-product form without a product name. | Submission was prevented and required-field validation was displayed. | ![screenshot](documentation/testing/form-validation/add-product-name-required.png) |
+| Add Product | Product description is required. | Entered a product name but left the description empty. | Submission was prevented and required-field validation was displayed. | ![screenshot](documentation/testing/form-validation/add-product-description-required.png) |
+| Add Product | Product price is required. | Completed preceding fields but left the product price empty. | Submission was prevented and required-field validation was displayed. | ![screenshot](documentation/testing/form-validation/add-product-price-required.png) |
+| Add Product | Valid product data should create a new product. | Submitted the add-product form with valid required data. | The product was successfully created and a success notification was displayed. | ![screenshot](documentation/testing/form-validation/add-product-success.png) |
+| Contact | Full name is required before a contact enquiry can be submitted. | Attempted to send the contact form with the full-name field empty. | Submission was prevented and required-field validation was displayed. | ![screenshot](documentation/testing/form-validation/contact-name-required.png) |
+| Contact | Email address is required. | Entered a name but left the email field empty. | Browser validation prevented form submission. | ![screenshot](documentation/testing/form-validation/contact-email-required.png) |
+| Contact | Email address must use a valid email format. | Entered text without an `@` symbol into the email field. | Browser validation rejected the value and requested a valid email address. | ![screenshot](documentation/testing/form-validation/contact-invalid-email.png) |
+| Contact | Phone number must contain digits only. | Entered letters into the phone-number field. | Browser validation rejected the input and displayed "Please match the format requested." | ![screenshot](documentation/testing/form-validation/contact-invalid-phone-letters.png) |
+| Contact | The phone field should reject unsupported characters. | Entered a phone number beginning with `+`. | Validation rejected the value because the implemented phone-number rule accepts digits only. | ![screenshot](documentation/testing/form-validation/contact-invalid-phone-plus-sign.png) |
+| Contact | A subject must be selected. | Completed valid personal details but left the subject on its default option. | Submission was prevented and the browser requested an item from the list. | ![screenshot](documentation/testing/form-validation/contact-subject-required.png) |
+| Contact | A message is required. | Completed the remaining required contact fields but left the message empty. | Required-field validation prevented submission. | ![screenshot](documentation/testing/form-validation/contact-message-required.png) |
+| Newsletter | Newsletter subscriptions should require a valid email address. | Entered invalid text into the newsletter email field. | Browser validation rejected the invalid email format. | ![screenshot](documentation/testing/form-validation/newsletter-invalid-email.png) |
+
+
+
+
+
+
+### Access Control
+
+The application also uses Django authentication and authorization to protect functionality that should not be available to every visitor.
+
+| User Type | Expected Outcome | Test Performed | Result |
+| --- | --- | --- | --- |
+| Guest | Guest users should be able to browse products without creating an account. | Opened the products and product-detail pages while logged out. | Products remained accessible as expected. |
+| Guest | A guest should not be able to access authenticated profile functionality. | Attempted to navigate directly to protected profile URLs while logged out. | User was redirected to authentication. |
+| Standard User | A standard customer should not be able to create products. | Attempted to access the add-product URL as a non-admin user. | Access was denied / user could not use the administrative functionality. |
+| Standard User | A standard customer should not be able to edit or delete products. | Attempted to access product-management URLs without administrator permissions. | Restricted functionality was unavailable. |
+| Admin | An administrator should be able to create products. | Logged in with administrative permissions and submitted valid product information. | Product was successfully created. |
+| Admin | An administrator should be able to edit and delete products. | Accessed product-management functionality while authenticated as an administrator. | Administrative controls were available as expected. |
+
+
+
+
+
+
 
 ## User Story Testing
 
