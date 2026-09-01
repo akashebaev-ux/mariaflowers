@@ -641,10 +641,6 @@ Testing included both successful user flows and deliberate invalid input to veri
 | Newsletter | Newsletter subscriptions should require a valid email address. | Entered invalid text into the newsletter email field. | Browser validation rejected the invalid email format. | ![screenshot](documentation/testing/form-validation/newsletter-invalid-email.png) |
 
 
-
-
-
-
 ### Access Control
 
 The application also uses Django authentication and authorization to protect functionality that should not be available to every visitor.
@@ -666,39 +662,53 @@ The application also uses Django authentication and authorization to protect fun
 
 ## User Story Testing
 
-⚠️ INSTRUCTIONS ⚠️
+Each user story was tested by completing the relevant user journey and checking that the expected functionality was available. Existing project screenshots are reused as evidence of the implemented features.
 
-Testing User Stories is actually quite simple, once you've already got the stories defined on your README.
+| # | User Story | Test Performed | Outcome | Screenshot |
+| --- | --- | --- | --- | --- |
+| 1 | **As a guest user, I would like to browse products without needing to register, so that I can shop freely before deciding to create an account.** | Opened the Products page while logged out and browsed the available products. | Products were accessible without requiring authentication. | ![Guest browsing products](documentation/Flower_Catalogue.png) |
+| 2 | **As a guest user, I would like to be prompted to create an account or log in, so that I can create an account and access customer functionality.** | Opened the authentication pages while logged out. | Registration and login functionality were available to the guest user. | ![Registration](documentation/Registration.png) |
+| 3 | **As a user, I would like to sign up to the site's newsletter, so that I can stay up to date with upcoming sales or promotions.** | Entered an email address into the newsletter form. | Newsletter subscription functionality was available and accepted valid email addresses. | ![Newsletter](documentation/Newsletter.png) |
+| 4 | **As a customer, I would like to browse various product categories, so that I can easily find what I am looking for.** | Browsed the available flower and gift catalogue categories. | Products were organised and accessible through the catalogue. | ![Product catalogue](documentation/Flower_Catalogue.png) |
+| 5 | **As a customer, I would like to sort products by price and name, so that I can organise items in a way that suits my shopping preferences.** | Used the sorting controls on the Products page. | Products were reordered according to the selected sorting option. | ![Search and filter](documentation/Search_and_Filter.png) |
+| 6 | **As a customer, I would like to filter products by category, so that I can narrow down the products to those I am interested in.** | Selected product categories from the catalogue navigation. | Only products matching the selected category were displayed. | ![Product filtering](documentation/Search_and_Filter.png) |
+| 7 | **As a customer, I would like to click on individual products to view more details, so that I can make an informed purchasing decision.** | Opened an individual product page. | Product image, description, price, category and delivery information were displayed. | ![Product details](documentation/Product_Details.png) |
+| 8 | **As a customer, I would like to add products to my shopping bag, so that I can purchase the products I want.** | Selected the required product options and added the item to the shopping bag. | The selected product was successfully added to the bag. | ![Add to bag](documentation/Add_to_Bag.png) |
+| 9 | **As a customer, I would like to view and manage my shopping bag, so that I can review my selected products before checkout.** | Opened the shopping bag after adding products. | Product information, quantity, price and subtotal were displayed correctly. | ![Shopping bag](documentation/Shopping_Bag.png) |
+| 10 | **As a customer, I would like to adjust the quantity of items in my bag, so that I can modify my order before checkout.** | Used the quantity increment and decrement controls in the shopping bag. | Product quantity and price were updated correctly. | ![Shopping bag quantity](documentation/Shopping_Bag.png) |
+| 11 | **As a customer, I would like to remove products from my shopping bag, so that I do not have to purchase unwanted items.** | Used the Remove option from the shopping bag. | The selected product was removed from the bag. | ![Manage shopping bag](documentation/Shopping_Bag.png) |
+| 12 | **As a customer, I would like to proceed to checkout and enter my personal, delivery and payment information, so that I can complete my purchase.** | Proceeded from the shopping bag to checkout. | Checkout displayed the order summary, customer details, delivery information and payment section. | ![Stripe checkout](documentation/Stripe_Payment.png) |
+| 13 | **As a customer, I would like to receive confirmation after making a purchase, so that I know my order was successfully processed.** | Completed a test purchase. | An order confirmation was generated for the successful order. | ![Order confirmation](documentation/Order_Confirmation.png) |
+| 14 | **As a customer, I would like to see an order confirmation containing my order details, so that I have a record of my purchase.** | Completed checkout successfully and viewed the confirmation. | Order information was displayed after the successful checkout. | ![Order confirmation](documentation/Order_Confirmation.png) |
+| 15 | **As a customer, I would like to securely enter my payment details using Stripe, so that my payment information is handled securely.** | Entered Stripe test-payment information during checkout. | Stripe payment functionality accepted valid test-card information and validated incomplete details. | ![Stripe payment](documentation/Stripe_Payment.png) |
+| 16 | **As a returning customer, I would like to log in and view my previous orders, so that I can track my purchase history.** | Logged in and opened the profile/order-history section. | Previous customer orders were displayed. | ![Order history](documentation/Order_History.png) |
+| 17 | **As a customer, I would like to leave a review after receiving my order, so that I can share my experience with other customers.** | Tested review availability for a confirmed and paid order after its delivery date had passed. | The customer could leave a review only after the order was confirmed and paid and the delivery date had passed. | ![Ratings and reviews](documentation/Ratings_and_Reviews.png) |
+| 18 | **As a returning customer, I would like my delivery information to be saved, so that future purchases are quicker and easier.** | Saved delivery information to the customer profile and returned to the profile/checkout flow. | Saved customer information was available for reuse. | ![Customer profile](documentation/Customer_Profile.png) |
+| 19 | **As a site owner, I would like to create new products, so that I can add products to the store inventory.** | Accessed product management as an authorised user and created a product. | The new product was successfully created. | ![Product management](documentation/Product_Management.png) |
+| 20 | **As a site owner, I would like to update product details, so that product information can remain accurate and current.** | Edited an existing product through the product-management functionality. | Updated product information was saved successfully. | ![Product management](documentation/Product_Management.png) |
+| 21 | **As a site owner, I would like to delete products that are no longer available, so that the catalogue remains accurate.** | Used the product-management functionality to remove a product. | The selected product was removed successfully. | ![Product management](documentation/Product_Management.png) |
+| 22 | **As a site owner, I would like to view and manage customer orders, so that I can monitor purchases and their status.** | Accessed the order-management functionality as an authorised user. | Customer orders and their status information were available for management. | ![Order management](documentation/Order_Management.png) |
+| 23 | **As a site owner, I would like products to be organised into appropriate categories, so that customers can easily find relevant items.** | Checked product category assignment and catalogue filtering. | Products were correctly organised and displayed according to their categories. | ![Product catalogue](documentation/Flower_Catalogue.png) |
+| 24 | **As a user, I would like to see a custom 404 error page when I visit a page that does not exist, so that I understand that the requested page cannot be found.** | Entered a non-existent URL on the deployed website. | The custom Maria Flowers 404 page was displayed successfully. | ![404 error page](documentation/404.png) |
 
-Most of your project's **Features** should already align with the **User Stories**, so this should be as simple as creating a table with the User Story, matching with the re-used screenshot from the respective Feature.
+### User Story Testing Result
 
-⚠️ --- END --- ⚠️
+The implemented functionality satisfies the core user stories for guest users, customers, returning customers and the site owner.
 
-| Target | Expectation | Outcome | Screenshot |
-| --- | --- | --- | --- |
-| As a guest user | I would like to browse products without needing to register | so that I can shop freely before deciding to create an account. | ![screenshot](documentation/features/feature01.png) |
-| As a guest user | I would like to be prompted to create an account or log in at checkout | so that I can complete my purchase and track my order history. | ![screenshot](documentation/features/feature02.png) |
-| As a user | I would like to sign up to the site's newsletter | so that I can stay up to date with any upcoming sales or promotions. | ![screenshot](documentation/features/feature03.png) |
-| As a customer | I would like to browse various product categories (clothing, toys, jewelry, kitchen gadgets, etc.) | so that I can easily find what I'm looking for. | ![screenshot](documentation/features/feature04.png) |
-| As a customer | I would like to sort products by price (low-to-high/high-to-low) and name (alphabetical) | so that I can quickly organize items in a way that suits my shopping style. | ![screenshot](documentation/features/feature05.png) |
-| As a customer | I would like to filter products by category | so that I can narrow down the products to the types I am most interested in. | ![screenshot](documentation/features/feature06.png) |
-| As a customer | I would like to click on individual products to view more details (description, price, image, etc.) | so that I can make an informed decision about my purchase. | ![screenshot](documentation/features/feature07.png) |
-| As a customer | I would like to add items to my shopping cart using quantity increment/decrement buttons | so that I can adjust how many units of a product I want before checkout. | ![screenshot](documentation/features/feature08.png) |
-| As a customer | I would like to view and manage my shopping cart | so that I can review, add, or remove items before proceeding to checkout. | ![screenshot](documentation/features/feature09.png) |
-| As a customer | I would like to adjust the quantity of items in my cart | so that I can modify my purchase preferences without leaving the cart. | ![screenshot](documentation/features/feature10.png) |
-| As a customer | I would like to remove items from my cart | so that I can remove products I no longer wish to buy. | ![screenshot](documentation/features/feature11.png) |
-| As a customer | I would like to proceed to checkout where I see my cart items, grand total, and input my name, email, shipping address, and card details | so that I can complete my purchase. | ![screenshot](documentation/features/feature12.png) |
-| As a customer | I would like to receive a confirmation email after my purchase | so that I can have a record of my transaction and order details. | ![screenshot](documentation/features/feature13.png) |
-| As a customer | I would like to see an order confirmation page with a checkout order number after completing my purchase | so that I know my order has been successfully placed. | ![screenshot](documentation/features/feature14.png) |
-| As a customer | I would like to securely enter my card details using Stripe at checkout | so that I can feel confident my payment information is protected. | ![screenshot](documentation/features/feature15.png) |
-| As a returning customer | I would like to be able to log in and view my past orders | so that I can track my previous purchases and order history. | ![screenshot](documentation/features/feature16.png) |
-| As a returning customer | I would like the checkout process to remember my shipping address | so that future purchases are quicker and easier. | ![screenshot](documentation/features/feature17.png) |
-| As a site owner | I would like to create new products with a name, description, price, images, and category | so that I can add additional items to the store inventory. | ![screenshot](documentation/features/feature18.png) |
-| As a site owner | I would like to update product details (name, price, description, image, category) at any time | so that I can keep my product listings accurate and up to date. | ![screenshot](documentation/features/feature19.png) |
-| As a site owner | I would like to delete products that are no longer available or relevant | so that I can maintain a clean and accurate inventory. | ![screenshot](documentation/features/feature20.png) |
-| As a site owner | I would like to view all orders placed on the website | so that I can track and manage customer purchases. | ![screenshot](documentation/features/feature21.png) |
-| As a site owner | I would like to manage product categories | so that I can ensure items are correctly organized and easy for customers to find. | ![screenshot](documentation/features/feature22.png) |
-| As a user | I would like to see a 404 error page if I get lost | so that it's obvious that I've stumbled upon a page that doesn't exist. | ![screenshot](documentation/features/feature23.png) |
+Testing confirmed that users can browse and filter products, view product details, add products to the shopping bag, manage quantities, complete checkout, make test payments through Stripe, access their order history and subscribe to the newsletter.
+
+The review functionality was also tested. Customers can submit a review only after the relevant order has been confirmed and successfully paid and after the delivery date has passed. This helps ensure that reviews are associated with verified purchases and are not submitted before the customer has had an opportunity to receive the order.
+
+Returning customers can access their profile and previous order information, while authorised site owners can manage products and customer orders.
+
+The custom 404 page was tested by manually entering a non-existent URL and displayed correctly.
+
+
+
+
+
+
+
 
 ## Automated Testing
 
@@ -827,59 +837,86 @@ Use this section to list any known issues you ran into while writing your Python
 
 ⚠️ --- END --- ⚠️
 
+
+
+
+
+
+
+
 ## Bugs
 
-⚠️ INSTRUCTIONS ⚠️
+Bugs and development issues encountered while building Maria Flowers were tracked using the GitHub Issues system.
 
-Nobody likes bugs,... except the assessors! Projects seem more suspicious if a student doesn't properly track their bugs. If you're about to submit your project without any bugs listed below, you should ask yourself why you're doing this course in the first place, if you're able to build this entire application without running into any bugs. The best thing you can do for any project is to document your bugs! Not only does it show the true stages of development, but think of it as breadcrumbs for yourself in the future, should you encounter the same/similar bug again, it acts as a gentle reminder on what you did to fix the bug.
-
-If/when you encounter bugs during the development stages of your project, you should document them here, ideally with a screenshot explaining what the issue was, and what you did to fix the bug.
-
-Alternatively, an improved way to manage bugs is to use the built-in **[Issues](https://www.github.com/akashebaev-ux/mariaflowers/issues)** tracker on your GitHub repository. This can be found at the top of your repository, the tab called "Issues".
-
-If using the Issues tracker for bug management, you can simplify the documentation process for testing. Issues allow you to directly paste screenshots into the issue page without having to first save the screenshot locally. You can add labels to your issues (e.g. `bug`), assign yourself as the owner, and add comments/updates as you progress with fixing the issue(s). Once you've solved the issue/bug, you should then "Close" it.
-
-When showcasing your bug tracking for assessment, you can use the following examples below.
-
-⚠️ --- END --- ⚠️
+Using GitHub Issues allowed bugs to be documented with screenshots, descriptions, progress updates and fixes. Once an issue was resolved and tested, it was closed.
 
 ### Fixed Bugs
 
-[![GitHub issue custom search](https://img.shields.io/github/issues-search/akashebaev-ux/mariaflowers?query=is%3Aissue%20is%3Aclosed%20label%3Abug&label=Fixed%20Bugs&color=green)](https://www.github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+I used [GitHub Issues](https://github.com/akashebaev-ux/mariaflowers/issues) throughout development to document and resolve problems found during implementation and testing.
 
-I've used [GitHub Issues](https://www.github.com/akashebaev-ux/mariaflowers/issues) to track and manage bugs and issues during the development stages of my project.
+Examples of issues encountered during development included problems with form validation, responsive layouts, checkout functionality, product management, authentication, delivery functionality and third-party integrations.
 
-All previously closed/fixed bugs can be tracked [here](https://www.github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aclosed+label%3Abug).
+Resolved issues were tested again after fixes were implemented before being closed.
 
-![screenshot](documentation/bugs/gh-issues-closed.png)
+#### Closed Issues
+
+The following screenshots provide evidence of bugs and development issues that were fixed and subsequently closed.
+
+![Closed GitHub issues](documentation/closed-issues-1.png)
+
+![Additional closed GitHub issues](documentation/closed-issues-2.png)
+
+All closed issues can also be viewed directly in the repository:
+
+[View closed GitHub issues](https://github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aclosed)
+
+### Bug Resolution Process
+
+When a bug was identified, I followed the same general process:
+
+1. Reproduced the issue on the local or deployed version of the website.
+2. Identified the affected template, view, form, model, JavaScript or CSS.
+3. Applied a fix.
+4. Tested the affected feature again.
+5. Checked that the fix did not negatively affect related functionality.
+6. Documented the result through GitHub Issues.
+7. Closed the issue once the expected behaviour was confirmed.
+
+This approach created a record of problems encountered during development and the changes made to resolve them.
 
 ### Unfixed Bugs
 
-⚠️ INSTRUCTIONS ⚠️
+Open issues were also reviewed before submission.
 
-You will need to mention any unfixed bugs and why they are not fixed upon submission of your project. This section should include shortcomings of the frameworks or technologies used. Although time can be a big variable to consider, paucity of time and difficulty understanding implementation is not a valid reason to leave bugs unfixed. Where possible, you must fix all outstanding bugs, unless outside of your control.
+![Open GitHub issues](documentation/open-issues.png)
 
-If you've identified any unfixed bugs, no matter how small, be sure to list them here! It's better to be honest and list them, because if it's not documented and an assessor finds the issue, they need to know whether or not you're aware of them as well, and why you've not corrected/fixed them.
+Current open issues can be viewed here:
 
-⚠️ --- END --- ⚠️
+[View open GitHub issues](https://github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aopen)
 
-[![GitHub issue custom search](https://img.shields.io/github/issues-search/akashebaev-ux/mariaflowers?query=is%3Aissue%2Bis%3Aopen%2Blabel%3Abug&label=Unfixed%20Bugs&color=red)](https://www.github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
-
-Any remaining open issues can be tracked [here](https://www.github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aopen+label%3Abug).
-
-![screenshot](documentation/bugs/gh-issues-open.png)
+Any issue that remains open represents functionality that is either still being improved or has been documented for future development.
 
 ### Known Issues
 
-| Issue | Screenshot |
-| --- | --- |
-| The project is designed to be responsive from `375px` and upwards, in line with the material taught on the course LMS. Minor layout inconsistencies may occur on extra-wide (e.g. 4k/8k monitors), or smart-display devices (e.g. Nest Hub, Smart Watches, Gameboy Color, etc.), as these resolutions are outside the project’s scope, as taught by Code Institute. | ![screenshot](documentation/issues/poor-responsiveness.png) |
-| When validating HTML with a semantic `<section>` element, the validator warns about lacking a header `h2-h6`. This is acceptable. | ![screenshot](documentation/issues/section-header.png) |
-| Validation errors on "signup.html" coming from the Django Allauth package. | ![screenshot](documentation/issues/allauth.png) |
-| With a known order-number, users can brute-force "checkout_success.html" and see potentially sensitive information. | ![screenshot](documentation/issues/checkout-success.png) |
-| If a product is in your bag/cart, but then gets deleted from the database, it throws errors from the session storage memory. | ![screenshot](documentation/issues/session-storage.png) |
-| The `-`/`+` quantity buttons work well on "product_details.html", but not on "bag.html". | ![screenshot](documentation/issues/quantity-buttons.png) |
+At the time of final testing, I am not aware of any critical unresolved bugs that prevent the core Maria Flowers e-commerce workflow from functioning.
 
-> [!IMPORTANT]  
-> There are no remaining bugs that I am aware of, though, even after thorough testing, I cannot rule out the possibility.
+The main customer journey was manually tested, including:
 
+- product browsing and filtering;
+- product-detail pages;
+- delivery date and time selection;
+- shopping bag management;
+- checkout form validation;
+- Stripe test payments;
+- registration and login;
+- customer profiles and order history;
+- verified customer reviews;
+- contact-form validation;
+- newsletter validation;
+- administrative product management;
+- responsive behaviour across tested devices and browsers.
+
+Minor browser or layout differences may still occur on device sizes or browser configurations outside those tested.
+
+> [!IMPORTANT]
+> No critical unresolved bugs are currently known. However, as with any software project, further testing or use on additional devices and browser versions may reveal issues not encountered during development.
