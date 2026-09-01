@@ -839,28 +839,49 @@ Use this section to list any known issues you ran into while writing your Python
 
 
 
+### Stripe Payment Testing
 
+Stripe test mode was used to verify that the checkout payment flow works correctly without processing real money.
+
+For payment testing, the following Stripe test-card details were used:
+
+| Field | Test Value |
+| --- | --- |
+| Card Number | `4000 0025 0000 3155` |
+| Expiry Date | `02/29` |
+| CVC | `242` |
+| Postal Code | `44222` |
+
+The test card was entered into the Stripe payment form during checkout.
+
+The expected behaviour was that Stripe would accept the valid test-card details and allow the checkout process to continue without charging a real payment card.
+
+The payment flow was also tested with incomplete or invalid payment details to confirm that Stripe prevented checkout from completing and displayed the relevant validation message.
+
+**Result:** Pass — valid Stripe test-payment details were accepted and incomplete or invalid payment information was rejected.
+
+![Stripe payment testing](documentation/Stripe_Payment.png)
 
 
 
 
 ## Bugs
 
-Bugs and development issues encountered while building Maria Flowers were tracked using the GitHub Issues system.
+Bugs and development issues encountered while building Maria Flowers were tracked during development and, where appropriate, documented using GitHub Issues.
 
-Using GitHub Issues allowed bugs to be documented with screenshots, descriptions, progress updates and fixes. Once an issue was resolved and tested, it was closed.
+The project encountered a number of genuine issues involving form validation, AWS-hosted static files, third-party services and the WhatsApp Business Cloud API.
+
+Where a bug was within the application's control, I implemented a fix and manually retested the affected functionality. Issues caused by external services or third-party code are documented separately as known limitations.
 
 ### Fixed Bugs
 
-I used [GitHub Issues](https://github.com/akashebaev-ux/mariaflowers/issues) throughout development to document and resolve problems found during implementation and testing.
+I used [GitHub Issues](https://github.com/akashebaev-ux/mariaflowers/issues) to document and manage issues discovered during development.
 
-Examples of issues encountered during development included problems with form validation, responsive layouts, checkout functionality, product management, authentication, delivery functionality and third-party integrations.
-
-Resolved issues were tested again after fixes were implemented before being closed.
+Resolved bugs were tested again after changes were implemented before being considered fixed.
 
 #### Closed Issues
 
-The following screenshots provide evidence of bugs and development issues that were fixed and subsequently closed.
+The following screenshots provide evidence of issues that were fixed and subsequently closed.
 
 ![Closed GitHub issues](documentation/closed-issues-1.png)
 
@@ -870,53 +891,223 @@ All closed issues can also be viewed directly in the repository:
 
 [View closed GitHub issues](https://github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aclosed)
 
+### Fixed Bug 1 — Checkout Phone Number Accepted Invalid Characters
+
+During checkout testing, I discovered that the phone-number field could accept letters and unsupported special characters.
+
+This was a data-validation issue because invalid phone numbers could potentially be submitted with an order.
+
+The checkout `OrderForm` was updated with client-side validation:
+
+```python
+self.fields['phone_number'].widget.attrs.update({
+    'type': 'tel',
+    'inputmode': 'numeric',
+    'pattern': '[0-9]+',
+    'title': 'Please enter numbers only.',
+})
+```
+
+Server-side Django validation was also added:
+
+```python
+def clean_phone_number(self):
+    phone_number = self.cleaned_data.get('phone_number', '').strip()
+
+    if not phone_number.isdigit():
+        raise forms.ValidationError(
+            'Phone number must contain numbers only.'
+        )
+
+    return phone_number
+```
+Using both browser and Django validation prevents invalid characters from being accepted even if client-side validation is bypassed.
+
+**Result: Fixed.**
+
+Invalid values containing letters or unsupported symbols are now rejected.
+
+The implementation can also be seen here:
+
+![Checkout phone validation fix](documentation/bugs/checkout-phone-number-letters-symbols-fix.png)
+
+Additional testing confirmed that unsupported symbols are rejected:
+
+![Checkout phone symbol validation](documentation/bugs/checkout-phone-symbol-issue.png)
+
+![Checkout phone letter validation](documentation/bugs/checkout-phone-number-letters-issue.png)
+
+
+### Fixed Bug 2 — Contact Form Phone Number Validation
+
+A similar issue was identified in the Contact Us form. The optional phone-number field did not initially restrict the type of characters that could be entered.
+
+The contact form widget was updated with numeric input validation:
+
+```python
+"phone": forms.TextInput(
+    attrs={
+        "class": "form-control",
+        "placeholder": "Your phone number",
+        "inputmode": "numeric",
+        "pattern": "[0-9]*",
+    }
+),
+```
+This improved the validation of phone numbers submitted through the contact form and prevents unsupported characters from being accepted by normal browser submission.
+
+**Result: Fixed.**
+
+### Fixed Bug 3 — AWS S3 Favicon CORS Error
+
+During browser-console testing, the deployed website reported a CORS error when attempting to retrieve the favicon from AWS S3.
+
+The browser console showed that the favicon request was blocked by the AWS S3 CORS policy:
+
+![AWS S3 favicon CORS error](documentation/bugs/CORS-issue.png)
+
+
+**NOTE:** The console reported that the request to the S3-hosted favicon was blocked because the required Access-Control-Allow-Origin response header was not available.
+
+
+
+This problem was related to the way the favicon/static resource was being served rather than to the core e-commerce functionality.
+
+The static/favicon configuration was reviewed and corrected so that the site no longer depended on the incorrectly configured request that generated the CORS failure.
+
+**Result: Fixed after correcting the static asset/favicon configuration.**
+
+This bug did not affect checkout, payments or order creation, but it produced unnecessary browser-console errors and could prevent the favicon from loading correctly.
+
+
+### Fixed Bug 4 — WhatsApp Webhook Configuration
+
+While implementing the WhatsApp Business Cloud API, the Meta webhook initially could not be configured correctly until the callback URL and verification token matched the Django webhook endpoint.
+
+The Meta configuration required:
+
+a publicly accessible HTTPS callback URL;
+a verification token;
+a Django endpoint capable of responding to Meta's verification request.
+
+During development, the webhook configuration initially failed until the Django webhook endpoint and the verification token were configured correctly.
+
+The webhook view was configured to handle Meta's verification request and the corresponding verification token was stored in the environment configuration.
+
+**Result: Webhook verification/configuration was resolved.**
+
+However, successful webhook configuration did not completely resolve outgoing WhatsApp message delivery. That separate issue is documented below as an unresolved external integration problem.
+
+
+### Unfixed Bugs
+
+At the time of submission, **one known unresolved functional issue remains**.
+
+#### WhatsApp Business Cloud API Message Delivery
+
+Maria Flowers includes a WhatsApp Business Cloud API integration intended to send notifications relating to orders and customer contact enquiries.
+
+The Django integration has been implemented, including:
+
+- WhatsApp API requests;
+- sender and phone-number configuration;
+- webhook handling;
+- verification token configuration;
+- recipient configuration;
+- environment variables for sensitive credentials.
+
+During development, a number of setup problems were resolved. However, WhatsApp messages are still not being received reliably.
+
+One of the main difficulties has been Meta's access-token system. Temporary development tokens have limited validity, while longer-lived tokens can also be generated. During testing, authentication and message delivery remained unreliable even after replacing or regenerating the access token.
+
+
+**Status:** Unresolved.
+
+The remaining issue appears to be associated with the external Meta WhatsApp Business Cloud API configuration and authentication rather than the main Django order workflow.
+
+Because Meta controls token validity, account permissions, phone-number registration and WhatsApp Business configuration, this part of the integration cannot currently be guaranteed to deliver every notification reliably.
+
+Importantly, failure of the WhatsApp notification does **not** prevent an order from being created or paid. The core website functionality continues to operate independently of WhatsApp.
+
+---
+
+### Known Third-Party Issues
+
+#### Checkout DevTools Warnings
+
+During checkout testing, Chrome DevTools reported several warnings, including:
+
+- a deprecated feature;
+- form elements without an `id` or `name`;
+- elements without an `autocomplete` attribute.
+
+![Checkout third-party form warnings](documentation/bugs/checkout-stripe-third-party-form-issues.png)
+
+These warnings appear while the checkout/payment integration and third-party components are loaded.
+
+The payment fields are provided through external payment functionality rather than being ordinary Django form inputs controlled entirely by the project's templates.
+
+The warnings therefore do not necessarily represent errors in the Maria Flowers Django code.
+
+The payment workflow was manually tested separately to confirm that valid Stripe test-payment information could still be entered and processed.
+
+**Status:** Known third-party/browser warning. No critical checkout failure was observed.
+
+#### Deprecated JavaScript Warning
+
+Chrome DevTools/Lighthouse also displayed the following warning:
+
+> `using deprecated parameters for the initialization function; pass a single object instead`
+
+![Deprecated JavaScript warning](documentation/bugs/issue-deprecated-stripe-on-all-pages.png)
+
+Because the warning originates from externally loaded JavaScript rather than an identified Maria Flowers source file, it has been documented rather than modifying third-party code.
+
+**Status:** Known external warning.
+
+---
+
+### Performance Findings
+
+Lighthouse also identified performance-related issues such as:
+
+- slow initial server response;
+- render-blocking requests;
+- resources without compression.
+
+These findings are documented separately in the Lighthouse Testing section because they are performance optimisation opportunities rather than functional application bugs.
+
+They do not prevent users from browsing products, using the shopping bag or completing checkout.
+
+---
+
 ### Bug Resolution Process
 
 When a bug was identified, I followed the same general process:
 
-1. Reproduced the issue on the local or deployed version of the website.
-2. Identified the affected template, view, form, model, JavaScript or CSS.
-3. Applied a fix.
-4. Tested the affected feature again.
-5. Checked that the fix did not negatively affect related functionality.
-6. Documented the result through GitHub Issues.
-7. Closed the issue once the expected behaviour was confirmed.
+1. Reproduced the issue on the local or deployed website.
+2. Identified whether the issue originated from my Django code or an external service.
+3. Located the affected form, view, template, JavaScript, CSS or service configuration.
+4. Implemented a fix where the issue was within the application's control.
+5. Retested the functionality.
+6. Checked related functionality for regressions.
+7. Documented the result.
+8. Closed the corresponding GitHub Issue when the bug had been resolved.
 
-This approach created a record of problems encountered during development and the changes made to resolve them.
+This process helped distinguish application bugs from limitations caused by external services.
 
-### Unfixed Bugs
+### Known Issues Summary
 
-Open issues were also reviewed before submission.
-
-![Open GitHub issues](documentation/open-issues.png)
-
-Current open issues can be viewed here:
-
-[View open GitHub issues](https://github.com/akashebaev-ux/mariaflowers/issues?q=is%3Aissue+is%3Aopen)
-
-Any issue that remains open represents functionality that is either still being improved or has been documented for future development.
-
-### Known Issues
-
-At the time of final testing, I am not aware of any critical unresolved bugs that prevent the core Maria Flowers e-commerce workflow from functioning.
-
-The main customer journey was manually tested, including:
-
-- product browsing and filtering;
-- product-detail pages;
-- delivery date and time selection;
-- shopping bag management;
-- checkout form validation;
-- Stripe test payments;
-- registration and login;
-- customer profiles and order history;
-- verified customer reviews;
-- contact-form validation;
-- newsletter validation;
-- administrative product management;
-- responsive behaviour across tested devices and browsers.
-
-Minor browser or layout differences may still occur on device sizes or browser configurations outside those tested.
+| Issue | Status | Reason |
+| --- | --- | --- |
+| Checkout phone field accepted letters and symbols | ✅ Fixed | Added browser validation and Django `clean_phone_number()` server-side validation. |
+| Contact phone field accepted unsupported characters | ✅ Fixed | Added numeric input validation to the contact form. |
+| AWS S3 favicon CORS error | ✅ Fixed | Static/favicon configuration was corrected. |
+| WhatsApp webhook verification/configuration | ✅ Fixed | Django webhook endpoint and verification token were configured correctly. |
+| WhatsApp notifications are not reliably received | ⚠️ **Unresolved** | Meta WhatsApp Business Cloud API authentication, access-token validity and account configuration remain unreliable. |
+| Checkout third-party form warnings | ⚠️ Known issue | Warnings relate to externally loaded payment components rather than normal Django form fields. |
+| Deprecated third-party JavaScript warning | ⚠️ Known issue | Warning originates from externally loaded JavaScript and does not break the application workflow. |
 
 > [!IMPORTANT]
-> No critical unresolved bugs are currently known. However, as with any software project, further testing or use on additional devices and browser versions may reveal issues not encountered during development.
+>
+> One unresolved integration issue remains at submission: WhatsApp notifications are not reliably received because of the Meta WhatsApp Business Cloud API access-token and authentication configuration. This does not prevent customers from browsing products, creating orders or completing payments through the website.
