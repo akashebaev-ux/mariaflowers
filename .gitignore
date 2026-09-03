@@ -12,3 +12,4 @@ env.py
 .venv/
 staticfiles/
 media/
+.DS_Store
