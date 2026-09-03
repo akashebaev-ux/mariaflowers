@@ -682,7 +682,7 @@ def toggle_review_reaction(request, review_id):
 
     return redirect(
         reverse(
-            "order_history",
-            args=[review.order_line_item.order.order_number],
+            "product_detail",
+            args=[review.order_line_item.product.id],
         )
     )

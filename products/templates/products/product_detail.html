@@ -599,12 +599,30 @@
                             >
                         {% endfor %}
 
-                        <div class="small text-muted">
-                            <i class="far fa-thumbs-up mr-1"></i>
+                        {% if request.user.is_authenticated %}
+                            <form
+                                method="POST"
+                                action="{% url 'toggle_review_reaction' item.review.id %}"
+                                class="mt-2"
+                            >
+                                {% csrf_token %}
 
-                            {{ item.review.reactions.count }}
-                            people found this helpful
-                        </div>
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-outline-secondary"
+                                >
+                                    <i class="far fa-thumbs-up mr-1"></i>
+                                    Helpful
+                                    ({{ item.review.reactions.count }})
+                                </button>
+                            </form>
+                        {% else %}
+                            <div class="small text-muted">
+                                <i class="far fa-thumbs-up mr-1"></i>
+                                {{ item.review.reactions.count }}
+                                people found this helpful
+                            </div>
+                        {% endif %}
 
                     </div>
 
