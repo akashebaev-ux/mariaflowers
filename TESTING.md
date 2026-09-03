@@ -65,7 +65,7 @@ The stylesheets passed validation with no errors.
 | contact | [contact.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/home/templates/home/contact.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/contact/&out=html) | — | No remaining validation issues. | ![Contact HTML validation](documentation/validation/contact-us-html-no-errors.png) | **Pass** |
 | about | [about.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/about.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/about/&out=html) | — | No remaining validation issues. | ![About HTML validation](documentation/validation/about-us-html-no-errors.png) | **Pass** |
 | delivery policy | [delivery_policy.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/delivery_policy.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/delivery-policy/&out=html) | — | No remaining validation issues. | ![Delivery Policy HTML validation](documentation/validation/delivery-policy-html-no-errors.png) | **Pass** |
-| FAQ | [faq.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/faq.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/faq/&out=html) | ![FAQ ARIA validation errors](documentation/validation/ARIA validation errors on FAQ page.png)<br><br>![FAQ additional ARIA validation errors](documentation/validation/ARIA validation errors 2.png) | Seven `aria-labelledby` validation errors were identified on the FAQ accordion collapse `<div>` elements. | ![FAQ HTML validation passed](documentation/validation/FAQ-html-no-errors.png) | **Pass after fixes** |
+| FAQ | [faq.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/faq.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/faq/&out=html) | ![FAQ ARIA validation errors](documentation/validation/ARIA%20validation%20errors%20on%20FAQ%20page.png)<br><br>![FAQ additional ARIA validation errors](documentation/validation/ARIA%20validation%20errors%202.png) | Seven `aria-labelledby` validation errors were identified on the FAQ accordion collapse `<div>` elements. | ![FAQ HTML validation passed](documentation/validation/FAQ-html-no-errors.png) | **Pass after fixes** |
 | gifts | Gifts | [W3C HTML Checker](https://validator.w3.org/nu/#textarea) | — | No remaining validation issues. | ![Gifts HTML validation](documentation/validation/gifts-html-no-errors.png) | **Pass** |
 | privacy policy | [privacy_policy.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/privacy_policy.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/privacy-policy/&out=html) | — | No remaining validation issues. | ![Privacy Policy HTML validation](documentation/validation/privacy-policy-html-no-errors.png) | **Pass** |
 | refund policy | [refund_policy.html](https://github.com/akashebaev-ux/mariaflowers/blob/main/templates/refund_policy.html) | [W3C Validator](https://validator.w3.org/nu/?doc=https://mariaflowers-f9e87b4ebe6c.herokuapp.com/refunds/&out=html) | — | No remaining validation issues. | ![Refund Policy HTML validation](documentation/validation/refund-html-no-errors.png) | **Pass** |
@@ -457,6 +457,7 @@ The website contains a mixture of informational pages, product pages, authentica
 | Privacy Policy | ![Mobile Privacy Policy](documentation/lighthouse/mobile/mobile-privacy-policy.png) | ![Desktop Privacy Policy](documentation/lighthouse/desktop/desktop-privacy-policy.png) |
 | Refund Policy | ![Mobile Refund Policy](documentation/lighthouse/mobile/mobile-refund-policy.png) | ![Desktop Refund Policy](documentation/lighthouse/desktop/desktop-refund-policy.png) |
 | Terms & Conditions | ![Mobile Terms and Conditions](documentation/lighthouse/mobile/mobile-terms-and-conditions.png) | ![Desktop Terms and Conditions](documentation/lighthouse/desktop/desktop-terms-conditions.png) |
+| Special Offers | ![Mobile Special Offers](documentation/lighthouse/mobile/mobile-special-offer.png) | ![Desktop Special Offers](documentation/lighthouse/desktop/desktop-special-offer.png) |
 
 ### Desktop Lighthouse Results
 
@@ -1082,6 +1083,24 @@ The webhook view was configured to handle Meta's verification request and the co
 **Result: Webhook verification/configuration was resolved.**
 
 However, successful webhook configuration did not completely resolve outgoing WhatsApp message delivery. That separate issue is documented below as an unresolved external integration problem.
+
+
+#### Shopping Bag Quantity Validation
+
+**Bug:**  
+The Product Details page restricted product quantities to a maximum of 99, but the same restriction was not originally enforced when updating quantities directly from the Shopping Bag. This meant users could attempt to enter a quantity greater than 99.
+
+**Fix:**  
+I added `MAX_BAG_QUANTITY = 99` in `bag/views.py` and added server-side validation to the `adjust_bag()` view. The submitted quantity is converted to an integer and checked to make sure it is between 1 and 99. If the value is outside this range, Django displays an error message and redirects the user back to the Shopping Bag without updating the quantity. The same maximum is also checked when adding more of a product that is already in the bag.
+
+**Result:**  
+Shopping Bag quantities are now restricted to values between **1 and 99**, matching the restriction used on the Product Details page.
+
+![Shopping Bag Quantity Validation](documentation/bugs/Shopping-bag-qty-validation.png)
+
+**Status:** ✅ Fixed.
+
+---
 
 
 ### Unfixed Bugs

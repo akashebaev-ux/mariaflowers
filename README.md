@@ -462,6 +462,9 @@ The user stories were prioritised using the **MoSCoW method**:
 | User Feedback Messages | Django messages provide immediate feedback after important actions such as adding products to the bag, updating the bag, submitting forms, or completing other operations. | ![User Feedback](documentation/User_Feedback.png) |
 | Responsive Design | MariaFlowers uses a responsive layout so that customers can browse flowers, manage their shopping bag, and place orders from desktop, tablet, and mobile devices. | ![Responsive Design](documentation/iamresponsive.png) |
 | Social Media Links | Social media links are provided through the website footer, giving customers additional ways to discover or communicate with MariaFlowers. | ![Social Media](documentation/Social_Media.png) |
+| Default Product Image | When a product does not have an uploaded image, MariaFlowers displays a branded default product image instead of showing a broken or empty image area. | ![Default Product Image](documentation/default-product-image.png) |
+| Special Offers | The Special Offers page allows customers to view products that have been added to the promotional deals category. It can be accessed directly from the main navigation menu. | ![Special Offers](documentation/special-offer.png) |
+| Delete Product Confirmation | When an administrator chooses to delete a product, a confirmation page is displayed before permanent deletion. The administrator can cancel the action or confirm that the product should be permanently removed. | ![Delete Product Confirmation](documentation/delete-product-confirmation.png) |
 | Custom 404 Page | A custom 404 page is displayed when a visitor attempts to access a page that does not exist, maintaining the MariaFlowers design instead of displaying a generic server error page. | ![404 Page](documentation/404.png) |
 | Custom 500 Page | A custom 500 Internal Server Error page is displayed when an unexpected server-side error occurs, providing users with a MariaFlowers-branded error message and a link back to the homepage instead of Django's generic server error page. | ![500 Page](documentation/validation/500.png) |
 | Heroku Deployment | MariaFlowers is deployed to Heroku, making the application publicly accessible and providing a production environment for the Django application. | ![Heroku Deployment](documentation/Heroku.png) |
@@ -1392,13 +1395,38 @@ Further links for future implementation:
 - [Managing your sitemaps and using sitemaps reports](https://support.google.com/webmasters/answer/7451001)
 - [Testing the robots.txt file](https://support.google.com/webmasters/answer/6062598)
 
+
+---
+
 ### Social Media Marketing
 
-Creating a strong social base (with participation) and linking that to the business site can help drive sales. Using more popular providers with a wider user base, such as Facebook, typically maximizes site views.
+Social media platforms were created for Maria Flowers to build brand awareness, engage with potential customers, promote products, and drive traffic to the e-commerce website.
 
-I've created a mockup Facebook business account using the [Balsamiq template](https://code-institute-org.github.io/5P-Assessments-Handbook/files/Facebook_Mockups.zip) provided by Code Institute.
+Maria Flowers has a presence on **Facebook, Instagram, and TikTok**. These platforms were selected because they provide access to a large audience and are particularly suitable for visual marketing, allowing the business to showcase flower arrangements, special offers, customer orders, and other promotional content.
 
-![screenshot](documentation/mockup-facebook.png)
+Consistent Maria Flowers branding is used across the social media accounts, including the business name, logo, flower imagery, and links to the Maria Flowers website where appropriate.
+
+#### Facebook
+
+A Facebook business page was created for Maria Flowers. Facebook can be used to share product promotions, photographs, business updates, special offers, and links to the website. It also provides an additional way for customers to discover and interact with the business.
+
+![Maria Flowers Facebook Page](documentation/facebook.png)
+
+#### Instagram
+
+An Instagram business profile was created to showcase Maria Flowers products through visual content. Instagram is particularly suitable for a flower business because bouquets, arrangements, seasonal collections, and promotional campaigns can be presented through posts, stories, and reels.
+
+The Maria Flowers website is also linked from the Instagram profile, helping direct social media visitors to the online store.
+
+![Maria Flowers Instagram Profile](documentation/instagram.png)
+
+#### TikTok
+
+A TikTok account was created for Maria Flowers to expand the brand's social media presence and reach customers through short-form video content. TikTok can be used for bouquet presentations, flower-arranging videos, new product launches, seasonal campaigns, and other engaging promotional content.
+
+![Maria Flowers TikTok Profile](documentation/tiktok.png)
+
+Together, these social media channels support the Maria Flowers digital marketing strategy by increasing brand visibility, encouraging customer engagement, and creating additional routes for potential customers to reach the e-commerce website.
 
 ### Newsletter Marketing
 
