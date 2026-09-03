@@ -1,4 +1,4 @@
-"""boutique_ado URL Configuration
+"""MariaFlowers URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -56,5 +56,5 @@ urlpatterns = [
     ),
     path("sitemap.xml", views.sitemap_xml, name="sitemap"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-handler404 = 'boutique_ado.views.handler404'
-handler500 = "boutique_ado.views.handler500"
+handler404 = 'mariaflowers.views.handler404'
+handler500 = "mariaflowers.views.handler500"
