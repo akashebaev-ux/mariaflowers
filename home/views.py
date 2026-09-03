@@ -4,8 +4,8 @@ from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
 from .forms import ContactForm, NewsletterForm
-from .whatsapp import send_contact_whatsapp
 from .models import NewsletterSubscriber
+from .whatsapp import send_contact_whatsapp
 
 
 def index(request):
@@ -103,21 +103,25 @@ def newsletter_signup(request):
     if request.method == "POST":
         form = NewsletterForm(request.POST)
 
-        if form.is_valid():
-            email = form.cleaned_data["email"]
+        email = request.POST.get("email", "").strip()
 
-            if NewsletterSubscriber.objects.filter(email=email).exists():
-                messages.info(
-                    request,
-                    "This email is already subscribed to our newsletter."
-                )
-            else:
-                form.save()
-                messages.success(
-                    request,
-                    "Thank you! You have successfully subscribed "
-                    "to the Maria Flowers newsletter."
-                )
+        if NewsletterSubscriber.objects.filter(
+            email__iexact=email
+        ).exists():
+            messages.info(
+                request,
+                "This email is already subscribed to our newsletter."
+            )
+
+        elif form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "Thank you! You have successfully subscribed "
+                "to the Maria Flowers newsletter."
+            )
+
         else:
             messages.error(
                 request,
