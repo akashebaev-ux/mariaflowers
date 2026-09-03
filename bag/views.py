@@ -14,6 +14,7 @@ from products.models import Product
 
 
 MAX_GREETING_MESSAGE_LENGTH = 250
+MAX_BAG_QUANTITY = 99
 
 VALID_DELIVERY_TIMES = {
     "09:00-11:00",
@@ -160,10 +161,17 @@ def add_to_bag(request, item_id):
             product_id=item_id,
         )
 
-    quantity = max(
-        1,
-        quantity,
-    )
+    if quantity < 1 or quantity > MAX_BAG_QUANTITY:
+        messages.error(
+            request,
+            f"Quantity must be between 1 and "
+            f"{MAX_BAG_QUANTITY}.",
+        )
+
+        return redirect(
+            "product_detail",
+            product_id=item_id,
+        )
 
     extra_flowers = max(
         0,
@@ -236,6 +244,16 @@ def add_to_bag(request, item_id):
                 existing_quantity + quantity
             )
 
+            if updated_quantity > MAX_BAG_QUANTITY:
+                messages.error(
+                    request,
+                    f"You can have a maximum of "
+                    f"{MAX_BAG_QUANTITY} of this product "
+                    "in your bag.",
+                )
+
+                return redirect(redirect_url)
+
             size_items[customisation_key] = (
                 _create_line_data(
                     updated_quantity,
@@ -300,6 +318,16 @@ def add_to_bag(request, item_id):
             updated_quantity = (
                 existing_quantity + quantity
             )
+
+            if updated_quantity > MAX_BAG_QUANTITY:
+                messages.error(
+                    request,
+                    f"You can have a maximum of "
+                    f"{MAX_BAG_QUANTITY} of this product "
+                    "in your bag.",
+                )
+
+                return redirect(redirect_url)
 
             customisations[customisation_key] = (
                 _create_line_data(
@@ -371,6 +399,17 @@ def adjust_bag(request, item_id):
         messages.error(
             request,
             "Invalid quantity selected.",
+        )
+
+        return redirect(
+            reverse("view_bag")
+        )
+
+    if quantity < 1 or quantity > MAX_BAG_QUANTITY:
+        messages.error(
+            request,
+            f"Quantity must be between 1 and "
+            f"{MAX_BAG_QUANTITY}.",
         )
 
         return redirect(
