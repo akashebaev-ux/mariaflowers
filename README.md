@@ -1995,7 +1995,7 @@ MariaFlowers application or the tools used during its development.
 
 
 - I would like to thank my Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) for the support throughout the development of this project.
-- I would like to thank the [Code Institute](https://codeinstitute.net) Tutor Team for their assistance with troubleshooting and debugging some project issues.
+- I would like to thank the [Code Institute](https://codeinstitute.net) Tutor Team, especially **Marko Tot**, for his assistance with troubleshooting and debugging issues encountered during the development of this project.
 - I would like to thank the [Code Institute Slack community](https://code-institute-room.slack.com) and [Code Institute Discord community](https://discord-portal.codeinstitute.net) for the moral support; it kept me going during periods of self doubt and impostor syndrome.
 - I would like to thank my partner, for believing in me, and allowing me to use her images.
 
