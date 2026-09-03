@@ -270,7 +270,7 @@ def edit_product(request, product_id):
 
 @login_required
 def delete_product(request, product_id):
-    """ Delete a product from the store """
+    """ Delete a product from the store after confirmation """
 
     if not request.user.is_superuser:
         messages.error(
@@ -284,11 +284,24 @@ def delete_product(request, product_id):
         pk=product_id,
     )
 
-    product.delete()
+    if request.method == 'POST':
+        product_name = product.name
 
-    messages.success(
+        product.delete()
+
+        messages.success(
+            request,
+            f'{product_name} was permanently deleted!'
+        )
+
+        return redirect(reverse('products'))
+
+    context = {
+        'product': product,
+    }
+
+    return render(
         request,
-        'Product deleted!'
+        'products/delete_product.html',
+        context,
     )
-
-    return redirect(reverse('products'))
