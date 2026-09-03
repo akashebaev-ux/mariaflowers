@@ -191,27 +191,27 @@
                                                 </option>
 
                                                 <option value="09:00-11:00">
-                                                    09:00–11:00
+                                                    09:00-11:00
                                                 </option>
 
                                                 <option value="11:00-13:00">
-                                                    11:00–13:00
+                                                    11:00-13:00
                                                 </option>
 
                                                 <option value="13:00-15:00">
-                                                    13:00–15:00
+                                                    13:00-15:00
                                                 </option>
 
                                                 <option value="15:00-17:00">
-                                                    15:00–17:00
+                                                    15:00-17:00
                                                 </option>
 
                                                 <option value="17:00-19:00">
-                                                    17:00–19:00
+                                                    17:00-19:00
                                                 </option>
 
                                                 <option value="19:00-21:00">
-                                                    19:00–21:00
+                                                    19:00-21:00
                                                 </option>
                                             </select>
                                         </div>
@@ -235,8 +235,8 @@
 
                                             <p>
                                                 <strong>Please note:</strong>
-                                                Bouquet preparation and delivery may take
-                                                30–60 minutes, depending on traffic conditions
+                                                Order preparation and delivery may take
+                                                30-60 minutes, depending on traffic conditions
                                                 and order volume.
                                             </p>
                                         </div>
@@ -244,92 +244,104 @@
                                     </div>
                                 </div>
 
-                                <!-- Flower information -->
-                                <div class="col-12">
-                                    <p class="mb-1">
-                                        <strong>Flowers included:</strong>
-                                        {{ product.included_flower_count }}
-                                    </p>
+                                {% if product.category.name != 'Gifts' %}
 
-                                    <p class="mb-1">
-                                        <strong>
-                                            Price for one additional flower:
-                                        </strong>
-                                        ${{ product.extra_flower_price|floatformat:2 }}
-                                    </p>
+                                    <!-- Flower information -->
+                                    <div class="col-12">
+                                        <p class="mb-1">
+                                            <strong>Flowers included:</strong>
+                                            {{ product.included_flower_count }}
+                                        </p>
 
-                                    <p class="mb-3">
-                                        <strong>
-                                            Additional flowers price:
-                                        </strong>
+                                        <p class="mb-1">
+                                            <strong>
+                                                Price for one additional flower:
+                                            </strong>
+                                            ${{ product.extra_flower_price|floatformat:2 }}
+                                        </p>
 
-                                        <span id="additional-flowers-total">
-                                            $0.00
-                                        </span>
-                                    </p>
+                                        <p class="mb-3">
+                                            <strong>
+                                                Additional flowers price:
+                                            </strong>
 
-                                    <p class="mb-2">
-                                        <strong>
-                                            Optional additional flowers:
-                                        </strong>
-                                    </p>
+                                            <span id="additional-flowers-total">
+                                                $0.00
+                                            </span>
+                                        </p>
 
-                                    <div class="form-group w-50">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-black
-                                                           rounded-0"
-                                                    id="decrement-extra-flowers"
-                                                    aria-label="Remove one additional flower"
+                                        <p class="mb-2">
+                                            <strong>
+                                                Optional additional flowers:
+                                            </strong>
+                                        </p>
+
+                                        <div class="form-group w-50">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-black
+                                                            rounded-0"
+                                                        id="decrement-extra-flowers"
+                                                        aria-label="Remove one additional flower"
+                                                    >
+                                                        <span class="icon">
+                                                            <i
+                                                                class="fas
+                                                                    fa-minus"
+                                                            ></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                                <input
+                                                    class="form-control text-center"
+                                                    type="number"
+                                                    name="extra_flowers"
+                                                    value="0"
+                                                    min="0"
+                                                    max="{{ product.max_extra_flowers }}"
+                                                    id="id_extra_flowers"
                                                 >
-                                                    <span class="icon">
-                                                        <i
-                                                            class="fas
-                                                                   fa-minus"
-                                                        ></i>
-                                                    </span>
-                                                </button>
-                                            </div>
 
-                                            <input
-                                                class="form-control text-center"
-                                                type="number"
-                                                name="extra_flowers"
-                                                value="0"
-                                                min="0"
-                                                max="{{ product.max_extra_flowers }}"
-                                                id="id_extra_flowers"
-                                            >
-
-                                            <div class="input-group-append">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-black
-                                                           rounded-0"
-                                                    id="increment-extra-flowers"
-                                                    aria-label="Add one additional flower"
-                                                >
-                                                    <span class="icon">
-                                                        <i
-                                                            class="fas
-                                                                   fa-plus"
-                                                        ></i>
-                                                    </span>
-                                                </button>
+                                                <div class="input-group-append">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-black
+                                                            rounded-0"
+                                                        id="increment-extra-flowers"
+                                                        aria-label="Add one additional flower"
+                                                    >
+                                                        <span class="icon">
+                                                            <i
+                                                                class="fas
+                                                                    fa-plus"
+                                                            ></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <p class="mb-2">
+                                            Total flowers:
+
+                                            <strong id="total-flower-count">
+                                                {{ product.included_flower_count }}
+                                            </strong>
+                                        </p>
                                     </div>
+                                {% else %}
 
-                                    <p class="mb-2">
-                                        Total flowers:
+                                    <!-- Gifts do not use extra flowers -->
+                                    <input
+                                        type="hidden"
+                                        name="extra_flowers"
+                                        value="0"
+                                    >
 
-                                        <strong id="total-flower-count">
-                                            {{ product.included_flower_count }}
-                                        </strong>
-                                    </p>
-                                </div>
+                                {% endif %}
                             {% else %}
                                 <!-- Greeting-card message -->
                                 <div class="col-12 mt-4">
@@ -448,7 +460,7 @@
                             <!-- Live product total -->
                             <div class="col-12 mt-3">
                                 <p class="mb-1">
-                                    {% if product.allows_greeting_message %}
+                                    {% if product.allows_greeting_message or product.category.name == 'Gifts' %}
                                         Product total:
                                     {% else %}
                                         Customised bouquet price:
@@ -499,7 +511,7 @@
                                 value="{{ product.price }}"
                             >
 
-                            {% if not product.allows_greeting_message %}
+                            {% if not product.allows_greeting_message and product.category.name != 'Gifts' %}
                                 <input
                                     type="hidden"
                                     id="extra-flower-price"
@@ -652,7 +664,7 @@
 
 {% include "products/includes/quantity_input_script.html" %}
 
-{% if not product.allows_greeting_message %}
+{% if not product.allows_greeting_message and product.category.name != 'Gifts' %}
     <script src="{% static 'products/product_customisation.js' %}"></script>
 {% endif %}
 
