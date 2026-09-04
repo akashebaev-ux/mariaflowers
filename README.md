@@ -2022,7 +2022,7 @@ MariaFlowers application or the tools used during its development.
 ### Acknowledgements
 
 
-- I would like to thank my Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) for the support throughout the development of this project.
+- I would like to express my deepest gratitude to my Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN), for his exceptional guidance, professionalism, patience, and unwavering support throughout the development of this project. His expertise, clear explanations, thoughtful feedback, and ability to provide direction during challenging stages of development were invaluable to me. Tim consistently demonstrated the qualities of an outstanding mentor and true professional, and his encouragement played a significant role in helping me successfully complete this project. I am sincerely grateful for the time, knowledge, and dedication he shared with me throughout this journey.
 - I would like to thank the [Code Institute](https://codeinstitute.net) Tutor Team, especially **Marko Tot**, for his assistance with troubleshooting and debugging issues encountered during the development of this project.
 - I would like to thank the [Code Institute Slack community](https://code-institute-room.slack.com) and [Code Institute Discord community](https://discord-portal.codeinstitute.net) for the moral support; it kept me going during periods of self doubt and impostor syndrome.
 - I would like to thank my partner, for believing in me, and allowing me to use her images.
